@@ -59,5 +59,8 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenu mnView = new JMenu("View");
 		menuBar.add(mnView);	
 		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
 	}
 }
