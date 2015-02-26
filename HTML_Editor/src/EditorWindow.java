@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Window extends javax.swing.JFrame {
-	public Window() {
+public class EditorWindow extends javax.swing.JFrame {
+	public EditorWindow() {
 		init();
 	}
 	
@@ -32,7 +32,7 @@ public class Window extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO: make this a command
 				JFileChooser f = new JFileChooser();
-				f.showOpenDialog(Window.this);
+				f.showOpenDialog(EditorWindow.this);
 			}
 		});
 		
@@ -58,10 +58,5 @@ public class Window extends javax.swing.JFrame {
 		JMenu mnView = new JMenu("View");
 		menuBar.add(mnView);	
 		
-	}
-	
-	public static void main(String[] args) {
-		Window w = new Window();
-		w.setVisible(true);
 	}
 }
