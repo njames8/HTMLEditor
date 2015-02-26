@@ -1,7 +1,7 @@
 package ui;
 import javax.swing.*;
 
-import commands.OpenFile;
+import commands.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -42,7 +42,15 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenuItem mntmClose = new JMenuItem("Close");
 		mntmClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				Close c = new Close();
+				c.execute();
+			}
+		});
+		
+		JMenuItem mntmNewFile = new JMenuItem("New File");
+		mntmNewFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
 			}
 		});
 		
