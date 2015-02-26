@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class EditorWindow extends javax.swing.JFrame {
+	private JTextField textField;
 	public EditorWindow() {
 		init();
 	}
@@ -69,5 +70,14 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenu mnView = new JMenu("View");
 		menuBar.add(mnView);	
 		
+		JTabbedPane tabbedPane = new JTabbedPane();
+		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
+		textField = new JTextField();
+		tabbedPane.addTab("New tab", null, textField, null);
+		textField.setColumns(10);
+		
+		
 	}
+
 }
