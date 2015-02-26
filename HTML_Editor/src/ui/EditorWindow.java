@@ -1,6 +1,8 @@
 package ui;
 import javax.swing.*;
 
+import commands.OpenFile;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -32,8 +34,8 @@ public class EditorWindow extends javax.swing.JFrame {
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO: make this a command
-				JFileChooser f = new JFileChooser();
-				f.showOpenDialog(EditorWindow.this);
+				OpenFile o = new OpenFile(new JFileChooser(), EditorWindow.this);
+				o.execute();
 			}
 		});
 		
