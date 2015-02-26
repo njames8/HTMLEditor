@@ -6,6 +6,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 
-public class Tab extends JComponent{
+public class Tab{
 
 }
