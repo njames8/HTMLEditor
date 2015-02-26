@@ -72,8 +72,4 @@ public class EditorWindow extends javax.swing.JFrame {
 		
 	}
 
-	private Tab makeTextPanel(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
