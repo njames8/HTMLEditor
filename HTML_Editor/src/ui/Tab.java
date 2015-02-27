@@ -17,4 +17,8 @@ public class Tab extends JTextPane {
 		this.setText(file.getText());
 	}
 	
+	public void close(){
+		// TODO close tab method
+	}
+	
 }

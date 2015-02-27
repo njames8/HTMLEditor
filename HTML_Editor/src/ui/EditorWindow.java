@@ -72,6 +72,21 @@ public class EditorWindow extends javax.swing.JFrame {
 		
 		mnFile.add(mntmNew);
 		mnFile.add(mntmOpen);
+		
+		JMenuItem mntmSave = new JMenuItem("Save");
+		mnFile.add(mntmSave);
+		
+		JMenuItem mntmCloseTab = new JMenuItem("Close Tab");
+		mntmCloseTab.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				CloseTab t = new CloseTab(new Tab());// TODO Pass current tab
+				t.execute();
+			}
+			
+		});
+		mnFile.add(mntmCloseTab);
 		mnFile.add(mntmClose);
 		
 		/*
