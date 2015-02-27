@@ -36,6 +36,10 @@ public class HTMLFile {
 		return (needsToBeSaved? "* " : "") + name;
 	}
 	
+	public String getText(){
+		return this.text;
+	}
+	
 	// Loads an existing file 
 	public boolean Load(String location) {
 		FileReader fr;
@@ -50,11 +54,13 @@ public class HTMLFile {
 		
 		// Try reading in the file
 		try {
-			char[] buf = null;
-			
-			while(fr.read(buf) != -1) {
-				this.text += buf;
-			}
+			BufferedReader in = new BufferedReader(fr);
+	        String str;
+	        while ((str = in.readLine()) != null) {
+	            this.text +=str;
+	        }
+	        
+	        System.out.print(this.text);
 			
 			fr.close();
 		} catch (IOException e) {
@@ -104,4 +110,6 @@ public class HTMLFile {
 		UpdateName();
 		Save();
 	}
+
+
 }
