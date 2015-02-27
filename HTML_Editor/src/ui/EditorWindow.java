@@ -1,7 +1,7 @@
 package ui;
 import javax.swing.*;
 
-import commands.*;
+import cmd.*;
 import files.HTMLFile;
 
 import java.awt.BorderLayout;
