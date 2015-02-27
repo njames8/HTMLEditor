@@ -8,51 +8,100 @@ import java.io.*;
  * are either saved or discarded.
  */
 public class HTMLFile {
-	private String location, text;
+	private String location, text, name;
 	private boolean needsToBeSaved;
-	private File file;
 	
 	public HTMLFile() {
-		location = "";
+		location = null;
 		text = "";
+		name = "New File";
 		needsToBeSaved = true;
-		
-		file = null;
 	}
 	
-	public HTMLFile(String location) {
-		this.location = location;
-		needsToBeSaved = false;
-		
-		Load();
-	}
-	
+	// Updates our text buffer and marks the file as needing a save.
+	// FIXME: only mark files as needing to be saved if they have changed since
+	// the last save / load
 	public void UpdateText(String text) {
 		this.text = text;
 		needsToBeSaved = true;
 	}
 	
-	private boolean Load() {
-		file = new File(location);
-		
-		if(file == null) 
-			return false;
-		
+	// Updates the file's name to reflect what it is on the disk
+	private void UpdateName() {
+		name = (new File(location)).getName();
+	}
+	
+	// This is the name that should appear in the tab
+	public String GetTabName() {
+		return (needsToBeSaved? "* " : "") + name;
+	}
+	
+	// Loads an existing file 
+	public boolean Load(String location) {
 		FileReader fr;
 		
 		try {
-			fr = new FileReader(file);
+			fr = new FileReader(location);
 		} catch(FileNotFoundException e) {
-			file = null;
+			// TODO: tell the user there was an error
+			fr = null;
 			return false;
 		}
-
-		// read characters in
+		
+		// Try reading in the file
+		try {
+			char[] buf = null;
+			
+			while(fr.read(buf) != -1) {
+				this.text += buf;
+			}
+			
+			fr.close();
+		} catch (IOException e) {
+			// TODO: tell the user there was an error
+			e.printStackTrace();
+			return false;
+		}
+		
+		// If loading the file was successful, then we know the file location
+		// we were given is valid
+		this.location = location;
+		this.needsToBeSaved = false;
+		
+		UpdateName();
 		
 		return true;
 	}
 	
 	public void Save() {
+		if(!this.needsToBeSaved)
+			return;
 		
+		// A null location means this "file" only exists in memory
+		if(location == null) {
+			// Display the save as dialog instead
+			// TODO: call save as command
+		}
+		
+		FileWriter fw;
+		
+		// Open and write the file
+		try {
+			fw = new FileWriter(location);
+			fw.write(this.text);
+			fw.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		this.needsToBeSaved = false;
+	}
+	
+	// Gets provided a location via the save as dialog
+	public void SaveAs(String location) {
+		this.location = location;
+		UpdateName();
+		Save();
 	}
 }

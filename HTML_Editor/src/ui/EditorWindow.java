@@ -2,6 +2,7 @@ package ui;
 import javax.swing.*;
 
 import commands.*;
+import files.HTMLFile;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -9,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class EditorWindow extends javax.swing.JFrame {
+	private JTabbedPane tabbedPane;
+	
 	public EditorWindow() {
 		init();
 	}
@@ -24,16 +27,29 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
+		tabbedPane = new JTabbedPane();
+		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
+		NewTab();
+		
 		/*
 		 * File
 		 */
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
+		JMenuItem mntmNew = new JMenuItem("New");
+		mntmNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				/*NewFile n = new NewFile(new JFileChooser(), EditorWindow.this);
+				n.execute();*/
+				NewTab();
+			}
+		});
+		
 		JMenuItem mntmOpen = new JMenuItem("Open File");
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: make this a command
 				OpenFile o = new OpenFile(new JFileChooser(), EditorWindow.this);
 				o.execute();
 			}
@@ -54,6 +70,7 @@ public class EditorWindow extends javax.swing.JFrame {
 			}
 		});
 		
+		mnFile.add(mntmNew);
 		mnFile.add(mntmOpen);
 		mnFile.add(mntmClose);
 		
@@ -68,14 +85,14 @@ public class EditorWindow extends javax.swing.JFrame {
 		 */
 		JMenu mnView = new JMenu("View");
 		menuBar.add(mnView);	
-		
-		JTabbedPane tabbedPane = new JTabbedPane();
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		
-		JTextPane textPane = new JTextPane();
-		tabbedPane.addTab("New tab", null, textPane, null);
-		
-		
 	}
-
+	
+	public void NewTab() {
+		NewTab(new HTMLFile());
+	}
+	
+	public void NewTab(HTMLFile file) {
+		Tab tab = new Tab(file);
+		tabbedPane.addTab(tab.file.GetTabName(), null, tab, null);
+	}
 }

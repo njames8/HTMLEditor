@@ -6,6 +6,18 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 
-public class Tab{
+import files.HTMLFile;
 
+public class Tab extends JTextPane {
+	public HTMLFile file;
+	
+	public Tab() {
+		super();
+		this.file = new HTMLFile();
+	}
+	
+	public Tab(HTMLFile file) {
+		super();
+		this.file = file;
+	}
 }
