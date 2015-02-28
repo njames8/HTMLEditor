@@ -26,4 +26,7 @@ public class Tab extends JTextPane {
 	public boolean getFocus(){
 		return focus;
 	}
+	public void setFocus(boolean b){
+		focus = b;
+	}
 }
