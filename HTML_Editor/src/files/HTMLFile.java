@@ -110,6 +110,8 @@ public class HTMLFile {
 		UpdateName();
 		Save();
 	}
-
+	public void setLocation(String l){
+		this.location = l;
+	}
 
 }
