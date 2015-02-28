@@ -74,17 +74,27 @@ public class EditorWindow extends javax.swing.JFrame {
 		mnFile.add(mntmOpen);
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0){
+/*
+ * not sure if this is the best way to save the file.
+ * I have not made the SaveTab class anywhere.
+ * 
+ * Matthew Gallagher
+ */
+//				SaveTab t = new SaveTab(new Tab());//TODO Pass current tab
+//				t.execute();
+			}
+		});
 		mnFile.add(mntmSave);
 		
 		JMenuItem mntmCloseTab = new JMenuItem("Close Tab");
 		mntmCloseTab.addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				CloseTab t = new CloseTab(new Tab());// TODO Pass current tab
-				t.execute();
+//				CloseTab t = new CloseTab(new Tab());// TODO Pass current tab
+//				t.execute();
 			}
-			
 		});
 		mnFile.add(mntmCloseTab);
 		mnFile.add(mntmClose);
