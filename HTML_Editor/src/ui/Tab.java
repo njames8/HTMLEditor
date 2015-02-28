@@ -19,7 +19,8 @@ public class Tab extends JTextPane {
 	
 	public void close(){
 		// TODO close tab method
-		System.out.println("CLOSE!");
+		//Prompt to save if changes have been made
+		
 		
 	}
 	public HTMLFile getFile(){
