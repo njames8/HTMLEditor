@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 public class EditorWindow extends javax.swing.JFrame {
 	private JTabbedPane tabbedPane;
 	private Tab[] tabs = new Tab[10];
+	
 	public EditorWindow() {
 		init();
 	}
@@ -82,7 +83,13 @@ public class EditorWindow extends javax.swing.JFrame {
  * 
  * Matthew Gallagher
  */
-				SaveFile f = new SaveFile(new Tab());//TODO Pass current tab
+				Tab t = new Tab();
+				for(int i = 0; i < 10; i++){
+					if (tabs[i].getFocus() == true){
+						t = tabs[i];
+					}
+				}
+				SaveFile f = new SaveFile(t);//TODO Pass current tab
 				f.execute();
 			}
 		});
@@ -118,6 +125,14 @@ public class EditorWindow extends javax.swing.JFrame {
 	
 	public void NewTab(HTMLFile file) {
 		Tab tab = new Tab(file);
+		for (int i = 0; i < 10; i++){
+			if(tabs[i] == null){
+				tabs[i] = tab;
+				break;
+			}else if(i == 9){
+				//TODO need to send error that there are to many tabs open
+			}
+		}
 		tabbedPane.addTab(tab.getFile().GetTabName(), null, tab, null);
 	}
 }
