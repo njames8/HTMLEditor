@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class EditorWindow extends javax.swing.JFrame {
 	private JTabbedPane tabbedPane;
-	
+	private Tab[] tabs = new Tab[10];
 	public EditorWindow() {
 		init();
 	}
@@ -82,8 +82,8 @@ public class EditorWindow extends javax.swing.JFrame {
  * 
  * Matthew Gallagher
  */
-//				SaveTab t = new SaveTab(new Tab());//TODO Pass current tab
-//				t.execute();
+				SaveFile f = new SaveFile(new Tab());//TODO Pass current tab
+				f.execute();
 			}
 		});
 		mnFile.add(mntmSave);
@@ -118,6 +118,6 @@ public class EditorWindow extends javax.swing.JFrame {
 	
 	public void NewTab(HTMLFile file) {
 		Tab tab = new Tab(file);
-		tabbedPane.addTab(tab.file.GetTabName(), null, tab, null);
+		tabbedPane.addTab(tab.getFile().GetTabName(), null, tab, null);
 	}
 }

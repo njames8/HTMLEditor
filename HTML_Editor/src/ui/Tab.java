@@ -4,7 +4,7 @@ import javax.swing.*;
 import files.HTMLFile;
 
 public class Tab extends JTextPane {
-	public HTMLFile file;
+	private HTMLFile file;
 	
 	public Tab() {
 		super();
@@ -20,5 +20,7 @@ public class Tab extends JTextPane {
 	public void close(){
 		// TODO close tab method
 	}
-	
+	public HTMLFile getFile(){
+		return file;
+	}
 }
