@@ -19,6 +19,8 @@ public class Tab extends JTextPane {
 	
 	public void close(){
 		// TODO close tab method
+		System.out.println("CLOSE!");
+		
 	}
 	public HTMLFile getFile(){
 		return file;
