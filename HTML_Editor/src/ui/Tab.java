@@ -5,7 +5,7 @@ import files.HTMLFile;
 
 public class Tab extends JTextPane {
 	private HTMLFile file;
-	
+	private boolean focus; 
 	public Tab() {
 		super();
 		this.file = new HTMLFile();
@@ -24,5 +24,11 @@ public class Tab extends JTextPane {
 	}
 	public HTMLFile getFile(){
 		return file;
+	}
+	public boolean getFocus(){
+		return focus;
+	}
+	public void setFocus(boolean b){
+		focus = b;
 	}
 }
