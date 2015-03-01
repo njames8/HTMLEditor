@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 
 public class EditorWindow extends javax.swing.JFrame {
@@ -28,6 +29,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		tabbedPane = new JTabbedPane();
+		tabbedPane.setFont(new Font("Consolas", Font.PLAIN, 11));
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		NewTab(tabbedPane);
@@ -125,6 +127,7 @@ public class EditorWindow extends javax.swing.JFrame {
 
 	public void NewTab(HTMLFile file, JTabbedPane j) {
 		Tab tab = new Tab(file, j);
+		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
 		
 		
 		for (int i = 0; i < 10; i++){
