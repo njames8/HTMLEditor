@@ -40,9 +40,6 @@ public class EditorWindow extends javax.swing.JFrame {
 		
 		NewTab(tabbedPane);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		tabbedPane.addTab("New tab", null, scrollPane, null);
-		
 		/*
 		 * File
 		 */
