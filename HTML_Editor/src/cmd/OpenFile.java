@@ -4,6 +4,7 @@ import ui.EditorWindow;
 
 import javax.swing.JFileChooser;
 import javax.swing.JTabbedPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import files.HTMLFile;
 
@@ -14,6 +15,7 @@ public class OpenFile implements Command {
 	
 	public OpenFile(JFileChooser c, EditorWindow w, JTabbedPane j){
 		this.chooser = c;
+		this.chooser.setFileFilter(new FileNameExtensionFilter("HTML", "html"));
 		this.eWindow = w;
 		this.tabbedPane = j;
 	}

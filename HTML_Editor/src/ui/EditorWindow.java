@@ -60,7 +60,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenuItem mntmOpen = new JMenuItem("Open File");
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				
 				OpenFile o = new OpenFile(new JFileChooser(), EditorWindow.this, tabbedPane);
 
 				o.execute();
@@ -101,7 +101,6 @@ public class EditorWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				System.out.println(tabbedPane.getSelectedIndex());
 				CloseTab t = new CloseTab(tabbedPane.getComponentAt(tabbedPane.getSelectedIndex()),tabbedPane);// TODO Pass current tab
 				t.execute();
 
