@@ -140,6 +140,9 @@ public class HTMLFile {
         } catch ( IOException e ) {
            e.printStackTrace();
         }
+        this.needsToBeSaved = false;
+        JTabbedPane j = ((JTabbedPane)t.getParent());
+		j.setTitleAt(j.getSelectedIndex(), GetTabName());
 	}
 	public void setLocation(String l){
 		this.location = l;

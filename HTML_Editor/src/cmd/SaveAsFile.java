@@ -1,5 +1,7 @@
 package cmd;
 
+import java.io.IOException;
+
 import ui.*;
 
 import javax.swing.JFileChooser;
@@ -34,7 +36,12 @@ public class SaveAsFile implements Command {
 		
 			file.setName(chooser.getSelectedFile().getName());
 			
-			file.SaveAs(chooser.getCurrentDirectory().getPath(), eWindow, t);
+			try {
+				file.SaveAs(chooser.getSelectedFile().getCanonicalPath(), eWindow, t);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
