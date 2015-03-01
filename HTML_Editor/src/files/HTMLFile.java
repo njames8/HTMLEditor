@@ -64,12 +64,13 @@ public class HTMLFile {
 			BufferedReader in = new BufferedReader(fr);
 	        String str;
 	        while ((str = in.readLine()) != null) {
-	            this.text +=str;
+	            this.text +=str + "\n";
 	        }
 	        
 	        System.out.print(this.text);
 			
 			fr.close();
+			in.close();
 		} catch (IOException e) {
 			// TODO: tell the user there was an error
 			e.printStackTrace();
@@ -98,13 +99,24 @@ public class HTMLFile {
 			return;
 		}
 		
-		FileWriter fw;
+		Writer fw;
 		
 		// Open and write the file
 		try {
 			System.out.println(location);
-			fw = new FileWriter(location);
-			fw.write(this.text);
+			fw = new BufferedWriter(new FileWriter(location));
+			
+			String [] textSep = text.split("\n");
+			
+			
+			
+			for(int x = 0; x < textSep.length; x++){
+				System.out.println(textSep[x]);
+				fw.write(textSep[x]);
+				fw.write("\r\n"); //new line
+			}
+			
+			
 			fw.close();
 		} catch(IOException e) {
 			e.printStackTrace();
