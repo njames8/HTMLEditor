@@ -66,8 +66,6 @@ public class HTMLFile {
 	        while ((str = in.readLine()) != null) {
 	            this.text +=str + "\n";
 	        }
-	        
-	        System.out.print(this.text);
 			
 			fr.close();
 			in.close();
@@ -103,7 +101,7 @@ public class HTMLFile {
 		
 		// Open and write the file
 		try {
-			System.out.println(location);
+
 			fw = new BufferedWriter(new FileWriter(location));
 			
 			String [] textSep = text.split("\n");
@@ -111,7 +109,6 @@ public class HTMLFile {
 			
 			
 			for(int x = 0; x < textSep.length; x++){
-				System.out.println(textSep[x]);
 				fw.write(textSep[x]);
 				fw.write("\r\n"); //new line
 			}
@@ -124,8 +121,8 @@ public class HTMLFile {
 		}
 		
 		this.needsToBeSaved = false;
-		cmd.UpdateText u = new cmd.UpdateText(t, (JTabbedPane)t.getParent());
-		u.execute();
+		JTabbedPane j = ((JTabbedPane)t.getParent());
+		j.setTitleAt(j.getSelectedIndex(), GetTabName());
 	}
 	
 	// Gets provided a location via the save as dialog
