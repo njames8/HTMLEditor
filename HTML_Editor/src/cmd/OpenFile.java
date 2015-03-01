@@ -3,16 +3,19 @@ package cmd;
 import ui.EditorWindow;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTabbedPane;
 
 import files.HTMLFile;
 
 public class OpenFile implements Command {
 	private JFileChooser chooser;
 	private EditorWindow eWindow;
+	private JTabbedPane tabbedPane;
 	
-	public OpenFile(JFileChooser c, EditorWindow w){
+	public OpenFile(JFileChooser c, EditorWindow w, JTabbedPane j){
 		this.chooser = c;
 		this.eWindow = w;
+		this.tabbedPane = j;
 	}
 	
 	@Override
@@ -26,7 +29,7 @@ public class OpenFile implements Command {
 				// TODO: message box saying we couldn't load the file
 			}
 			
-			eWindow.NewTab(f);
+			eWindow.NewTab(f, tabbedPane);
 		}
 	}
 	

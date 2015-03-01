@@ -18,8 +18,6 @@ public class CloseTab implements Command{
 	public void execute() {
 		// TODO Auto-generated method stub
 		t.close();
-		
-		
 		j.remove(j.getSelectedIndex());
 	}
 	
