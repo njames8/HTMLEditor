@@ -10,11 +10,13 @@ public class SaveAsFile implements Command {
 	private JFileChooser chooser;
 	private EditorWindow eWindow;
 	private HTMLFile file;
+	private Tab t;
 	
 	public SaveAsFile(JFileChooser c, EditorWindow w, Tab t){
 		this.chooser = c;
 		this.eWindow = w;
 		this.file = t.getFile();
+		this.t = t;
 	}
 	
 	@Override
@@ -27,7 +29,8 @@ public class SaveAsFile implements Command {
 				// TODO: message box saying we couldn't load the file
 			}
 			file.setLocation(chooser.getCurrentDirectory().getPath());
-			file.Save();
+			//file.setName(chooser.);
+			file.Save(eWindow, t);
 		}
 	}
 }

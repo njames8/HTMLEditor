@@ -2,6 +2,13 @@ package files;
 
 import java.io.*;
 
+import javax.swing.JFileChooser;
+import javax.swing.JTabbedPane;
+
+import ui.EditorWindow;
+import ui.Tab;
+import cmd.SaveAsFile;
+
 /*
  * Represents a file containing text. The file does not have to be on the disk,
  * allowing us to create them on the fly and store them locally in memory until they
@@ -79,19 +86,23 @@ public class HTMLFile {
 		return true;
 	}
 	
-	public void Save() {
+	public void Save(EditorWindow w, Tab t) {
 		if(!this.needsToBeSaved)
 			return;
 		// A null location means this "file" only exists in memory
 		if(location == null) {
 			// Display the save as dialog instead
 			// TODO: call save as command
+			SaveAsFile s = new SaveAsFile(new JFileChooser(), w, t);
+			s.execute();
+			return;
 		}
 		
 		FileWriter fw;
 		
 		// Open and write the file
 		try {
+			System.out.println(location);
 			fw = new FileWriter(location);
 			fw.write(this.text);
 			fw.close();
@@ -101,16 +112,23 @@ public class HTMLFile {
 		}
 		
 		this.needsToBeSaved = false;
+		cmd.UpdateText u = new cmd.UpdateText(t, (JTabbedPane)t.getParent());
+		u.execute();
 	}
 	
 	// Gets provided a location via the save as dialog
-	public void SaveAs(String location) {
+	public void SaveAs(String location, EditorWindow w, Tab t) {
 		this.location = location;
 		UpdateName();
-		Save();
+		Save(w, t);
 	}
 	public void setLocation(String l){
 		this.location = l;
+	}
+
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		this.name = name;
 	}
 
 }

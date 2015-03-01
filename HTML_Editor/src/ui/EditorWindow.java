@@ -89,11 +89,12 @@ public class EditorWindow extends javax.swing.JFrame {
 		mntmSave.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0){
-				SaveFile f = new SaveFile((Tab)(tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
+				SaveFile f = new SaveFile((Tab)(tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())), EditorWindow.this);
 				f.execute();
 			}
 		});
-
+		
+		mnFile.add(mntmSave);
 		
 		JMenuItem mntmCloseTab = new JMenuItem("Close Tab");
 		mntmCloseTab.addActionListener(new ActionListener(){
@@ -106,6 +107,11 @@ public class EditorWindow extends javax.swing.JFrame {
 
 			}
 		});
+		
+		
+		
+		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
+		mnFile.add(mntmSaveAs);
 		mnFile.add(mntmCloseTab);
 		mnFile.add(mntmClose);
 		
