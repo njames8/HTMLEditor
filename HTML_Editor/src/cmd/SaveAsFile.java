@@ -3,6 +3,7 @@ package cmd;
 import ui.*;
 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import files.HTMLFile;
 
@@ -14,6 +15,7 @@ public class SaveAsFile implements Command {
 	
 	public SaveAsFile(JFileChooser c, EditorWindow w, Tab t){
 		this.chooser = c;
+		this.chooser.setFileFilter(new FileNameExtensionFilter("HTM/HTML", "html"));
 		this.eWindow = w;
 		this.file = t.getFile();
 		this.t = t;
@@ -28,9 +30,11 @@ public class SaveAsFile implements Command {
 			if(!file.Load(chooser.getSelectedFile().getPath())) {
 				// TODO: message box saying we couldn't load the file
 			}
-			file.setLocation(chooser.getCurrentDirectory().getPath());
-			//file.setName(chooser.);
-			file.Save(eWindow, t);
+			//file.setLocation(chooser.getCurrentDirectory().getPath());
+		
+			file.setName(chooser.getSelectedFile().getName());
+			
+			file.SaveAs(chooser.getCurrentDirectory().getPath(), eWindow, t);
 		}
 	}
 }

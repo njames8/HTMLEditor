@@ -86,6 +86,15 @@ public class EditorWindow extends javax.swing.JFrame {
 		});
 		
 		JMenuItem mntmSaveAs = new JMenuItem("Save As...");//Makes the Save button for saving files
+		mntmSaveAs.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//Makes the command to close the current tab.
+				SaveAsFile s = new SaveAsFile(new JFileChooser(), EditorWindow.this, (Tab)tabbedPane.getComponentAt(tabbedPane.getSelectedIndex()));
+				s.execute();
+				
+			}
+		});
 		
 		/*
 		 * Edit

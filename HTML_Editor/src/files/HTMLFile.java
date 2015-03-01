@@ -129,7 +129,17 @@ public class HTMLFile {
 	public void SaveAs(String location, EditorWindow w, Tab t) {
 		this.location = location;
 		UpdateName();
-		Save(w, t);
+        try {
+          File file = new File(this.name + ".html");
+          file.createNewFile();
+          System.out.println(file.getAbsolutePath());
+          BufferedWriter output = new BufferedWriter(new FileWriter(file));
+          output.write(this.text);
+          output.close();
+          
+        } catch ( IOException e ) {
+           e.printStackTrace();
+        }
 	}
 	public void setLocation(String l){
 		this.location = l;
