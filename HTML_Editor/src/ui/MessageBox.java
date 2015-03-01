@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class MessageBox extends JOptionPane {
 	
-	public MessageBox(String title, String msg, int type) {
-		JOptionPane.showMessageDialog(null, msg, title, type);
+	public MessageBox(String title, String msg, int msgType) {
+		JOptionPane.showMessageDialog(null, msg, title, msgType);
 	}
 }

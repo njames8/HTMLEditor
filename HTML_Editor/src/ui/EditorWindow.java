@@ -128,7 +128,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		 * View
 		 */
 		JMenu mnView = new JMenu("View");
-		menuBar.add(mnView);	
+		menuBar.add(mnView);
 	}
 
 
