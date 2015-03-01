@@ -8,10 +8,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+
 
 public class EditorWindow extends javax.swing.JFrame {
 	private JTabbedPane tabbedPane;
@@ -49,14 +51,18 @@ public class EditorWindow extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				/*NewFile n = new NewFile(new JFileChooser(), EditorWindow.this);
 				n.execute();*/
+
 				NewTab(tabbedPane);
+
 			}
 		});
 		
 		JMenuItem mntmOpen = new JMenuItem("Open File");
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				OpenFile o = new OpenFile(new JFileChooser(), EditorWindow.this, tabbedPane);
+
 				o.execute();
 			}
 		});
@@ -81,29 +87,19 @@ public class EditorWindow extends javax.swing.JFrame {
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
 		mntmSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				/*
-				 * not sure if this is the best way to save the file. I have not
-				 * made the SaveTab class anywhere.
-				 * 
-				 * Matthew Gallagher
-				 */
-				SaveFile f = new SaveFile(new Tab());// TODO Pass current tab
-				Tab t = new Tab();
-				for(int i = 0; i < 10; i++){
-					if (tabs[i].getFocus() == true){
-						t = tabs[i];
-					}
-				}
+
+			public void actionPerformed(ActionEvent arg0){
+				SaveFile f = new SaveFile((Tab)(tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
+				f.execute();
 			}
 		});
-	
-		mnFile.add(mntmSave);
+
 		
 		JMenuItem mntmCloseTab = new JMenuItem("Close Tab");
 		mntmCloseTab.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+
 				System.out.println(tabbedPane.getSelectedIndex());
 				CloseTab t = new CloseTab(tabbedPane.getComponentAt(tabbedPane.getSelectedIndex()),tabbedPane);// TODO Pass current tab
 				t.execute();
@@ -125,6 +121,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenu mnView = new JMenu("View");
 		menuBar.add(mnView);	
 	}
+
 
 	public void NewTab(JTabbedPane j) {
 		NewTab(new HTMLFile(), j );

@@ -82,12 +82,10 @@ public class HTMLFile {
 	public void Save() {
 		if(!this.needsToBeSaved)
 			return;
-		
 		// A null location means this "file" only exists in memory
 		if(location == null) {
 			// Display the save as dialog instead
 			// TODO: call save as command
-			
 		}
 		
 		FileWriter fw;
