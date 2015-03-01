@@ -16,8 +16,9 @@ import java.awt.event.InputMethodEvent;
 
 
 public class EditorWindow extends javax.swing.JFrame {
+	private static final int MAXIMUM_TABS = 10;
 	private JTabbedPane tabbedPane;
-	private Tab[] tabs = new Tab[10];
+	private Tab[] tabs = new Tab[MAXIMUM_TABS];
 
 	
 	public EditorWindow() {
@@ -103,7 +104,6 @@ public class EditorWindow extends javax.swing.JFrame {
 
 				CloseTab t = new CloseTab(tabbedPane.getComponentAt(tabbedPane.getSelectedIndex()),tabbedPane);// TODO Pass current tab
 				t.execute();
-
 			}
 		});
 		
@@ -141,7 +141,9 @@ public class EditorWindow extends javax.swing.JFrame {
 				tabs[i] = tab;
 				break;
 			}else if(i == 9){
-				//TODO need to send error that there are to many tabs open
+				MessageBox warn = new MessageBox("Too Many Tabs",
+						"You have too many tabs open, please close some before continuing.",
+						JOptionPane.WARNING_MESSAGE);
 			}
 		}
 		tabbedPane.addTab(tab.getFile().GetTabName(), null, tab, null);
