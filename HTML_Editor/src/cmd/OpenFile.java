@@ -30,6 +30,7 @@ public class OpenFile implements Command {
 			}
 			
 			eWindow.NewTab(f, tabbedPane);
+			tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
 		}
 	}
 	
