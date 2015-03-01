@@ -128,7 +128,7 @@ public class HTMLFile {
 	// Gets provided a location via the save as dialog
 	public void SaveAs(String location, EditorWindow w, Tab t) {
 		this.location = location;
-		UpdateName();
+		//UpdateName();
         try {
           File file = new File(this.name + ".html");
           file.createNewFile();
