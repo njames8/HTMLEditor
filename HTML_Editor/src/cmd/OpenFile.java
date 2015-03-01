@@ -15,7 +15,7 @@ public class OpenFile implements Command {
 	
 	public OpenFile(JFileChooser c, EditorWindow w, JTabbedPane j){
 		this.chooser = c;
-		this.chooser.setFileFilter(new FileNameExtensionFilter("HTML", "html"));
+		this.chooser.setFileFilter(new FileNameExtensionFilter("HTM/HTML", "html","htm"));
 		this.eWindow = w;
 		this.tabbedPane = j;
 	}
