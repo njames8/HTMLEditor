@@ -80,7 +80,7 @@ public class Tab extends JTextPane {
 		});
 	}
 
-	public void close() {
+	public boolean close() {
 		// TODO close tab method
 		if (file.getNeedsToBeSaved()) {
 			int reply = JOptionPane
@@ -88,12 +88,16 @@ public class Tab extends JTextPane {
 							null,
 							"Would you like to save changes to file: "
 									+ file.getName(), "Save Changes?",
-							JOptionPane.WARNING_MESSAGE);
+							JOptionPane.YES_NO_CANCEL_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
-				SaveFile s = new SaveFile(this); // NEED a better way
+				SaveFile s = new SaveFile(this);
 				s.execute();
 			}
+			else if (reply == JOptionPane.CANCEL_OPTION){
+				return false;
+			}
 		}
+		return true;
 	}
 
 	public HTMLFile getFile() {

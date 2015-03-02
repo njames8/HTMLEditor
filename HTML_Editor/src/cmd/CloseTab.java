@@ -44,9 +44,10 @@ public class CloseTab implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		tab.close();
-		tabbedPane.remove(tabbedPane.getSelectedIndex()); // Removes tab from
-															// window
+		if (tab.close()) {
+			tabbedPane.remove(tabbedPane.getSelectedIndex());
+		}// Removes tab from
+			// window
 	}
 
 }
