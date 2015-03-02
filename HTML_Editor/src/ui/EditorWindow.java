@@ -119,7 +119,6 @@ public class EditorWindow extends javax.swing.JFrame {
 		
 		JMenuItem mntmSaveAs = new JMenuItem("Save As...");//Makes the Save button for saving files
 		mntmSaveAs.addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
@@ -133,28 +132,13 @@ public class EditorWindow extends javax.swing.JFrame {
 		 * Edit
 		 */
 		JMenu mnEdit = new JMenu("Edit");//makes the edit menu 
-		/*
-		 * View
-		 */
+
 		JMenu mnInsert = new JMenu("Insert");//makes the insert menu
-		
-		//adds all the menu buttons and menu headers to the window.
-		menuBar.add(mnFile);
-			mnFile.add(mntmNew);
-			mnFile.add(mntmOpen);
-			mnFile.add(mntmSave);
-			mnFile.add(mntmSaveAs);
-			mnFile.add(mntmCloseTab);
-			mnFile.add(mntmClose);
-		menuBar.add(mnEdit);
-		menuBar.add(mnInsert);
 		
 		JMenu mnHtmlTag = new JMenu("Tag");
 		
 		JMenuItem table = new JMenuItem("Table");
-		mnInsert.add(mnHtmlTag);
-		mnInsert.add(table);
-		
+
 		JMenuItem html = new JMenuItem("HTML");
 		JMenuItem body = new JMenuItem("Body");
 		JMenuItem paragraph = new JMenuItem("Paragraph");
@@ -167,17 +151,26 @@ public class EditorWindow extends javax.swing.JFrame {
 		bold.addActionListener(new TagListener(bold.getText(),(Tab) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
 		italic.addActionListener(new TagListener(italic.getText(),(Tab) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
 		
-		
-		mnHtmlTag.add(html);
-		mnHtmlTag.add(body);
-		mnHtmlTag.add(paragraph);
-		mnHtmlTag.add(bold);
-		mnHtmlTag.add(italic);
-		
-		
-		
+		//adds all the menu buttons and menu headers to the window.
+		menuBar.add(mnFile);
+			mnFile.add(mntmNew);
+			mnFile.add(mntmOpen);
+			mnFile.add(mntmSave);
+			mnFile.add(mntmSaveAs);
+			mnFile.add(mntmCloseTab);
+			mnFile.add(mntmClose);
+		menuBar.add(mnEdit);
+		menuBar.add(mnInsert);
+			mnInsert.add(mnHtmlTag);
+				mnHtmlTag.add(html);
+				mnHtmlTag.add(body);
+				mnHtmlTag.add(paragraph);
+				mnHtmlTag.add(bold);
+				mnHtmlTag.add(italic);
+			mnInsert.add(table);
 		
 	}
+
 
 	/**
 	 * Adds a tab to the window with a new file
@@ -197,8 +190,6 @@ public class EditorWindow extends javax.swing.JFrame {
 	public void NewTab(HTMLFile file, JTabbedPane j) {
 		Tab tab = new Tab(file, j);
 		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
-		
-		
 		for (int i = 0; i < 10; i++){
 			if(tabs[i] == null){
 				tabs[i] = tab;
