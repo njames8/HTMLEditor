@@ -96,7 +96,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		/*
 		 * View
 		 */
-		JMenu mnView = new JMenu("View");//makes the view menu
+		JMenu mnInsert = new JMenu("Insert");//makes the insert menu
 		
 		//adds all the menu buttons and menu headers to the window.
 		menuBar.add(mnFile);
@@ -107,7 +107,36 @@ public class EditorWindow extends javax.swing.JFrame {
 			mnFile.add(mntmCloseTab);
 			mnFile.add(mntmClose);
 		menuBar.add(mnEdit);
-		menuBar.add(mnView);
+		menuBar.add(mnInsert);
+		
+		JMenu mnHtmlTag = new JMenu("Tag");
+		
+		JMenuItem table = new JMenuItem("Table");
+		mnInsert.add(mnHtmlTag);
+		mnInsert.add(table);
+		
+		JMenuItem html = new JMenuItem("HTML");
+		JMenuItem body = new JMenuItem("Body");
+		JMenuItem paragraph = new JMenuItem("Paragraph");
+		JMenuItem bold = new JMenuItem("Bold");
+		JMenuItem italic = new JMenuItem("Italic");
+		
+		html.addActionListener(new TagListener(html.getText(),(Tab) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
+		body.addActionListener(new TagListener(body.getText(),(Tab) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
+		paragraph.addActionListener(new TagListener(paragraph.getText(),(Tab) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
+		bold.addActionListener(new TagListener(bold.getText(),(Tab) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
+		italic.addActionListener(new TagListener(italic.getText(),(Tab) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
+		
+		
+		mnHtmlTag.add(html);
+		mnHtmlTag.add(body);
+		mnHtmlTag.add(paragraph);
+		mnHtmlTag.add(bold);
+		mnHtmlTag.add(italic);
+		
+		
+		
+		
 		
 	}
 

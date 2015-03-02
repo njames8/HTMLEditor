@@ -1,5 +1,7 @@
 package files;
-
-public class Tag {
-
+/** 
+ * Represents Tag in HTML
+*/
+public interface Tag {
+	
 }
