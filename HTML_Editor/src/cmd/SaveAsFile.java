@@ -2,6 +2,7 @@
  * 
  */
 package cmd;
+import java.io.File;
 import java.io.IOException;
 
 import ui.*;
@@ -63,14 +64,15 @@ public class SaveAsFile implements Command {
 		if(chooser.showSaveDialog(tab) == JFileChooser.APPROVE_OPTION) {
 			
 			// Load in the file
-			if(!file.Load(chooser.getSelectedFile().getPath())) {
+			String path = chooser.getSelectedFile().getPath();
+			path = path.substring(0, path.length()-chooser.getName(chooser.getSelectedFile()).length());
+			if(!(new File(path).exists())) {
 				JOptionPane.showMessageDialog(null, "Could not save file: "
 						+ chooser.getSelectedFile().getName(),
 						"Could not save file",JOptionPane.OK_OPTION);
 				return;
 			}
 			//file.setLocation(chooser.getCurrentDirectory().getPath());
-		
 			file.setName(chooser.getSelectedFile().getName());
 			
 			try {

@@ -133,7 +133,14 @@ public class HTMLFile {
 		this.location = location;
 		//UpdateName();
         try {
-          File file = new File(this.name + ".html");
+          File file;
+          if(this.name.contains(".html")){
+        	  file = new File(this.name );
+          }
+          else{
+          file = new File(this.name+".html");
+          }
+          
           file.createNewFile();
           BufferedWriter output = new BufferedWriter(new FileWriter(file));
           output.write(this.text);

@@ -175,7 +175,6 @@ public class EditorWindow extends javax.swing.JFrame {
 		mnHtmlTag.add(italic);
 		
 		
-		System.out.println(tabbedPane.getParent().getParent().getParent().getParent());
 		
 		
 	}
