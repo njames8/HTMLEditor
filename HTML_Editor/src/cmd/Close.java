@@ -1,10 +1,7 @@
 /**
- * 
+ * Represents the call to close the editor window
  */
 package cmd;
-
-import ui.EditorWindow;
-
 /**
  * @author Nick James
  *
@@ -13,12 +10,17 @@ public class Close implements Command {
 
 	
 	public Close(){
-		
+		/**
+		 * Nothing is needed here
+		 * Close does not have any properties	
+		 */
 	}
 	
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		/**
+		 * Closes the application
+		 */
 		System.exit(0);
 	}
 

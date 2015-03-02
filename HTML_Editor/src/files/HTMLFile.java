@@ -22,7 +22,7 @@ public class HTMLFile {
 		location = null;
 		text = "";
 		name = "New File";
-		needsToBeSaved = true;
+		needsToBeSaved = false;
 	}
 	
 	// Updates our text buffer and marks the file as needing a save.
@@ -47,6 +47,9 @@ public class HTMLFile {
 		return this.text;
 	}
 	
+	public String getName(){
+		return this.name;
+	}
 	// Loads an existing file 
 	public boolean Load(String location) {
 		FileReader fr;
@@ -85,14 +88,14 @@ public class HTMLFile {
 		return true;
 	}
 	
-	public void Save(EditorWindow w, Tab t) {
+	public void Save( Tab t) {
 		if(!this.needsToBeSaved)
 			return;
 		// A null location means this "file" only exists in memory
 		if(location == null) {
 			// Display the save as dialog instead
 			// TODO: call save as command
-			SaveAsFile s = new SaveAsFile( w, t);
+			SaveAsFile s = new SaveAsFile( t);
 			s.execute();
 			return;
 		}
@@ -126,13 +129,12 @@ public class HTMLFile {
 	}
 	
 	// Gets provided a location via the save as dialog
-	public void SaveAs(String location, EditorWindow w, Tab t) {
+	public void SaveAs(String location, Tab t) {
 		this.location = location;
 		//UpdateName();
         try {
           File file = new File(this.name + ".html");
           file.createNewFile();
-          System.out.println(file.getAbsolutePath());
           BufferedWriter output = new BufferedWriter(new FileWriter(file));
           output.write(this.text);
           output.close();

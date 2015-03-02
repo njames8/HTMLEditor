@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package ui;
 import javax.swing.*;
 
@@ -10,18 +13,45 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
-
+/**
+ * The Application GUI
+ * @author Nick James
+ *
+ */
 public class EditorWindow extends javax.swing.JFrame {
+	/**
+	 * Maximum number of tabs that can be open at once
+	 */
 	private static final int MAXIMUM_TABS = 10;
+	
+	/**
+	 * The area to hold tabs
+	 */
 	private JTabbedPane tabbedPane;
+	
+	/**
+	 * collection of tabs
+	 */
 	private Tab[] tabs = new Tab[MAXIMUM_TABS];
 
-	
+	/**
+	 * Constructs the window
+	 */
 	public EditorWindow() {
 		init();
 	}
 	
+	/**
+	 * Initializes the window:
+	 * 	Sets dimensions
+	 * 	Sets how to close
+	 * 	generates an area for tabs
+	 * 	adds a New File tab
+	 * 	sets up the menu and menu items
+	 * 	
+	 */
 	private void init() {
+		
 		setTitle("HTML Editor");
 		setMinimumSize(new Dimension(320, 240));
 		setSize(640, 480);
@@ -54,7 +84,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//calls the command to open file and adds it to the window.
-				OpenFile o = new OpenFile(new JFileChooser(), EditorWindow.this, tabbedPane);
+				OpenFile o = new OpenFile(EditorWindow.this, tabbedPane);
 				o.execute();
 			}
 		});
@@ -72,7 +102,7 @@ public class EditorWindow extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent arg0){
 				//finds the current tab
 				//Makes the command to save the file in the current tab.
-				SaveFile f = new SaveFile((Tab)(tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())), EditorWindow.this);
+				SaveFile f = new SaveFile((Tab)(tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
 				f.execute();
 			}
 		});
@@ -93,7 +123,7 @@ public class EditorWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				SaveAsFile a = new SaveAsFile(EditorWindow.this, (Tab)tabbedPane.getComponentAt(tabbedPane.getSelectedIndex()));
+				SaveAsFile a = new SaveAsFile( (Tab)tabbedPane.getComponentAt(tabbedPane.getSelectedIndex()));
 				a.execute();
 			}
 			
@@ -145,16 +175,26 @@ public class EditorWindow extends javax.swing.JFrame {
 		mnHtmlTag.add(italic);
 		
 		
-		
+		System.out.println(tabbedPane.getParent().getParent().getParent().getParent());
 		
 		
 	}
 
-
+	/**
+	 * Adds a tab to the window with a new file
+	 * @param j - area for tabs
+	 */
 	public void NewTab(JTabbedPane j) {
 		NewTab(new HTMLFile(), j );
 	}
-
+	
+	/**
+	 * Adds a tab to the window with a file attached
+	 * 	If there are too many tabs open, presents
+	 * 	error message
+	 * @param file - file to be attached to tab 
+	 * @param j - The area of tabs
+	 */
 	public void NewTab(HTMLFile file, JTabbedPane j) {
 		Tab tab = new Tab(file, j);
 		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
