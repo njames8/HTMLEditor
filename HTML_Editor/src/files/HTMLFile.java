@@ -92,7 +92,7 @@ public class HTMLFile {
 		if(location == null) {
 			// Display the save as dialog instead
 			// TODO: call save as command
-			SaveAsFile s = new SaveAsFile(new JFileChooser(), w, t);
+			SaveAsFile s = new SaveAsFile( w, t);
 			s.execute();
 			return;
 		}

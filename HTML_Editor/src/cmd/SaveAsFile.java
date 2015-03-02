@@ -15,8 +15,8 @@ public class SaveAsFile implements Command {
 	private HTMLFile file;
 	private Tab t;
 	
-	public SaveAsFile(JFileChooser c, EditorWindow w, Tab t){
-		this.chooser = c;
+	public SaveAsFile(EditorWindow w, Tab t){
+		this.chooser = new JFileChooser();
 		this.chooser.setFileFilter(new FileNameExtensionFilter("HTM/HTML", "html"));
 		this.eWindow = w;
 		this.file = t.getFile();

@@ -88,6 +88,16 @@ public class EditorWindow extends javax.swing.JFrame {
 		});
 		
 		JMenuItem mntmSaveAs = new JMenuItem("Save As...");//Makes the Save button for saving files
+		mntmSaveAs.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				SaveAsFile a = new SaveAsFile(EditorWindow.this, (Tab)tabbedPane.getComponentAt(tabbedPane.getSelectedIndex()));
+				a.execute();
+			}
+			
+		});
 		
 		/*
 		 * Edit
