@@ -197,7 +197,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		ordered.addActionListener(new TagListener("<ol></ol>", (Tab)tabbedPane.getSelectedComponent()));
 		
 		JMenuItem unordered = new JMenuItem("Unordered");
-		unordered.addActionListener(new TagListener("<ul></ul>", (Tab)tabbedPane.getSelectedComponent()));
+		unordered.addActionListener(new TagListener("<ul></ul", (Tab)tabbedPane.getSelectedComponent()));
 		
 		JMenuItem listItem = new JMenuItem("List Item");
 		listItem.addActionListener(new TagListener("<li></li>", (Tab)tabbedPane.getSelectedComponent()));
