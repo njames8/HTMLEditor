@@ -1,4 +1,6 @@
 package cmd;
+import javax.swing.JOptionPane;
+
 import ui.Tab;
 import parsing.*;
 import ui.MessageBox;
@@ -16,7 +18,7 @@ public class ParseCMD implements Command {
 		}
 		catch (SyntaxException e) {
 			MessageBox msg = new MessageBox("Syntax Exception",
-					e.toString(), 1);
+					e.toString(), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
