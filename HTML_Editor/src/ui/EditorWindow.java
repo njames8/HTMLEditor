@@ -232,6 +232,9 @@ public class EditorWindow extends javax.swing.JFrame {
 				
 			mnInsert.add(table);
 
+			
+		
+		
 		
 			
 		
@@ -269,6 +272,7 @@ public class EditorWindow extends javax.swing.JFrame {
 	 */
 	public void NewTab(JTabbedPane tabbedPane, HTMLFile file, String text) {
 		Tab tab = new Tab(file, text);
+		tab.addMouseListener(new RightClickListener());
 		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
 		for (int i = 0; i < 10; i++) {
 			if (tabs[i] == null) {
