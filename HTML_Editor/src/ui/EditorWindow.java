@@ -199,8 +199,8 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenuItem listItem = new JMenuItem("List Item");
 		listItem.addActionListener(new TagListener("<li></li>", tabbedPane));
 				
-		JMenuItem mnDebug = new JMenuItem("Debug");
-		mnDebug.addActionListener(new ActionListener() {
+		JMenuItem mnValidate = new JMenuItem("Validate");
+		mnValidate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ParseCMD p = new ParseCMD((Tab)tabbedPane.getSelectedComponent());
 				p.execute();
@@ -238,7 +238,7 @@ public class EditorWindow extends javax.swing.JFrame {
 				mnList.add(listItem);
 				
 			mnInsert.add(table);
-		menuBar.add(mnDebug);
+		menuBar.add(mnValidate);
 		
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent ev) {
