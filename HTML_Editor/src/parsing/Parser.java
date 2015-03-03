@@ -8,13 +8,16 @@ public class Parser {
 		String[] parts = html.split("<");
 		for (String part : parts) {
 			String tag = part.split(">")[0];
-			tagStack.add(tag);
 			if (tag.startsWith("/")) {
 				String expectedTag = tagStack.pop();
+				tag = tag.substring(1);//cut off end tag slash
 				if (!expectedTag.equals(tag)) {
-					throw new SyntaxException(1, "Expecting a closing tag of " +
-				expectedTag);
+					throw new SyntaxException(1, "Parsing failed. Expecting a closing tag of '" +
+				expectedTag + "'");
 				}
+			}
+			else {
+				tagStack.add(tag);
 			}
 			System.out.println(tag);
 		}

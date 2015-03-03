@@ -154,23 +154,23 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenuItem table = new JMenuItem("Table");
 
 		JMenuItem html = new JMenuItem("HTML");
+		JMenuItem head = new JMenuItem("Head");
 		JMenuItem body = new JMenuItem("Body");
 		JMenuItem paragraph = new JMenuItem("Paragraph");
 		JMenuItem bold = new JMenuItem("Bold");
 		JMenuItem italic = new JMenuItem("Italic");
 
-		html.addActionListener(new TagListener(html.getText(), (Tab) tabbedPane
-				.getSelectedComponent()));
-		body.addActionListener(new TagListener(body.getText(), (Tab) tabbedPane
-				.getSelectedComponent()));
-		paragraph
-				.addActionListener(new TagListener(paragraph.getText(),
-						(Tab) tabbedPane.getComponentAt(tabbedPane
-								.getSelectedIndex())));
-		bold.addActionListener(new TagListener(bold.getText(), (Tab) tabbedPane
-				.getSelectedComponent()));
-		italic.addActionListener(new TagListener(italic.getText(),
-				(Tab) tabbedPane.getSelectedComponent()));
+		html.addActionListener(new TagListener("<html></html>",tabbedPane));
+		
+		head.addActionListener(new TagListener("<head></head>", tabbedPane));
+		
+		body.addActionListener(new TagListener("<body></body>", tabbedPane));
+		
+		paragraph.addActionListener(new TagListener("<p></p>", tabbedPane));
+		
+		bold.addActionListener(new TagListener("<b></b>", tabbedPane));
+		
+		italic.addActionListener(new TagListener("<i></i>", tabbedPane));
 
 		
 		JMenuItem cut = new JMenuItem(new DefaultEditorKit.CutAction());
@@ -182,17 +182,23 @@ public class EditorWindow extends javax.swing.JFrame {
 		copy.setText("Copy");
 		
 
-		JMenuItem paste = new JMenuItem(new Paste((Tab)tabbedPane.getSelectedComponent(), tabbedPane));
+		JMenuItem paste = new JMenuItem(new Paste(tabbedPane));
 		paste.setText("Paste");
 		paste.setMnemonic(KeyEvent.VK_P);
 		
 		JMenu mnList = new JMenu("List");
 		
 		JMenuItem ordered = new JMenuItem("Ordered");
-		ordered.addActionListener(new TagListener(ordered.getText(), (Tab)tabbedPane.getSelectedComponent()));
+		ordered.addActionListener(new TagListener("<ol></ol>", tabbedPane));
 		
 		JMenuItem unordered = new JMenuItem("Unordered");
-		unordered.addActionListener(new TagListener(unordered.getText(), (Tab)tabbedPane.getSelectedComponent()));
+
+		unordered.addActionListener(new TagListener("<ul></ul>", tabbedPane));
+
+		
+		JMenuItem listItem = new JMenuItem("List Item");
+		listItem.addActionListener(new TagListener("<li></li>", tabbedPane));
+		
 		
 		// adds all the menu buttons and menu headers to the window.
 		menuBar.add(mnFile);
@@ -202,20 +208,28 @@ public class EditorWindow extends javax.swing.JFrame {
 			mnFile.add(mntmSaveAs);
 			mnFile.add(mntmCloseTab);
 			mnFile.add(mntmClose);
+			
 		menuBar.add(mnEdit);
 			mnEdit.add(cut);
 			mnEdit.add(copy);
 			mnEdit.add(paste);
+		
 		menuBar.add(mnInsert);
+		
 			mnInsert.add(mnHtmlTag);
 				mnHtmlTag.add(html);
+				mnHtmlTag.add(head);
 				mnHtmlTag.add(body);
 				mnHtmlTag.add(paragraph);
 				mnHtmlTag.add(bold);
 				mnHtmlTag.add(italic);
+				
+				
 			mnInsert.add(mnList);
 				mnList.add(ordered);
 				mnList.add(unordered);
+				mnList.add(listItem);
+				
 			mnInsert.add(table);
 
 		
