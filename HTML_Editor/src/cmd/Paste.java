@@ -16,17 +16,18 @@ import ui.Tab;
  */
 public class Paste extends PasteAction {
 	
-	UpdateText update;
+	private JTabbedPane tabbedPane;
 	
-	public Paste(Tab t, JTabbedPane j){
+	public Paste(JTabbedPane j){
 		super();
-		update = new UpdateText(t, j);
+		this.tabbedPane = j;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e){
 		super.actionPerformed(e);
-		update.execute();
+		Tab t  = (Tab)tabbedPane.getSelectedComponent();
+		t.getFile().Changed();
 		
 	}
 }
