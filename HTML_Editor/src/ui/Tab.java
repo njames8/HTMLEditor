@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
+import cmd.CloseTab;
 import cmd.SaveFile;
 import cmd.UpdateText;
 import files.HTMLFile;
@@ -60,7 +61,12 @@ public class Tab extends JTextPane {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
+				if (arg0.isControlDown() && arg0.getKeyCode() == KeyEvent.VK_W) {
 
+	               
+	                
+
+	            }
 			}
 
 			@Override
