@@ -10,8 +10,9 @@ public class Parser {
 			String tag = part.split(">")[0];
 			if (tag.startsWith("/")) {
 				String expectedTag = tagStack.pop();
+				tag = tag.substring(1);//cut off end tag slash
 				if (!expectedTag.equals(tag)) {
-					throw new SyntaxException(1, "Expecting a closing tag of " +
+					throw new SyntaxException(1, "Parsing failed. Expecting a closing tag of " +
 				expectedTag);
 				}
 			}
