@@ -202,7 +202,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenuItem listItem = new JMenuItem("List Item");
 		listItem.addActionListener(new TagListener("<li></li>", (Tab)tabbedPane.getSelectedComponent()));
 				
-		JMenu mnDebug = new JMenu("Debug");
+		JMenuItem mnDebug = new JMenuItem("Debug");
 		mnDebug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ParseCMD p = new ParseCMD((Tab)tabbedPane.getSelectedComponent());
