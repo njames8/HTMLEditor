@@ -77,7 +77,7 @@ public class Tab extends JTextPane {
 				/*UpdateText t = new UpdateText((Tab) e.getSource(),
 						(JTabbedPane) e.getComponent().getParent());
 				t.execute();*/
-				this.file.Changed();
+				((Tab)e.getSource()).file.Changed();
 			}
 
 		});
