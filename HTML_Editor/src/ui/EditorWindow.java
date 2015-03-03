@@ -4,6 +4,7 @@
 package ui;
 
 import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
 
 import cmd.*;
 import files.HTMLFile;
@@ -12,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Font;
@@ -108,8 +110,7 @@ public class EditorWindow extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// finds the current tab
 				// Makes the command to save the file in the current tab.
-				SaveFile f = new SaveFile((Tab) (tabbedPane
-						.getComponentAt(tabbedPane.getSelectedIndex())));
+				SaveFile f = new SaveFile((Tab) tabbedPane.getSelectedComponent());
 				f.execute();
 			}
 		});
@@ -121,8 +122,7 @@ public class EditorWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Makes the command to close the current tab.
-				CloseTab t = new CloseTab(tabbedPane.getComponentAt(tabbedPane
-						.getSelectedIndex()), tabbedPane);
+				CloseTab t = new CloseTab(tabbedPane.getSelectedComponent(), tabbedPane);
 				t.execute();
 			}
 		});
@@ -135,7 +135,7 @@ public class EditorWindow extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				SaveAsFile a = new SaveAsFile((Tab) tabbedPane
-						.getComponentAt(tabbedPane.getSelectedIndex()));
+						.getSelectedComponent());
 				a.execute();
 			}
 
@@ -159,18 +159,32 @@ public class EditorWindow extends javax.swing.JFrame {
 		JMenuItem italic = new JMenuItem("Italic");
 
 		html.addActionListener(new TagListener(html.getText(), (Tab) tabbedPane
-				.getComponentAt(tabbedPane.getSelectedIndex())));
+				.getSelectedComponent()));
 		body.addActionListener(new TagListener(body.getText(), (Tab) tabbedPane
-				.getComponentAt(tabbedPane.getSelectedIndex())));
+				.getSelectedComponent()));
 		paragraph
 				.addActionListener(new TagListener(paragraph.getText(),
 						(Tab) tabbedPane.getComponentAt(tabbedPane
 								.getSelectedIndex())));
 		bold.addActionListener(new TagListener(bold.getText(), (Tab) tabbedPane
-				.getComponentAt(tabbedPane.getSelectedIndex())));
+				.getSelectedComponent()));
 		italic.addActionListener(new TagListener(italic.getText(),
-				(Tab) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())));
+				(Tab) tabbedPane.getSelectedComponent()));
 
+		
+		JMenuItem cut = new JMenuItem(new DefaultEditorKit.CutAction());
+		cut.setText("Cut");
+		
+		
+
+		JMenuItem copy = new JMenuItem(new DefaultEditorKit.CopyAction());
+		copy.setText("Copy");
+		
+
+		JMenuItem paste = new JMenuItem(new Paste((Tab)tabbedPane.getSelectedComponent(), tabbedPane));
+		paste.setText("Paste");
+		paste.setMnemonic(KeyEvent.VK_P);
+		
 		// adds all the menu buttons and menu headers to the window.
 		menuBar.add(mnFile);
 		mnFile.add(mntmNew);
@@ -189,6 +203,9 @@ public class EditorWindow extends javax.swing.JFrame {
 		mnHtmlTag.add(italic);
 		mnInsert.add(table);
 		
+		mnEdit.add(cut);
+		mnEdit.add(copy);
+		mnEdit.add(paste);
 		
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent ev) {

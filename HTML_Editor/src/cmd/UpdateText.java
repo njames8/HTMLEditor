@@ -50,6 +50,7 @@ public class UpdateText implements Command {
 		// TODO Auto-generated method stub
 		file.UpdateText(text);
 		tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), file.GetTabName());
+		System.out.println(file.getNeedsToBeSaved());
 	}
 
 }

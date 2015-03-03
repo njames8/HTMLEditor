@@ -82,6 +82,7 @@ public class Tab extends JTextPane {
 
 	public boolean close() {
 		// TODO close tab method
+		
 		if (file.getNeedsToBeSaved()) {
 			int reply = JOptionPane
 					.showConfirmDialog(
