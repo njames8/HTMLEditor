@@ -12,6 +12,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.Font;
 
 /**
@@ -54,7 +56,8 @@ public class EditorWindow extends javax.swing.JFrame {
 		setMinimumSize(new Dimension(320, 240));
 		setSize(640, 480);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
 
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setFont(new Font("Consolas", Font.PLAIN, 11));
@@ -94,7 +97,7 @@ public class EditorWindow extends javax.swing.JFrame {
 														// window.
 		mntmClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Close c = new Close();// Makes the command to close
+				Close c = new Close(tabbedPane);// Makes the command to close
 				c.execute();
 			}
 		});
@@ -185,6 +188,15 @@ public class EditorWindow extends javax.swing.JFrame {
 		mnHtmlTag.add(bold);
 		mnHtmlTag.add(italic);
 		mnInsert.add(table);
+		
+		
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent ev) {
+                //frame.dispose();
+            	Close c = new Close(tabbedPane);
+            	c.execute();
+            }
+        });
 
 	}
 
