@@ -62,8 +62,6 @@ public class Tab extends JTextPane {
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 				if (arg0.isControlDown() && arg0.getKeyCode() == KeyEvent.VK_W) {
-
-	               
 	                
 
 	            }
@@ -88,7 +86,7 @@ public class Tab extends JTextPane {
 
 	public boolean close() {
 		// TODO close tab method
-		
+		System.out.println(file.getNeedsToBeSaved());
 		if (file.getNeedsToBeSaved()) {
 			int reply = JOptionPane
 					.showConfirmDialog(
