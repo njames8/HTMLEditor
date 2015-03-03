@@ -186,38 +186,38 @@ public class EditorWindow extends javax.swing.JFrame {
 		paste.setText("Paste");
 		paste.setMnemonic(KeyEvent.VK_P);
 		
-		// adds all the menu buttons and menu headers to the window.
-		menuBar.add(mnFile);
-		mnFile.add(mntmNew);
-		mnFile.add(mntmOpen);
-		mnFile.add(mntmSave);
-		mnFile.add(mntmSaveAs);
-		mnFile.add(mntmCloseTab);
-		mnFile.add(mntmClose);
-		menuBar.add(mnEdit);
-		menuBar.add(mnInsert);
-		mnInsert.add(mnHtmlTag);
-		mnHtmlTag.add(html);
-		mnHtmlTag.add(body);
-		mnHtmlTag.add(paragraph);
-		mnHtmlTag.add(bold);
-		mnHtmlTag.add(italic);
-		
 		JMenu mnList = new JMenu("List");
-		mnInsert.add(mnList);
 		
 		JMenuItem ordered = new JMenuItem("Ordered");
 		ordered.addActionListener(new TagListener(ordered.getText(), (Tab)tabbedPane.getSelectedComponent()));
-		mnList.add(ordered);
 		
 		JMenuItem unordered = new JMenuItem("Unordered");
 		unordered.addActionListener(new TagListener(unordered.getText(), (Tab)tabbedPane.getSelectedComponent()));
-		mnList.add(unordered);
-		mnInsert.add(table);
 		
-		mnEdit.add(cut);
-		mnEdit.add(copy);
-		mnEdit.add(paste);
+		// adds all the menu buttons and menu headers to the window.
+		menuBar.add(mnFile);
+			mnFile.add(mntmNew);
+			mnFile.add(mntmOpen);
+			mnFile.add(mntmSave);
+			mnFile.add(mntmSaveAs);
+			mnFile.add(mntmCloseTab);
+			mnFile.add(mntmClose);
+		menuBar.add(mnEdit);
+			mnEdit.add(cut);
+			mnEdit.add(copy);
+			mnEdit.add(paste);
+		menuBar.add(mnInsert);
+			mnInsert.add(mnHtmlTag);
+				mnHtmlTag.add(html);
+				mnHtmlTag.add(body);
+				mnHtmlTag.add(paragraph);
+				mnHtmlTag.add(bold);
+				mnHtmlTag.add(italic);
+			mnInsert.add(mnList);
+				mnList.add(ordered);
+				mnList.add(unordered);
+			mnInsert.add(table);
+
 		
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent ev) {
@@ -237,7 +237,7 @@ public class EditorWindow extends javax.swing.JFrame {
 	 *            - area for tabs
 	 */
 	public void NewTab(JTabbedPane j) {
-		NewTab(new HTMLFile(), j);
+		NewTab(j, new HTMLFile(), "");
 	}
 
 	/**
@@ -249,8 +249,8 @@ public class EditorWindow extends javax.swing.JFrame {
 	 * @param j
 	 *            - The area of tabs
 	 */
-	public void NewTab(HTMLFile file, JTabbedPane j) {
-		Tab tab = new Tab(file);
+	public void NewTab(JTabbedPane tabbedPane, HTMLFile file, String text) {
+		Tab tab = new Tab(file, text);
 		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
 		for (int i = 0; i < 10; i++) {
 			if (tabs[i] == null) {
@@ -263,6 +263,7 @@ public class EditorWindow extends javax.swing.JFrame {
 						JOptionPane.WARNING_MESSAGE);
 			}
 		}
+		
 		tabbedPane.addTab(tab.getFile().GetTabName(), null, tab, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
 	}

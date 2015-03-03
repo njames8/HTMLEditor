@@ -48,9 +48,10 @@ public class UpdateText implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		file.UpdateText(text);
-		tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), file.GetTabName());
-		System.out.println(file.getNeedsToBeSaved());
+		/*int curTab = tabbedPane.getSelectedIndex();
+		
+		tabbedPane.getTabComponentAt(curTab);
+		tabbedPane.setTitleAt(curTab, file.GetTabName());*/
 	}
 
 }

@@ -63,17 +63,17 @@ public class OpenFile implements Command {
 		// If the user selects a file and clicks 'open'
 		if (chooser.showOpenDialog(eWindow) == JFileChooser.APPROVE_OPTION) {
 			HTMLFile f = new HTMLFile();
+			String str = f.Load(chooser.getSelectedFile().getPath());
 
-			// Load in the file
-			if (!f.Load(chooser.getSelectedFile().getPath())) {
-
+			// TODO: use exceptions instead of null
+			if (str == null) {
 				JOptionPane.showMessageDialog(null, "Could not load file: "
 						+ chooser.getSelectedFile().getName(),
 						"Could not load file", JOptionPane.OK_OPTION);
 				return;
-
 			}
-			eWindow.NewTab(f, tabbedPane);
+			
+			eWindow.NewTab(tabbedPane, f, str);
 			tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 
 		}

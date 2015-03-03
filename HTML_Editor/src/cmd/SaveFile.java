@@ -52,7 +52,13 @@ public class SaveFile implements Command {
 	 */
 	@Override
 	public void execute() {
-		file.Save(t);
+		if(!t.getFile().IsOnDisk())
+		{
+			SaveAsFile f = new SaveAsFile(t);
+			f.execute();
+		}
+		else
+			file.Save(t.getText());
 	}
 
 }

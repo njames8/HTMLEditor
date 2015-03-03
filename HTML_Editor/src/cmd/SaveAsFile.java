@@ -17,7 +17,7 @@ import files.HTMLFile;
 /**
  * Represents a SaveAs command
  * 
- * @author nick
+ * @author Nick James
  *
  */
 public class SaveAsFile implements Command {
@@ -76,11 +76,9 @@ public class SaveAsFile implements Command {
 						"Could not save file", JOptionPane.OK_OPTION);
 				return;
 			}
-			// file.setLocation(chooser.getCurrentDirectory().getPath());
-			file.setName(chooser.getSelectedFile().getName());
-
+			
 			try {
-				file.SaveAs(chooser.getSelectedFile().getCanonicalPath(), tab);
+				file.SaveAs(chooser.getSelectedFile().getCanonicalPath(), tab.getText());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

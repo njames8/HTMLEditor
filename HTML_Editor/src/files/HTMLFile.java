@@ -15,48 +15,41 @@ import cmd.SaveAsFile;
  * are either saved or discarded.
  */
 public class HTMLFile {
-	private String location, text, name;
+	private String location, name;
 	private boolean needsToBeSaved;
 
 	public HTMLFile() {
 		location = null;
-		text = "";
 		name = "New File";
 		needsToBeSaved = false;
 	}
 
-	// Updates our text buffer and marks the file as needing a save.
-	// FIXME: only mark files as needing to be saved if they have changed since
-	// the last save / load
-	public void UpdateText(String text) {
-		this.text = text;
-		needsToBeSaved = true;
+	// Name of the file
+	public String GetFileName() {
+		return name;
 	}
-
-	// Updates the file's name to reflect what it is on the disk
-	private void UpdateName() {
-		name = (new File(location)).getName();
-	}
-
-	// This is the name that should appear in the tab
+	
+	// Name including an asterisk if saves are pending
 	public String GetTabName() {
 		return (needsToBeSaved ? "* " : "") + name;
 	}
 
-	public String getText() {
-		return this.text;
+	public boolean GetNeedsSave() {
+		return needsToBeSaved;
 	}
-
-	public String getName() {
-		return this.name;
+	
+	// Updates the name of the file to match that of the location
+	private void UpdateName() {
+		name = (new File(location)).getName();
 	}
-
-	public boolean getNeedsToBeSaved() {
-		return this.needsToBeSaved;
+	
+	public boolean IsOnDisk() {
+		return location != null;
 	}
 
 	// Loads an existing file
-	public boolean Load(String location) {
+	// TODO: change this to throw instead of just returning null
+	public String Load(String location) {
 		FileReader fr;
 
 		try {
@@ -64,15 +57,19 @@ public class HTMLFile {
 		} catch (FileNotFoundException e) {
 			// TODO: tell the user there was an error
 			fr = null;
-			return false;
+			return null;
 		}
+		
+		// Where the file is loaded into and returned
+		String str = "";
 
 		// Try reading in the file
 		try {
 			BufferedReader in = new BufferedReader(fr);
-			String str;
-			while ((str = in.readLine()) != null) {
-				this.text += str + "\n";
+			String line;
+			
+			while ((line = in.readLine()) != null) {
+				str += line + "\n";
 			}
 
 			fr.close();
@@ -80,7 +77,7 @@ public class HTMLFile {
 		} catch (IOException e) {
 			// TODO: tell the user there was an error
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 
 		// If loading the file was successful, then we know the file location
@@ -90,14 +87,12 @@ public class HTMLFile {
 
 		UpdateName();
 
-		return true;
+		return str;
 	}
 
 	// FIXME: this shouldn't be coupled with tab
-	public void Save(Tab t) {
-		if (!this.needsToBeSaved)
-			return;
-		
+	public boolean Save(String text) {
+		/*
 		// FIXME: do this logic elsewhere. saving should ONLY save
 		// A null location means this "file" only exists in memory
 		if (location == null) {
@@ -106,65 +101,59 @@ public class HTMLFile {
 			SaveAsFile s = new SaveAsFile(t);
 			s.execute();
 			return;
-		}
+		}*/
 
 		Writer fw;
 
 		// Open and write the file
 		try {
-
 			fw = new BufferedWriter(new FileWriter(location));
 
-			String[] textSep = text.split("\n");
-
-			for (int x = 0; x < textSep.length; x++) {
-				fw.write(textSep[x]);
+			/*for (String s : text.split("\n")) {
+				fw.write(s);
 				fw.write("\r\n"); // new line
-			}
+			}*/
+			
+			fw.write(text);
 
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return;
+			return false;
 		}
 
 		this.needsToBeSaved = false;
-		JTabbedPane j = ((JTabbedPane) t.getParent());
-		j.setTitleAt(j.getSelectedIndex(), GetTabName());
+		return true;
 	}
 
-	// Gets provided a location via the save as dialog
-	public void SaveAs(String location, Tab t) {
+	// Receives a location and the text to be saved
+	public boolean SaveAs(String location, String text) {
 		this.location = location;
-		// UpdateName();
+		
+		UpdateName();
+		
 		try {
 			File file;
-			if (this.name.contains(".html")) {
+			
+			if (this.name.endsWith(".html")) {
 				file = new File(this.name);
 			} else {
 				file = new File(this.name + ".html");
 			}
 
 			file.createNewFile();
+			
 			BufferedWriter output = new BufferedWriter(new FileWriter(file));
-			output.write(this.text);
+			
+			output.write(text);
 			output.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
+		
 		this.needsToBeSaved = false;
-		JTabbedPane j = ((JTabbedPane) t.getParent());
-		j.setTitleAt(j.getSelectedIndex(), GetTabName());
+		return true;
 	}
-
-	public void setLocation(String l) {
-		this.location = l;
-	}
-
-	public void setName(String name) {
-		// TODO Auto-generated method stub
-		this.name = name;
-	}
-
 }
