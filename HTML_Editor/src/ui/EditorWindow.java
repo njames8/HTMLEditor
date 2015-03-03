@@ -201,10 +201,14 @@ public class EditorWindow extends javax.swing.JFrame {
 		
 		JMenuItem listItem = new JMenuItem("List Item");
 		listItem.addActionListener(new TagListener("<li></li>", (Tab)tabbedPane.getSelectedComponent()));
-		
+				
 		JMenuItem debug = new JMenuItem("Debug");
-		debug.addActionListener(new ParseCMD((Tab)tabbedPane.getSelectedComponent()));
-		
+		debug.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ParseCMD p = new ParseCMD((Tab)tabbedPane.getSelectedComponent());
+				p.execute();
+			}
+		});
 		// adds all the menu buttons and menu headers to the window.
 		menuBar.add(mnFile);
 			mnFile.add(mntmNew);
