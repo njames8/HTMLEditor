@@ -10,7 +10,7 @@ public class Indenter {
 		for (String part : parts){
 			//finds appropriate depth and lines up number of spacing iterations to add.
 			int count = 0;
-			if(part.charAt(1) == '/'){
+			if(part.length()> 0 && part.charAt(1) == '/'){
 				depth -= 1;
 				count = depth;
 			}
