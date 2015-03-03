@@ -202,6 +202,17 @@ public class EditorWindow extends javax.swing.JFrame {
 		mnHtmlTag.add(paragraph);
 		mnHtmlTag.add(bold);
 		mnHtmlTag.add(italic);
+		
+		JMenu mnList = new JMenu("List");
+		mnInsert.add(mnList);
+		
+		JMenuItem ordered = new JMenuItem("Ordered");
+		ordered.addActionListener(new TagListener(ordered.getText(), (Tab)tabbedPane.getSelectedComponent()));
+		mnList.add(ordered);
+		
+		JMenuItem unordered = new JMenuItem("Unordered");
+		unordered.addActionListener(new TagListener(unordered.getText(), (Tab)tabbedPane.getSelectedComponent()));
+		mnList.add(unordered);
 		mnInsert.add(table);
 		
 		mnEdit.add(cut);
