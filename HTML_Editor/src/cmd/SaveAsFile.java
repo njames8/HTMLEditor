@@ -17,7 +17,7 @@ import files.HTMLFile;
 /**
  * Represents a SaveAs command
  * 
- * @author nick
+ * @author Nick James
  *
  */
 public class SaveAsFile implements Command {
