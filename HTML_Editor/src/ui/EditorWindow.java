@@ -239,7 +239,7 @@ public class EditorWindow extends javax.swing.JFrame {
 	 *            - The area of tabs
 	 */
 	public void NewTab(HTMLFile file, JTabbedPane j) {
-		Tab tab = new Tab(file, j);
+		Tab tab = new Tab(file);
 		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
 		for (int i = 0; i < 10; i++) {
 			if (tabs[i] == null) {
