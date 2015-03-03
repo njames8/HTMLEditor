@@ -93,9 +93,12 @@ public class HTMLFile {
 		return true;
 	}
 
+	// FIXME: this shouldn't be coupled with tab
 	public void Save(Tab t) {
 		if (!this.needsToBeSaved)
 			return;
+		
+		// FIXME: do this logic elsewhere. saving should ONLY save
 		// A null location means this "file" only exists in memory
 		if (location == null) {
 			// Display the save as dialog instead
