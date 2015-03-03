@@ -31,11 +31,6 @@ public class Tab extends JTextPane {
 	private boolean focus;
 
 	/**
-	 * The area for tabs
-	 */
-	private JTabbedPane j;
-
-	/**
 	 * Constructs a tab with a new file
 	 */
 	public Tab() {
@@ -51,10 +46,9 @@ public class Tab extends JTextPane {
 	 * @param j
 	 *            - the area of tabs for this to be attached
 	 */
-	public Tab(HTMLFile file, JTabbedPane j) {
+	public Tab(HTMLFile file) {
 		super();
 		this.file = file;
-		this.j = j;
 		this.setText(file.getText());
 		this.addKeyListener(new KeyListener() {
 
@@ -105,6 +99,10 @@ public class Tab extends JTextPane {
 			}
 		}
 		return true;
+	}
+	
+	public boolean saveFile() {
+		return this.file.Save();
 	}
 
 	public HTMLFile getFile() {
