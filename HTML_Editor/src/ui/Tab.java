@@ -29,13 +29,16 @@ public class Tab extends JTextPane {
 	 * Is this tab the focus of the window?
 	 */
 	private boolean focus;
+	
+	private String title;
 
 	/**
 	 * Constructs a tab with a new file
 	 */
-	public Tab() {
+	public Tab(String title) {
 		super();
 		this.file = new HTMLFile();
+		this.title = title;
 	}
 
 	/**
@@ -49,6 +52,7 @@ public class Tab extends JTextPane {
 	public Tab(HTMLFile file, String text) {
 		super();
 		this.file = file;
+		this.title = file.GetTabName();
 		this.setText(text);
 		this.addKeyListener(new KeyListener() {
 
@@ -70,9 +74,10 @@ public class Tab extends JTextPane {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				UpdateText t = new UpdateText((Tab) e.getSource(),
+				/*UpdateText t = new UpdateText((Tab) e.getSource(),
 						(JTabbedPane) e.getComponent().getParent());
-				t.execute();
+				t.execute();*/
+				((Tab)e.getSource()).file.Changed();
 			}
 
 		});
@@ -112,5 +117,9 @@ public class Tab extends JTextPane {
 
 	public void setFocus(boolean b) {
 		focus = b;
+	}
+	
+	public String GetTitle() {
+		return title;
 	}
 }
