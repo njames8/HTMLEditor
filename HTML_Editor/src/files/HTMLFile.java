@@ -43,6 +43,10 @@ public class HTMLFile {
 		name = (new File(location)).getName();
 	}
 	
+	public void Changed() {
+		needsToBeSaved = true;
+	}
+	
 	public boolean IsOnDisk() {
 		return location != null;
 	}

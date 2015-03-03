@@ -264,7 +264,7 @@ public class EditorWindow extends javax.swing.JFrame {
 			}
 		}
 		
-		tabbedPane.addTab(tab.getFile().GetTabName(), null, tab, null);
+		tabbedPane.addTab(tab.GetTitle(), null, tab, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
 	}
 }
