@@ -88,7 +88,9 @@ public class Tab extends JTextPane {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				//if (arg0.getButton() == MouseEvent)
+				if (arg0.isPopupTrigger()){
+					
+				}
 			}
 
 			@Override

@@ -233,6 +233,8 @@ public class EditorWindow extends javax.swing.JFrame {
 			mnInsert.add(table);
 
 		
+			
+		
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent ev) {
                 //frame.dispose();
@@ -240,6 +242,8 @@ public class EditorWindow extends javax.swing.JFrame {
             	c.execute();
             }
         });
+        
+        
         
 
 	}
