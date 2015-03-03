@@ -14,7 +14,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Font;
@@ -173,7 +172,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		italic.addActionListener(new TagListener("<i></i>", tabbedPane));
 
 		
-		JMenuItem cut = new JMenuItem(new DefaultEditorKit.CutAction());
+		JMenuItem cut = new JMenuItem(new Cut(tabbedPane));
 		cut.setText("Cut");
 		
 		
@@ -272,7 +271,7 @@ public class EditorWindow extends javax.swing.JFrame {
 	 */
 	public void NewTab(JTabbedPane tabbedPane, HTMLFile file, String text) {
 		Tab tab = new Tab(file, text);
-		tab.addMouseListener(new RightClickListener());
+		tab.addMouseListener(new RightClickListener(tabbedPane));
 		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
 		for (int i = 0; i < 10; i++) {
 			if (tabs[i] == null) {
