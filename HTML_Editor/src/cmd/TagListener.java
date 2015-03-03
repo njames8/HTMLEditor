@@ -42,20 +42,9 @@ public class TagListener implements ActionListener {
 	 */
 	public TagListener(String type, Tab t) {
 		this.tag = type;
-		this.tag = this.tag.toLowerCase();
-		if (!(this.tag.equals("html") || this.tag.equals("body"))) {
-			this.tag = this.tag.substring(0, 1);
-		}
-		else if (this.tag.equals("ordered")){
-			this.tag = "ol";
-		}
-		
-		else if (this.tag.equals("unordered")){
-			this.tag = "ul";
-		}
-		this.tag = "<" + this.tag + ">" + "</" + this.tag + ">";
 		this.tab = t;
 		this.update = new UpdateText(tab, (JTabbedPane) (tab.getParent()));
+		
 	}
 
 	/**
