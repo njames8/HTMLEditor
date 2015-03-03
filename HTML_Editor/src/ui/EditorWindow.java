@@ -95,10 +95,10 @@ public class EditorWindow extends javax.swing.JFrame {
 			}
 		});
 
-		JMenuItem mntmClose = new JMenuItem("Close");// Makes the close button
+		JMenuItem mntmExit = new JMenuItem("Exit");// Makes the close button
 														// for closing the
 														// window.
-		mntmClose.addActionListener(new ActionListener() {
+		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Close c = new Close(tabbedPane);// Makes the command to close
 				c.execute();
@@ -216,7 +216,7 @@ public class EditorWindow extends javax.swing.JFrame {
 			mnFile.add(mntmSave);
 			mnFile.add(mntmSaveAs);
 			mnFile.add(mntmCloseTab);
-			mnFile.add(mntmClose);
+			mnFile.add(mntmExit);
 			
 		menuBar.add(mnEdit);
 			mnEdit.add(cut);
