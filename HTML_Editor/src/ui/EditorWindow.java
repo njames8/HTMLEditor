@@ -226,7 +226,7 @@ public class EditorWindow extends javax.swing.JFrame {
 	 *            - area for tabs
 	 */
 	public void NewTab(JTabbedPane j) {
-		NewTab(new HTMLFile(), j);
+		NewTab(j, new HTMLFile(), "");
 	}
 
 	/**
@@ -238,8 +238,8 @@ public class EditorWindow extends javax.swing.JFrame {
 	 * @param j
 	 *            - The area of tabs
 	 */
-	public void NewTab(HTMLFile file, JTabbedPane j) {
-		Tab tab = new Tab(file);
+	public void NewTab(JTabbedPane tabbedPane, HTMLFile file, String text) {
+		Tab tab = new Tab(file, text);
 		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
 		for (int i = 0; i < 10; i++) {
 			if (tabs[i] == null) {
@@ -252,6 +252,7 @@ public class EditorWindow extends javax.swing.JFrame {
 						JOptionPane.WARNING_MESSAGE);
 			}
 		}
+		
 		tabbedPane.addTab(tab.getFile().GetTabName(), null, tab, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
 	}

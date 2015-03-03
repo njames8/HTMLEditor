@@ -46,10 +46,10 @@ public class Tab extends JTextPane {
 	 * @param j
 	 *            - the area of tabs for this to be attached
 	 */
-	public Tab(HTMLFile file) {
+	public Tab(HTMLFile file, String text) {
 		super();
 		this.file = file;
-		this.setText(file.getText());
+		this.setText(text);
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -83,12 +83,12 @@ public class Tab extends JTextPane {
 	public boolean close() {
 		// TODO close tab method
 		
-		if (file.getNeedsToBeSaved()) {
+		if (file.GetNeedsSave()) {
 			int reply = JOptionPane
 					.showConfirmDialog(
 							null,
 							"Would you like to save changes to file: "
-									+ file.getName(), "Save Changes?",
+									+ file.GetFileName(), "Save Changes?",
 							JOptionPane.YES_NO_CANCEL_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
 				SaveFile s = new SaveFile(this);
@@ -102,7 +102,7 @@ public class Tab extends JTextPane {
 	}
 	
 	public boolean saveFile() {
-		return this.file.Save();
+		return file.Save(this.getText());
 	}
 
 	public HTMLFile getFile() {

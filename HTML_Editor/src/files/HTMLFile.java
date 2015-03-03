@@ -24,10 +24,14 @@ public class HTMLFile {
 		needsToBeSaved = false;
 	}
 
-	// This is the name that should appear in the tab
+	// Name of the file
 	public String GetFileName() {
-		//return (needsToBeSaved ? "* " : "") + name;
 		return name;
+	}
+	
+	// Name including an asterisk if saves are pending
+	public String GetTabName() {
+		return (needsToBeSaved ? "* " : "") + name;
 	}
 
 	public boolean GetNeedsSave() {
@@ -37,6 +41,10 @@ public class HTMLFile {
 	// Updates the name of the file to match that of the location
 	private void UpdateName() {
 		name = (new File(location)).getName();
+	}
+	
+	public boolean IsOnDisk() {
+		return location != null;
 	}
 
 	// Loads an existing file
@@ -83,10 +91,7 @@ public class HTMLFile {
 	}
 
 	// FIXME: this shouldn't be coupled with tab
-	public void Save(String text) {
-		if (!this.needsToBeSaved)
-			return;
-		
+	public boolean Save(String text) {
 		/*
 		// FIXME: do this logic elsewhere. saving should ONLY save
 		// A null location means this "file" only exists in memory
@@ -114,14 +119,15 @@ public class HTMLFile {
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return;
+			return false;
 		}
 
 		this.needsToBeSaved = false;
+		return true;
 	}
 
 	// Receives a location and the text to be saved
-	public void SaveAs(String location, String text) {
+	public boolean SaveAs(String location, String text) {
 		this.location = location;
 		
 		UpdateName();
@@ -144,9 +150,10 @@ public class HTMLFile {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			return;
+			return false;
 		}
 		
 		this.needsToBeSaved = false;
+		return true;
 	}
 }

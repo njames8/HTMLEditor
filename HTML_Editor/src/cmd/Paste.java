@@ -20,7 +20,7 @@ public class Paste extends PasteAction {
 	
 	public Paste(Tab t, JTabbedPane j){
 		super();
-		update = new UpdateText(t,j);
+		update = new UpdateText(t, j);
 	}
 	
 	@Override
