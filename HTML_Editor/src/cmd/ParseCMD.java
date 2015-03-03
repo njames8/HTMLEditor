@@ -4,7 +4,9 @@ import javax.swing.JOptionPane;
 import ui.Tab;
 import parsing.*;
 import ui.MessageBox;
-
+/*
+ * @author Adam Walsh
+ */
 public class ParseCMD implements Command {
 	private Tab tab;
 	public ParseCMD(Tab tab) {
