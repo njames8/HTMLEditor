@@ -303,7 +303,7 @@ public class EditorWindow extends javax.swing.JFrame {
 		}
 		
 		JScrollPane scrollPane = new JScrollPane(tab);
-		tabbedPane.addTab(file.GetTabName(), null, scrollPane, null);
+		tabbedPane.addTab("New tab", null, scrollPane, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
 	}
 }
