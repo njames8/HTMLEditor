@@ -4,14 +4,15 @@ import java.util.*;
 import parsing.*;
 
 public class Indenter {
-/*	Testing only
+/*	//Testing only
  	public static void main(String[] args){
-		String input = "";
+		String input = "<Head>" + '\n' + "<body>" + '\n' + "<B>" + "\nmy name is matthew\n</b>\nwhat is your name?\n</body>\n</Head>";
 		String output = "";
+		output = openIndent(input);
 		System.out.println(input);
 		System.out.println(output);
 	}
-*/
+ 	//*/
 	public static String openIndent(String html){
 		int depth = 0; //used to determine number of spaces
 		String returnText = ""; //text to be returned
