@@ -4,6 +4,14 @@ import java.util.*;
 import parsing.*;
 
 public class Indenter {
+/*	Testing only
+ 	public static void main(String[] args){
+		String input = "";
+		String output = "";
+		System.out.println(input);
+		System.out.println(output);
+	}
+*/
 	public static String openIndent(String html){
 		int depth = 0; //used to determine number of spaces
 		String returnText = ""; //text to be returned
@@ -11,7 +19,7 @@ public class Indenter {
 		for (String part : parts){
 			//finds appropriate depth and lines up number of spacing iterations to add.
 			int count = 0;
-			if(part.length()> 0 && part.charAt(1) == '/'){
+			if(part.length() > 0 && part.charAt(1) == '/'){
 				depth -= 1;
 				count = depth;
 			}
@@ -58,6 +66,15 @@ public class Indenter {
 		}
 		return returnText;
 	}
+	/**
+	 * @author Matthew Gallagher
+	 * 
+	 * @param htmlString
+	 * 		
+	 * @return
+	 * 		true if the sent string's tags are closed
+	 * 		false if the sent string's tags are not closed
+	 */
 	public static boolean tagClosedOnSameLine(String htmlString){
 		boolean closed = false;
 		try{
@@ -71,7 +88,18 @@ public class Indenter {
 		return closed;
 	}
 	
-	
+	public static String autoIndent(String html){
+		String indentedHTML = "";
+		
+		
+		
+		
+		
+		
+		
+		
+		return indentedHTML;
+	}
 	
 	
 	
