@@ -3,7 +3,9 @@
  */
 package cmd;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 
 import ui.Tab;
 
@@ -23,7 +25,12 @@ public class Close implements Command {
 	@Override
 	public void execute() {
 		for (int x = 0; x < pane.getTabCount(); x++ ){
-			if(((Tab) pane.getComponentAt(x)).close() == false){
+			
+			JScrollPane temp = (JScrollPane)pane.getComponentAt(x);
+			JViewport temp2 = temp.getViewport();
+			Tab t = (Tab)temp2.getView();
+			
+			if(t.close() == false){
 				return;
 			}
 		}

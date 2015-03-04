@@ -59,12 +59,12 @@ public class EditorWindow extends javax.swing.JFrame {
 		setSize(640, 480);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout(0, 0));
 
 
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setFont(new Font("Consolas", Font.PLAIN, 11));
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-
+		getContentPane().add(tabbedPane);
 		NewTab(tabbedPane);
 
 		// Create menu bar
@@ -110,8 +110,13 @@ public class EditorWindow extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// finds the current tab
 				// Makes the command to save the file in the current tab.
-				SaveFile f = new SaveFile((Tab) tabbedPane.getSelectedComponent());
+				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
+				JViewport temp2 = temp.getViewport();
+				Tab t = (Tab)temp2.getView();
+				SaveFile f = new SaveFile(t);
 				f.execute();
+				//System.out.println(t.GetTitle());
+				//tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), t.GetTitle());
 			}
 		});
 
@@ -122,7 +127,10 @@ public class EditorWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Makes the command to close the current tab.
-				CloseTab t = new CloseTab(tabbedPane.getSelectedComponent(), tabbedPane);
+				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
+				JViewport temp2 = temp.getViewport();
+				Tab tab = (Tab)temp2.getView();
+				CloseTab t = new CloseTab(tab, tabbedPane);
 				t.execute();
 			}
 		});
@@ -134,8 +142,10 @@ public class EditorWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				SaveAsFile a = new SaveAsFile((Tab) tabbedPane
-						.getSelectedComponent());
+				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
+				JViewport temp2 = temp.getViewport();
+				Tab t = (Tab)temp2.getView();
+				SaveAsFile a = new SaveAsFile(t);
 				a.execute();
 			}
 
@@ -197,11 +207,16 @@ public class EditorWindow extends javax.swing.JFrame {
 		
 		JMenuItem listItem = new JMenuItem("List Item");
 		listItem.addActionListener(new TagListener("<li></li>", tabbedPane));
+		
+		
 				
 		JMenuItem mnValidate = new JMenuItem("Validate");
 		mnValidate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ParseCMD p = new ParseCMD((Tab)tabbedPane.getSelectedComponent());
+				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
+				JViewport temp2 = temp.getViewport();
+				Tab t = (Tab)temp2.getView();
+				ParseCMD p = new ParseCMD(t);
 				p.execute();
 			}
 		});
@@ -287,7 +302,8 @@ public class EditorWindow extends javax.swing.JFrame {
 			}
 		}
 		
-		tabbedPane.addTab(tab.GetTitle(), null, tab, null);
+		JScrollPane scrollPane = new JScrollPane(tab);
+		tabbedPane.addTab("New tab", null, scrollPane, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
 	}
 }

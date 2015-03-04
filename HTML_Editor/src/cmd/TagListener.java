@@ -6,7 +6,9 @@ package cmd;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 
 import ui.Tab;
@@ -52,7 +54,10 @@ public class TagListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		Tab t = (Tab)tabbedPane.getSelectedComponent();
+		JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
+		JViewport temp2 = temp.getViewport();
+		Tab t = (Tab)temp2.getView();
+		
 		try {
 			t.getDocument().insertString(t.getCaretPosition(), tag, null);
 			t.getFile().Changed();

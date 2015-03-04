@@ -32,8 +32,8 @@ public class CloseTab implements Command {
 	 * @param j
 	 *            - The container that holds Tab t
 	 */
-	public CloseTab(Component t, JTabbedPane j) {
-		this.tab = (Tab) t;
+	public CloseTab(Tab t, JTabbedPane j) {
+		this.tab = t;
 		this.tabbedPane = j;
 
 	}

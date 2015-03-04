@@ -59,6 +59,10 @@ public class SaveFile implements Command {
 		}
 		else
 			file.Save(t.getText());
+		
+		
 	}
+	
+	
 
 }

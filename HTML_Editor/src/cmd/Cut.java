@@ -5,7 +5,9 @@ package cmd;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 import javax.swing.text.DefaultEditorKit.CutAction;
 
 import ui.Tab;
@@ -25,7 +27,9 @@ public class Cut extends CutAction{
 	@Override
 	public void actionPerformed(ActionEvent e){
 		super.actionPerformed(e);
-		Tab t  = (Tab)tabbedPane.getSelectedComponent();
+		JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
+		JViewport temp2 = temp.getViewport();
+		Tab t = (Tab)temp2.getView();
 		t.getFile().Changed();
 		
 	}

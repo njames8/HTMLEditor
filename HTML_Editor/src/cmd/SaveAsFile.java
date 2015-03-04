@@ -70,6 +70,8 @@ public class SaveAsFile implements Command {
 					path.length()
 							- chooser.getName(chooser.getSelectedFile())
 									.length());
+			
+			
 			if (!(new File(path).exists())) {
 				JOptionPane.showMessageDialog(null, "Could not save file: "
 						+ chooser.getSelectedFile().getName(),
@@ -79,6 +81,8 @@ public class SaveAsFile implements Command {
 			
 			try {
 				file.SaveAs(chooser.getSelectedFile().getCanonicalPath(), tab.getText());
+				tab.setName(chooser.getName(chooser.getSelectedFile()));
+				System.out.println(tab.GetTitle());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
