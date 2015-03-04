@@ -1,36 +1,9 @@
 package Formatting;
 import java.util.*;
 
+import parsing.*;
 
 public class Indenter {
-	//TODO
-	//just for testing will be removed
-	public static void main(String[] args){
-		String inPut = "<Head>";
-		String returnText = Indenter.indentNewLine(inPut);
-		System.out.println(inPut);
-		System.out.println(returnText);
-		inPut = "    <Head>";
-		returnText = Indenter.indentNewLine(inPut);
-		System.out.println(inPut);
-		System.out.println(returnText);
-		inPut = "        <Head>";
-		returnText = Indenter.indentNewLine(inPut);
-		System.out.println(inPut);
-		System.out.println(returnText);
-		inPut = "        </Head>";
-		returnText = Indenter.indentNewLine(inPut);
-		System.out.println(inPut);
-		System.out.println(returnText);
-		inPut = "    </Head>";
-		returnText = Indenter.indentNewLine(inPut);
-		System.out.println(inPut);
-		System.out.println(returnText);
-		inPut = "</Head>";
-		returnText = Indenter.indentNewLine(inPut);
-		System.out.println(inPut);
-		System.out.println(returnText);
-	}
 	public static String openIndent(String html){
 		int depth = 0; //used to determine number of spaces
 		String returnText = ""; //text to be returned
@@ -54,6 +27,8 @@ public class Indenter {
 		}
 		return returnText;	
 	}
+	
+	
 	/**
 	 * @author Matthew Gallagher
 	 * 
@@ -73,8 +48,7 @@ public class Indenter {
 		if(htmlChar.length > counter && htmlChar[counter] == '<'){//checks to see if the first character is a tag.
 			if(htmlChar.length > counter + 1 && htmlChar[counter + 1] == '/'){//checks to see if the tag is a closing tag.
 				counter -= 4;//makes the counter 4 smaller so that there will be 4 less spaces on the next line
-			}else{//means that the tag is an opening tag.
-				//TODO need to check to see if the tag is closed on the same line.
+			}else if(!tagClosedOnSameLine(htmlString)){//means that the tag is an opening tag.
 				counter +=4;//makes the counter 4 larger so that the next line will be indented 4 more spaces.
 			}
 		}
@@ -82,8 +56,30 @@ public class Indenter {
 			returnText = returnText.concat(" ");//builds the string that will be the indentation
 												//based on how many spaces are required.
 		}
-		returnText = returnText.concat("" + counter);// Just for testing
 		return returnText;
 	}
-
+	public static boolean tagClosedOnSameLine(String htmlString){
+		boolean closed = false;
+		try{
+			Parser.Parse(htmlString);//calls Parser.parse on htmlString to see if it is syntactically correct.
+									 //if htmlString is syntactically correct that mean the tag is opened and closed on the same line.
+									 //if htmlString is not syntactically correct it means that the tag was left open.
+			closed = true;
+		}catch(SyntaxException e){
+			closed = false;
+		}
+		return closed;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
