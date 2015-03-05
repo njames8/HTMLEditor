@@ -40,17 +40,9 @@ public class HTMLFile {
 	}
 
 	// Loads an existing file
-	// TODO: change this to throw instead of just returning null
-	public String load(String location) {
+	public String load(String location) throws FileNotFoundException {
 		FileReader fr;
-
-		try {
-			fr = new FileReader(location);
-		} catch (FileNotFoundException e) {
-			// TODO: tell the user there was an error
-			fr = null;
-			return null;
-		}
+		fr = new FileReader(location);
 		
 		// Where the file is loaded into and returned
 		String str = "";
