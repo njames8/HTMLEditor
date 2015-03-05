@@ -2,14 +2,6 @@ package parsing;
 import java.util.*;
 
 public class Parser {
-	public static void main(String[] args) {
-		try {
-			Parse("<html><body><script rel=\"test.com\"/><p>this is text lol</p></body></html>");
-		} catch (SyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	private static String[] allowedTags = {"html", "body", "header", "footer",
 		"b", "p", "i", "li", "ol", "ul", "script", "a", "h1", "h2", "h3", "h4",
 		"h5", "h6", "link"};//FIXME add rest of supported tags
