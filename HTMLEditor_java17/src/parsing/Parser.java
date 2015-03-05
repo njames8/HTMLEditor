@@ -2,15 +2,14 @@ package parsing;
 import java.util.*;
 
 public class Parser {
-	//*
 	public static void main(String[] args) {
 		try {
-			Parse("<html>\n<body>\n<p>\n<script src=\"example\"/>\n</p>\n</body>\n</html>");
+			Parse("<html><body><script rel=\"test.com\"/><p>this is text lol</p></body></html>");
 		} catch (SyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}//*/
+	}
 	private static String[] allowedTags = {"html", "body", "header", "footer",
 		"b", "p", "i", "li", "ol", "ul", "script", "a", "h1", "h2", "h3", "h4",
 		"h5", "h6", "link"};//FIXME add rest of supported tags
@@ -32,15 +31,8 @@ public class Parser {
 				if (!isTagSupported(tag.split(" ")[0])) {
 					continue;
 				}//skip unsupported tag
-				else if (tag.startsWith("script")) {//handle script tag
-					if (tag.endsWith("/")) {//self-closed tag
-						continue;//ignore
-					}
-				}
-				else if (tag.startsWith("link")) {//handle link tag
-					if (tag.endsWith("/")) {//self-closed tag
-						continue;//ignore
-					}
+				else if (tag.endsWith("/")) {//self-closing
+					continue;//ignore
 				}
 				tagStack.add(tag);
 			}
