@@ -45,8 +45,8 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 * 
 	 * @param file
 	 *            - file to be edited
-	 * @param j
-	 *            - the area of tabs for this to be attached
+	 * @param text
+	 *            - the text
 	 */
 	public Tab(HTMLFile file, String text) {
 		super();
