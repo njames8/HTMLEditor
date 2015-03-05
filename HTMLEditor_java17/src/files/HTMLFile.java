@@ -2,13 +2,6 @@ package files;
 
 import java.io.*;
 
-import javax.swing.JFileChooser;
-import javax.swing.JTabbedPane;
-
-import ui.EditorWindow;
-import ui.Tab;
-import cmd.SaveAsFile;
-
 /*
  * Represents a file containing text. The file does not have to be on the disk,
  * allowing us to create them on the fly and store them locally in memory until they
@@ -25,35 +18,30 @@ public class HTMLFile {
 	}
 
 	// Name of the file
-	public String GetFileName() {
+	public String getFileName() {
 		return name;
 	}
-	
-	// Name including an asterisk if saves are pending
-	public String GetTabName() {
-		return (needsToBeSaved ? "* " : "") + name;
-	}
 
-	public boolean GetNeedsSave() {
+	public boolean getNeedsSave() {
 		return needsToBeSaved;
 	}
 	
 	// Updates the name of the file to match that of the location
-	private void UpdateName() {
+	private void updateName() {
 		name = (new File(location)).getName();
 	}
 	
-	public void Changed() {
+	public void changed() {
 		needsToBeSaved = true;
 	}
 	
-	public boolean IsOnDisk() {
+	public boolean isOnDisk() {
 		return location != null;
 	}
 
 	// Loads an existing file
 	// TODO: change this to throw instead of just returning null
-	public String Load(String location) {
+	public String load(String location) {
 		FileReader fr;
 
 		try {
@@ -89,13 +77,13 @@ public class HTMLFile {
 		this.location = location;
 		this.needsToBeSaved = false;
 
-		UpdateName();
+		updateName();
 
 		return str;
 	}
 
 	// FIXME: this shouldn't be coupled with tab
-	public boolean Save(String text) {
+	public boolean save(String text) {
 		/*
 		// FIXME: do this logic elsewhere. saving should ONLY save
 		// A null location means this "file" only exists in memory
@@ -131,10 +119,10 @@ public class HTMLFile {
 	}
 
 	// Receives a location and the text to be saved
-	public boolean SaveAs(String location, String text) {
+	public boolean saveAs(String location, String text) {
 		this.location = location;
 		
-		UpdateName();
+		updateName();
 		
 		try {
 			File file;

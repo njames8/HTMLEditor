@@ -5,9 +5,6 @@ package cmd;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JViewport;
 import javax.swing.text.DefaultEditorKit.PasteAction;
 
 import ui.EditorWindow;
@@ -17,13 +14,11 @@ import ui.Tab;
  * @author nick
  *
  */
+@SuppressWarnings("serial")
 public class Paste extends PasteAction {
 	
-	private JTabbedPane tabbedPane;
-	
-	public Paste(JTabbedPane j){
+	public Paste(){
 		super();
-		this.tabbedPane = j;
 	}
 	
 	@Override
@@ -31,7 +26,6 @@ public class Paste extends PasteAction {
 		super.actionPerformed(e);
 		Tab t = EditorWindow.getInstance().getCurrentTab();
 		
-		t.getFile().Changed();
-		
+		t.getFile().changed();
 	}
 }

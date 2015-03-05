@@ -25,6 +25,7 @@ import java.awt.Font;
  * @author Nick James
  *
  */
+@SuppressWarnings("serial")
 public class EditorWindow extends javax.swing.JFrame implements Observer {
 	/**
 	 * Maximum number of tabs that can be open at once
@@ -34,7 +35,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	/**
 	 * The area to hold tabs
 	 */
-	public JTabbedPane tabbedPane;
+	private JTabbedPane tabbedPane;
 
 	/**
 	 * collection of tabs
@@ -76,7 +77,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		tabbedPane = new JTabbedPane();
 		//tabbedPane.setFont();
 		getContentPane().add(tabbedPane);
-		NewTab(tabbedPane);
+		NewTab();
 
 		// Create menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -91,7 +92,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 													// making a new tab
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				NewTab(tabbedPane);// Adds new tab to the window
+				NewTab();// Adds new tab to the window
 			}
 		});
 
@@ -177,20 +178,20 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		JMenuItem bold = new JMenuItem("Bold");
 		JMenuItem italic = new JMenuItem("Italic");
 
-		html.addActionListener(new TagListener("<html></html>",tabbedPane));
+		html.addActionListener(new InsertTag("html"));
 		
-		head.addActionListener(new TagListener("<head></head>", tabbedPane));
+		head.addActionListener(new InsertTag("head"));
 		
-		body.addActionListener(new TagListener("<body></body>", tabbedPane));
+		body.addActionListener(new InsertTag("body"));
 		
-		paragraph.addActionListener(new TagListener("<p></p>", tabbedPane));
+		paragraph.addActionListener(new InsertTag("p"));
 		
-		bold.addActionListener(new TagListener("<b></b>", tabbedPane));
+		bold.addActionListener(new InsertTag("b"));
 		
-		italic.addActionListener(new TagListener("<i></i>", tabbedPane));
+		italic.addActionListener(new InsertTag("i"));
 
 		
-		JMenuItem cut = new JMenuItem(new Cut(tabbedPane));
+		JMenuItem cut = new JMenuItem(new Cut());
 		cut.setText("Cut");
 		
 		
@@ -199,22 +200,22 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		copy.setText("Copy");
 		
 
-		JMenuItem paste = new JMenuItem(new Paste(tabbedPane));
+		JMenuItem paste = new JMenuItem(new Paste());
 		paste.setText("Paste");
 		paste.setMnemonic(KeyEvent.VK_P);
 		
 		JMenu mnList = new JMenu("List");
 		
 		JMenuItem ordered = new JMenuItem("Ordered");
-		ordered.addActionListener(new TagListener("<ol></ol>", tabbedPane));
+		ordered.addActionListener(new InsertTag("ol"));
 		
 		JMenuItem unordered = new JMenuItem("Unordered");
 
-		unordered.addActionListener(new TagListener("<ul></ul>", tabbedPane));
+		unordered.addActionListener(new InsertTag("ul"));
 
 		
 		JMenuItem listItem = new JMenuItem("List Item");
-		listItem.addActionListener(new TagListener("<li></li>", tabbedPane));
+		listItem.addActionListener(new InsertTag("li"));
 		
 		
 				
@@ -276,8 +277,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 * @param j
 	 *            - area for tabs
 	 */
-	public void NewTab(JTabbedPane j) {
-		NewTab(j, new HTMLFile(), "");
+	public void NewTab() {
+		NewTab(new HTMLFile(), "");
 	}
 
 	/**
@@ -289,19 +290,20 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 * @param j
 	 *            - The area of tabs
 	 */
-	public void NewTab(JTabbedPane tabbedPane, HTMLFile file, String text) {
+	public void NewTab(HTMLFile file, String text) {
 		Tab tab = new Tab(file, text);
-		tab.addMouseListener(new RightClickListener(tabbedPane));
+		tab.addMouseListener(new RightClickListener());
 		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
-		for (int i = 0; i < 10; i++) {
+		
+		for (int i = 0; i < MAXIMUM_TABS; i++) {
 			if (tabs[i] == null) {
 				tabs[i] = tab;
 				break;
-			} else if (i == 9) {
-				MessageBox warn = new MessageBox(
-						"Too Many Tabs",
-						"You have too many tabs open, please close some before continuing.",
-						JOptionPane.WARNING_MESSAGE);
+			} else if (i == MAXIMUM_TABS-1) {
+				new MessageBox(
+					"Too Many Tabs",
+					"You have too many tabs open, please close some before continuing.",
+					JOptionPane.WARNING_MESSAGE);
 			}
 		}
 		

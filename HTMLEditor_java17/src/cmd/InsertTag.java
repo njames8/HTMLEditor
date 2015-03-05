@@ -6,9 +6,6 @@ package cmd;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 
 import ui.EditorWindow;
@@ -22,19 +19,16 @@ import ui.Tab;
  * @author Nick James
  *
  */
-public class TagListener implements ActionListener {
+public class InsertTag implements ActionListener {
 	/**
 	 * The type of HTML tag (html, bold, body, italic, etc)
 	 */
 	private String tag;
-
-	/**
-	 * the current tab
-	 */
-	private JTabbedPane tabbedPane;
-
 	
-
+	// A self closing tag is an html tag which does not need a separate closing tag.
+	// e.g. <img />
+	private boolean selfClosing;
+	
 	/**
 	 * Constructs a TagListener Parses tag into a valid html tag
 	 *
@@ -43,10 +37,23 @@ public class TagListener implements ActionListener {
 	 * @param t
 	 *            - the current tab
 	 */
-	public TagListener(String type, JTabbedPane t) {
+	public InsertTag(String type) {
 		this.tag = type;
-		this.tabbedPane = t;
+		selfClosing = false;
+	}
+	
+	public InsertTag(String type, boolean selfClosing) {
+		this.tag = type;
+		this.selfClosing = true;
+	}
+	
+	// Takes the tag and makes it into a full html tag
+	// head --> <head></head>
+	private String getFullTag() {
+		if(selfClosing)
+			return "<" + tag + " />";
 		
+		return "<" + tag + "></" + tag + ">";
 	}
 
 	/**
@@ -58,8 +65,8 @@ public class TagListener implements ActionListener {
 		Tab t = EditorWindow.getInstance().getCurrentTab();
 		
 		try {
-			t.getDocument().insertString(t.getCaretPosition(), tag, null);
-			t.getFile().Changed();
+			t.getDocument().insertString(t.getCaretPosition(), getFullTag(), null);
+			t.getFile().changed();
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

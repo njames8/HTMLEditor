@@ -19,8 +19,7 @@ public class ParseCMD implements Command {
 			Parser.Parse(tab.getText());
 		}
 		catch (SyntaxException e) {
-			MessageBox msg = new MessageBox("Syntax Exception",
-					e.toString(), JOptionPane.ERROR_MESSAGE);
+			new MessageBox("Syntax Exception", e.toString(), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
