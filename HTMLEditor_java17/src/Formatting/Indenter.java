@@ -95,25 +95,7 @@ public class Indenter {
 	}
 	
 	public static String autoIndent(String html){
-		String indentedHTML = "";
-		
-		
-		
-		
-		
-		
-		
-		
+		String indentedHTML = "";//FIXME	
 		return indentedHTML;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
