@@ -28,12 +28,9 @@ public class Parser {
 				}
 			}
 			else {
-				if (!isTagSupported(tag.split(" ")[0])) {
+				if (!isTagSupported(tag.split(" ")[0]) || tag.endsWith("/")) {
 					continue;
 				}//skip unsupported tag
-				else if (tag.endsWith("/")) {//self-closing
-					continue;//ignore
-				}
 				tagStack.add(tag);
 			}
 			System.out.println(tag);
