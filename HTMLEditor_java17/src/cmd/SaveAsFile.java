@@ -80,7 +80,7 @@ public class SaveAsFile implements Command {
 			}
 			
 			try {
-				file.SaveAs(chooser.getSelectedFile().getCanonicalPath(), tab.getText());
+				file.saveAs(chooser.getSelectedFile().getCanonicalPath(), tab.getText());
 				tab.setName(chooser.getName(chooser.getSelectedFile()));
 				System.out.println(tab.GetTitle());
 			} catch (IOException e) {

@@ -3,11 +3,7 @@
  */
 package cmd;
 
-import java.awt.Component;
-
 import javax.swing.JTabbedPane;
-
-import ui.EditorWindow;
 import ui.Tab;
 
 /**

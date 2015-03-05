@@ -3,13 +3,7 @@
  */
 package cmd;
 
-import java.io.IOException;
-
 import ui.*;
-
-import javax.swing.JFileChooser;
-
-import files.HTMLFile;
 
 /**
  * Represents a Save command
@@ -19,19 +13,9 @@ import files.HTMLFile;
  */
 public class SaveFile implements Command {
 	/**
-	 * The HTML file to save
-	 */
-	private HTMLFile file;
-
-	/**
 	 * The tab that holds the html file
 	 */
 	private Tab t;
-
-	/**
-	 * The application window
-	 */
-	private EditorWindow win;
 
 	/**
 	 * The SaveFile Constructor
@@ -42,8 +26,6 @@ public class SaveFile implements Command {
 	 *            - The application window
 	 */
 	public SaveFile(Tab t) {
-		this.file = t.getFile();
-
 		this.t = t;
 	}
 
@@ -52,17 +34,14 @@ public class SaveFile implements Command {
 	 */
 	@Override
 	public void execute() {
-		if(!t.getFile().IsOnDisk())
+		if(!t.getFile().isOnDisk())
 		{
 			SaveAsFile f = new SaveAsFile(t);
 			f.execute();
 		}
 		else
-			file.Save(t.getText());
-		
-		
+		{
+			t.getFile().save(t.getText());
+		}
 	}
-	
-	
-
 }

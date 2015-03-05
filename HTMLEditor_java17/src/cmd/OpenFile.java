@@ -5,7 +5,6 @@ package cmd;
 
 import ui.EditorWindow;
 
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -63,7 +62,7 @@ public class OpenFile implements Command {
 		// If the user selects a file and clicks 'open'
 		if (chooser.showOpenDialog(eWindow) == JFileChooser.APPROVE_OPTION) {
 			HTMLFile f = new HTMLFile();
-			String str = f.Load(chooser.getSelectedFile().getPath());
+			String str = f.load(chooser.getSelectedFile().getPath());
 
 			// TODO: use exceptions instead of null
 			if (str == null) {
@@ -73,7 +72,7 @@ public class OpenFile implements Command {
 				return;
 			}
 			
-			eWindow.NewTab(tabbedPane, f, str);
+			eWindow.NewTab(f, str);
 			tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 
 		}

@@ -6,8 +6,6 @@ package cmd;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JTabbedPane;
-
 import ui.RightClickMenu;
 
 /**
@@ -15,11 +13,8 @@ import ui.RightClickMenu;
  *
  */
 public class RightClickListener extends MouseAdapter {
-		private JTabbedPane tabbedPane;
-		
-		public RightClickListener(JTabbedPane j){
+		public RightClickListener(){
 			super();
-			this.tabbedPane = j;
 		}
 		
 	    public void mousePressed(MouseEvent e){
@@ -33,7 +28,7 @@ public class RightClickListener extends MouseAdapter {
 	    }
 
 	    private void rightClick(MouseEvent e){
-	        RightClickMenu menu = new RightClickMenu(tabbedPane);
+	        RightClickMenu menu = new RightClickMenu();
 	        menu.show(e.getComponent(), e.getX(), e.getY());
 	    }
 	}
