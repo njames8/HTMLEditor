@@ -2,15 +2,6 @@ package Formatting;
 import parsing.*;
 
 public class Indenter {
-	//Testing only
- 	public static void main(String[] args){
-		String input = "<html><body><script rel=\"test.com\"/><p>this is text lol</p></body></html>";
-		String output = "";
-		output = openIndent(input);
-		System.out.println(input);
-		System.out.println(output);
-	}
- 	//*/
 	public static String openIndent(String html){
 		int depth = -1; //used to determine number of spaces
 		String returnText = ""; //text to be returned
