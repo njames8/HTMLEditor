@@ -1,10 +1,8 @@
 package Formatting;
-import java.util.*;
-
 import parsing.*;
 
 public class Indenter {
-/*	//Testing only
+	//Testing only
  	public static void main(String[] args){
 		String input = "<Head>" + '\n' + "<body>" + '\n' + "<B>" + "\nmy name is matthew\n</b>\nwhat is your name?\n</body>\n</Head>";
 		String output = "";
@@ -14,9 +12,10 @@ public class Indenter {
 	}
  	//*/
 	public static String openIndent(String html){
-		int depth = 0; //used to determine number of spaces
+		int depth = -1; //used to determine number of spaces
 		String returnText = ""; //text to be returned
 		String[] parts = html.split("(?=<)"); //splits current text into sections per tag
+		System.out.println(parts);
 		for (String part : parts){
 			//finds appropriate depth and lines up number of spacing iterations to add.
 			int count = 0;
@@ -28,11 +27,23 @@ public class Indenter {
 				count = depth;
 				depth += 1;
 			}
-			while(count > 0){
-				part = "    " + part;
-				count -= 1;
+			String[] lines = part.split("\n");
+			int countHolder = count;
+			for (String line : lines) {
+				if (line.equals("")) { }//skip empty line
+				else {
+					if (!line.startsWith("<")) {//tag content, add one more tab
+						count += 1;
+					}
+					line += '\n';
+					while(count > 0) {
+						line = "    " + line;//FIXME change 4 spaces to configurable var
+						count -= 1;
+					}
+				returnText += line;
+				}
+				count = countHolder;
 			}
-			returnText = returnText + part;
 		}
 		return returnText;	
 	}
