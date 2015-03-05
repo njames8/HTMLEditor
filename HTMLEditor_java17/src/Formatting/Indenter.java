@@ -4,7 +4,7 @@ import parsing.*;
 public class Indenter {
 	//Testing only
  	public static void main(String[] args){
-		String input = "<Head>" + '\n' + "<body>" + '\n' + "<B>" + "\nmy name is matthew\n</b>\nwhat is your name?\n</body>\n</Head>";
+		String input = "<html><body><script rel=\"test.com\"/><p>this is text lol</p></body></html>";
 		String output = "";
 		output = openIndent(input);
 		System.out.println(input);
@@ -34,6 +34,9 @@ public class Indenter {
 				else {
 					if (!line.startsWith("<")) {//tag content, add one more tab
 						count += 1;
+					}
+					else if (line.endsWith("/>")) {
+						depth -= 1;
 					}
 					line += '\n';
 					while(count > 0) {
