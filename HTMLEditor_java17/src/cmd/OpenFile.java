@@ -36,7 +36,7 @@ public class OpenFile implements Command {
 	/**
 	 * The collection of tabs in the window
 	 */
-	private JTabbedPane tabbedPane;
+	private JTabbedPane pane;
 
 	/**
 	 * OpenFile Constructor
@@ -51,7 +51,7 @@ public class OpenFile implements Command {
 		this.chooser.setFileFilter(new FileNameExtensionFilter("HTM/HTML",
 				"html", "htm"));
 		this.eWindow = w;
-		this.tabbedPane = j;
+		this.pane = j;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class OpenFile implements Command {
 			try {
 				String str = f.load(chooser.getSelectedFile().getPath());
 				eWindow.NewTab(f, str);
-				tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+				pane.setSelectedIndex(pane.getTabCount() - 1);
 			}
 			catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Could not load file: "
