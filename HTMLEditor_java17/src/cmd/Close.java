@@ -3,6 +3,8 @@
  */
 package cmd;
 
+import ui.EditorWindow;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
@@ -14,16 +16,15 @@ import ui.Tab;
  *
  */
 public class Close implements Command {
-	private JTabbedPane pane;
 	
-	public Close(JTabbedPane p) {
-		this.pane = p;
-	}
+	public Close() { }
+	
 	/**
 	* Closes the application
 	*/
 	@Override
 	public void execute() {
+		/*
 		for (int x = 0; x < pane.getTabCount(); x++ ){
 			
 			JScrollPane temp = (JScrollPane)pane.getComponentAt(x);
@@ -34,6 +35,12 @@ public class Close implements Command {
 				return;
 			}
 		}
+		*/
+		
+		EditorWindow w = EditorWindow.getInstance();
+		
+		w.close();
+		
 		System.exit(0);
 		
 	}

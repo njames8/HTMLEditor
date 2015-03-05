@@ -13,7 +13,7 @@ public class User {
 			// We don't really care if we can't update the theme
 		}
 		
-		EditorWindow w = new EditorWindow();
+		EditorWindow w = EditorWindow.getInstance();
 		w.setVisible(true);
 	}
 }

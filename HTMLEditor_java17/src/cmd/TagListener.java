@@ -11,6 +11,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 
+import ui.EditorWindow;
 import ui.Tab;
 
 /**
@@ -54,9 +55,7 @@ public class TagListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
-		JViewport temp2 = temp.getViewport();
-		Tab t = (Tab)temp2.getView();
+		Tab t = EditorWindow.getInstance().getCurrentTab();
 		
 		try {
 			t.getDocument().insertString(t.getCaretPosition(), tag, null);

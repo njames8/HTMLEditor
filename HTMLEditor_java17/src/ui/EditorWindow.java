@@ -10,6 +10,7 @@ import cmd.*;
 import files.HTMLFile;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -24,7 +25,7 @@ import java.awt.Font;
  * @author Nick James
  *
  */
-public class EditorWindow extends javax.swing.JFrame {
+public class EditorWindow extends javax.swing.JFrame implements Observer {
 	/**
 	 * Maximum number of tabs that can be open at once
 	 */
@@ -33,13 +34,23 @@ public class EditorWindow extends javax.swing.JFrame {
 	/**
 	 * The area to hold tabs
 	 */
-	private JTabbedPane tabbedPane;
+	public JTabbedPane tabbedPane;
 
 	/**
 	 * collection of tabs
 	 */
 	private Tab[] tabs = new Tab[MAXIMUM_TABS];
 
+	private static EditorWindow singleton = null;
+	
+	public static EditorWindow getInstance() {
+		if(singleton == null) {
+			singleton = new EditorWindow();
+		}
+		
+		return singleton;
+	}
+	
 	/**
 	 * Constructs the window
 	 */
@@ -63,7 +74,7 @@ public class EditorWindow extends javax.swing.JFrame {
 
 
 		tabbedPane = new JTabbedPane();
-		tabbedPane.setFont(new Font("Consolas", Font.PLAIN, 11));
+		//tabbedPane.setFont();
 		getContentPane().add(tabbedPane);
 		NewTab(tabbedPane);
 
@@ -99,8 +110,7 @@ public class EditorWindow extends javax.swing.JFrame {
 														// window.
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Close c = new Close(tabbedPane);// Makes the command to close
-				c.execute();
+				new Close().execute();
 			}
 		});
 
@@ -108,11 +118,9 @@ public class EditorWindow extends javax.swing.JFrame {
 													// saving files
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// finds the current tab
-				// Makes the command to save the file in the current tab.
-				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
-				JViewport temp2 = temp.getViewport();
-				Tab t = (Tab)temp2.getView();
+				EditorWindow ew = EditorWindow.getInstance();
+				Tab t = (Tab)ew.tabbedPane.getSelectedComponent();
+				
 				SaveFile f = new SaveFile(t);
 				f.execute();
 				//System.out.println(t.GetTitle());
@@ -257,14 +265,9 @@ public class EditorWindow extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent ev) {
                 //frame.dispose();
-            	Close c = new Close(tabbedPane);
-            	c.execute();
+            	new Close().execute();
             }
         });
-        
-        
-        
-
 	}
 
 	/**
@@ -302,8 +305,31 @@ public class EditorWindow extends javax.swing.JFrame {
 			}
 		}
 		
-		JScrollPane scrollPane = new JScrollPane(tab);
-		tabbedPane.addTab("New tab", null, scrollPane, null);
+		//JScrollPane scrollPane = new JScrollPane(tab);
+		tab.attachObserver(this);
+		tabbedPane.addTab(tab.GetTitle(), null, tab, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
+	}
+	
+	public Tab getCurrentTab() {
+		return (Tab)tabbedPane.getSelectedComponent();
+	}
+
+	@Override
+	public void update(Tab t) {
+		int index = tabbedPane.indexOfComponent(t);
+		
+		if(index == -1) {
+			// this shouldn't happen
+		} else {
+			tabbedPane.setTitleAt(index, t.GetTitle());
+		}
+	}
+	
+	// Closes all tabs, triggering saves if needed
+	public void close() {
+		for(Component c : tabbedPane.getComponents()) {
+			((Tab)c).close();
+		}
 	}
 }

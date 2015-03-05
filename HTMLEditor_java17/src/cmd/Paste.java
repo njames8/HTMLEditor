@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.text.DefaultEditorKit.PasteAction;
 
+import ui.EditorWindow;
 import ui.Tab;
 
 /**
@@ -28,9 +29,8 @@ public class Paste extends PasteAction {
 	@Override
 	public void actionPerformed(ActionEvent e){
 		super.actionPerformed(e);
-		JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
-		JViewport temp2 = temp.getViewport();
-		Tab t = (Tab)temp2.getView();
+		Tab t = EditorWindow.getInstance().getCurrentTab();
+		
 		t.getFile().Changed();
 		
 	}
