@@ -104,7 +104,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// calls the command to open file and adds it to the window.
-				OpenFile o = new OpenFile(EditorWindow.this, tabbedPane);
+				OpenFileDialog o = new OpenFileDialog(EditorWindow.this, tabbedPane);
 				o.execute();
 			}
 		});

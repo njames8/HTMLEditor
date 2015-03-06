@@ -1,6 +1,8 @@
 import javax.swing.UIManager;
 
+import cmd.OpenFile;
 import ui.EditorWindow;
+import ui.MessageBox;
 
 
 public class User {
@@ -15,5 +17,9 @@ public class User {
 		
 		EditorWindow w = EditorWindow.getInstance();
 		w.setVisible(true);
+		
+		for(String s : args) {
+			new OpenFile(s).execute();
+		}
 	}
 }

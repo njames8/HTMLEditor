@@ -6,12 +6,9 @@ package cmd;
 import java.io.FileNotFoundException;
 
 import ui.EditorWindow;
+import ui.MessageBox;
 
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import files.HTMLFile;
 
 /**
@@ -23,21 +20,8 @@ import files.HTMLFile;
  */
 public class OpenFile implements Command {
 
-	/**
-	 * The UI for selecting a file to open
-	 */
-	private JFileChooser chooser;
-
-	/**
-	 * The application window
-	 */
-	private EditorWindow eWindow;
-
-	/**
-	 * The collection of tabs in the window
-	 */
-	private JTabbedPane pane;
-
+	private String path;
+	
 	/**
 	 * OpenFile Constructor
 	 * 
@@ -46,12 +30,8 @@ public class OpenFile implements Command {
 	 * @param j
 	 *            - The pane of tabs in the application window
 	 */
-	public OpenFile(EditorWindow w, JTabbedPane j) {
-		this.chooser = new JFileChooser();
-		this.chooser.setFileFilter(new FileNameExtensionFilter("HTM/HTML",
-				"html", "htm"));
-		this.eWindow = w;
-		this.pane = j;
+	public OpenFile(String path) {
+		this.path = path;
 	}
 
 	/**
@@ -61,20 +41,16 @@ public class OpenFile implements Command {
 	 */
 	@Override
 	public void execute() {
-		// If the user selects a file and clicks 'open'
-		if (chooser.showOpenDialog(eWindow) == JFileChooser.APPROVE_OPTION) {
-			HTMLFile f = new HTMLFile();
-			try {
-				String str = f.load(chooser.getSelectedFile().getPath());
-				eWindow.NewTab(f, str);
-				pane.setSelectedIndex(pane.getTabCount() - 1);
-			}
-			catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "Could not load file: "
-						+ chooser.getSelectedFile().getName(),
-						"Could not load file", JOptionPane.OK_OPTION);
-			}
+		EditorWindow w = EditorWindow.getInstance();
+
+		HTMLFile f = new HTMLFile();
+		
+		try {
+			String str = f.load(path);
+			w.NewTab(f, str);
+		}
+		catch (FileNotFoundException e) {
+			new MessageBox("Error", "File cannot be opened. Is it already in use?", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
 }
