@@ -33,7 +33,7 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	/**
 	 * Constructs a tab with a new file
 	 */
-	public Tab(String title) {
+	public Tab() {
 		super();
 		this.file = new HTMLFile();
 		
