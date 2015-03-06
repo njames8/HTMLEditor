@@ -3,16 +3,12 @@
  */
 package cmd;
 
-import java.io.File;
 import java.io.IOException;
 
 import ui.*;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import files.HTMLFile;
 
 /**
  * Represents a SaveAs command
@@ -25,11 +21,6 @@ public class SaveAsFile implements Command {
 	 * The File Browser
 	 */
 	private JFileChooser chooser;
-
-	/**
-	 * The html file to be saved
-	 */
-	private HTMLFile file;
 
 	/**
 	 * the tab containing the html file
@@ -49,7 +40,6 @@ public class SaveAsFile implements Command {
 		this.chooser.setFileFilter(new FileNameExtensionFilter("HTM/HTML",
 				"html"));
 
-		this.file = t.getFile();
 		this.tab = t;
 	}
 
@@ -63,27 +53,17 @@ public class SaveAsFile implements Command {
 	public void execute() {
 		// If the user selects a file and clicks 'open'
 		if (chooser.showSaveDialog(tab) == JFileChooser.APPROVE_OPTION) {
-
-			// Load in the file
-			String path = chooser.getSelectedFile().getPath();
-			path = path.substring(0,
-					path.length()
-							- chooser.getName(chooser.getSelectedFile())
-									.length());
-			
-			
-			if (!(new File(path).exists())) {
-				JOptionPane.showMessageDialog(null, "Could not save file: "
-						+ chooser.getSelectedFile().getName(),
-						"Could not save file", JOptionPane.OK_OPTION);
-				return;
-			}
-			
 			try {
-				file.saveAs(chooser.getSelectedFile().getCanonicalPath(), tab.getText());
-				tab.setName(chooser.getName(chooser.getSelectedFile()));
-				System.out.println(tab.GetTitle());
+				String path = chooser.getSelectedFile().getCanonicalPath();
+				
+				if(!path.endsWith(".html")) {
+					path += ".html";
+				}
+				
+				tab.saveAs(path, tab.getText());
+				//System.out.println(tab.GetTitle());
 			} catch (IOException e) {
+				// TODO
 				e.printStackTrace();
 			}
 		}

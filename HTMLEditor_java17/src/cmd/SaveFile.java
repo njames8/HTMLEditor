@@ -41,7 +41,8 @@ public class SaveFile implements Command {
 		}
 		else
 		{
-			t.getFile().save(t.getText());
+			t.saveFile();
+			//t.getFile().save(t.getText());
 		}
 	}
 }
