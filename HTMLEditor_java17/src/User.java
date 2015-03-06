@@ -2,10 +2,19 @@ import javax.swing.UIManager;
 
 import cmd.OpenFile;
 import ui.EditorWindow;
-import ui.MessageBox;
 
-
+/**
+ * Initializes the program
+ * 
+ * @author
+ *
+ */
 public class User {
+	
+	/**
+	 * The main method to start the program
+	 * @param args - the file name to open from the command line
+	 */
 	public static void main(String[] args) {
 
 		// Try using the user's system theme
