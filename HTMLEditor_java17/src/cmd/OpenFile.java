@@ -20,6 +20,9 @@ import files.HTMLFile;
  */
 public class OpenFile implements Command {
 
+	/**
+	 * The path to the file
+	 */
 	private String path;
 	
 	/**

@@ -8,38 +8,75 @@ import java.io.*;
  * are either saved or discarded.
  */
 public class HTMLFile {
-	private String location, name;
+	/**
+	 * The location of the file
+	 */
+	private String location;
+	
+	/**
+	 * The name of the file
+	 */
+	private String name;
+	
+	/**
+	 * Does this file need to be saved?
+	 */
 	private boolean needsToBeSaved;
 
+	/**
+	 * Constructor
+	 */
 	public HTMLFile() {
 		location = null;
 		name = "New File";
 		needsToBeSaved = false;
 	}
 
-	// Name of the file
+	/**
+	 *  Gets the Name of the file
+	 * @return String - the name of the file
+	 */
 	public String getFileName() {
 		return name;
 	}
-
+	
+	/**
+	 * Does this file need to be saved?
+	 * @return - Boolean - Does this file need to be saved?
+	 */
 	public boolean getNeedsSave() {
 		return needsToBeSaved;
 	}
 	
-	// Updates the name of the file to match that of the location
+	/**
+	 * Updates the name of the file to match that of the location
+	 */
 	private void updateName() {
 		name = (new File(location)).getName();
 	}
 	
+	/**
+	 * Puts the file in a state of need
+	 * to be saved
+	 */
 	public void changed() {
 		needsToBeSaved = true;
 	}
 	
+	/**
+	 * Does the actual HTML file exist on the disk?
+	 * @return - true if the file exists, false otherwise
+	 */
 	public boolean isOnDisk() {
 		return location != null;
 	}
 
-	// Loads an existing file
+	/**
+	 *  Loads an existing file
+	 * @param location - The path to the file
+	 * @return - The text in the file
+	 * @throws FileNotFoundException
+	 */
 	public String load(String location) throws FileNotFoundException {
 		FileReader fr;
 		fr = new FileReader(location);
@@ -74,7 +111,11 @@ public class HTMLFile {
 		return str;
 	}
 
-	// FIXME: this shouldn't be coupled with tab
+	/**
+	 * Saves the file
+	 * @param text - the text to be saved
+	 * @return - true if saved, false otherwise
+	 */
 	public boolean save(String text) {
 		if(!needsToBeSaved)
 			return true;
@@ -102,7 +143,12 @@ public class HTMLFile {
 		return true;
 	}
 
-	// Receives a location and the text to be saved
+	/**
+	 * Receives a location and the text to be saved
+	 * @param location- the path to the file
+	 * @param text - the text to be written to the file
+	 * @return - true if saved, false otherwise
+	 */
 	public boolean saveAs(String location, String text) {
 		File file;
 		

@@ -2,17 +2,35 @@ package parsing;
 import java.util.*;
 
 public class Parser {
+	
+	/**
+	 * The allowed tags to parse
+	 */
 	private static String[] allowedTags = {"html", "body", "head", "footer",
 		"b", "p", "i", "li", "ol", "ul", "script", "a", "h1", "h2", "h3", "h4",
 		"h5", "h6", "link", "meta", "title", "link", "nav", "div", "button",
 		"header", "video", "source", "img", "section", "br", "td", "input", "iframe",
 		"param", "dt", "dd", "thead", "tr", "td", "tfoot", "colgroup", "strong",
 		"small"};//FIXME add rest of supported tags
+	
+	/**
+	 * The closing tags to parse
+	 */
 	private static String[] optionalCloseTags = { "source", "html", "head",
 		"body", "p", "dt", "dd", "li", "option", "thead", "tr", "td", "tfoot",
 		"colgroup"};
+	
+	/**
+	 * Look over these tags
+	 */
 	private static String[] forbiddenCloseTags = { "meta", "img", "input",
 		"br", "frame", "param", "link"};
+	
+	/**
+	 * Validates the html code
+	 * @param html - the html code
+	 * @throws SyntaxException
+	 */
 	public static void Parse(String html) throws SyntaxException {
 		Stack<String> tagStack = new Stack<String>();
 		String[] parts = html.split("<");
@@ -55,13 +73,23 @@ public class Parser {
 		" not closed.");
 	}
 	
+	/**
+	 * Should tag be looked over?
+	 * @param tag - the tag in question
+	 * @return - true if forbidden, false otherwise
+	 */
 	private static boolean isTagForbidden(String tag) {
 		for (String t : forbiddenCloseTags)
 			if (t.equals(tag))
 				return true;
 		return false;
 	}
-
+	
+	/**
+	 * Should the tag be validated?
+	 * @param tag - the tag in question
+	 * @return - true if supported, false otherwise
+	 */
 	private static boolean isTagSupported(String tag) {
 		for (String t : allowedTags) {
 			if (t.equalsIgnoreCase(tag))
@@ -70,6 +98,11 @@ public class Parser {
 		return false;
 	}
 	
+	/**
+	 * Is tag an optional ending tag?
+	 * @param tag - the tag in question
+	 * @return - true if optional false otherwise
+	 */
 	private static boolean isTagOptionalClose(String tag) {
 		for (String t : optionalCloseTags)
 			if (t.equalsIgnoreCase(tag))

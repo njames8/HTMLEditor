@@ -1,7 +1,21 @@
 package Formatting;
 import parsing.*;
 
+/**
+ * 
+ * @author Adam Walsh
+ * @author Matthew Gallagher
+ * 
+ * Indents the html code to be pretty
+ *
+ */
 public class Indenter {
+	
+	/**
+	 * Indents appropriate amount per tag
+	 * @param html - html code
+	 * @return - the indented html code
+	 */
 	public static String openIndent(String html){
 		int depth = -1; //used to determine number of spaces
 		String returnText = ""; //text to be returned
@@ -31,7 +45,7 @@ public class Indenter {
 					}
 					line += '\n';
 					while(count > 0) {
-						line = "    " + line;//FIXME change 4 spaces to configurable var
+						line = "    " + line;
 						count -= 1;
 					}
 				returnText += line;
@@ -94,8 +108,13 @@ public class Indenter {
 		return closed;
 	}
 	
+	/**
+	 * Auto indents the HTML file
+	 * @param html - the html code
+	 * @return - the indented HTML code
+	 */
 	public static String autoIndent(String html){
-		String indentedHTML = "";//FIXME	
+		String indentedHTML = "";	
 		return indentedHTML;
 	}
 }

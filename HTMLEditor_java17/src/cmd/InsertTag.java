@@ -14,7 +14,7 @@ import ui.Tab;
 /**
  * Action listener for the insertion of tags Handles all basic HTML tags:
  * (<html>, <b>, <body>, etc).
- * Excluding: lists tables scripts
+ * 
  * 
  * @author Nick James
  *

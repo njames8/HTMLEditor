@@ -11,7 +11,7 @@ import ui.EditorWindow;
 import ui.Tab;
 
 /**
- * @author nick
+ * @author Nick James
  *
  */
 @SuppressWarnings("serial")

@@ -11,16 +11,23 @@ import ui.EditorWindow;
 import ui.Tab;
 
 /**
- * @author nick
+ * Provides pasting function
+ * @author Nick James
  *
  */
 @SuppressWarnings("serial")
 public class Paste extends PasteAction {
 	
+	/**
+	 * Constructor
+	 */
 	public Paste(){
 		super();
 	}
 	
+	/**
+	 * Paste text when clicked
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e){
 		super.actionPerformed(e);
