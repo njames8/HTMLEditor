@@ -11,17 +11,32 @@ import cmd.Cut;
 import cmd.Paste;
 
 /**
- * @author nick
+ * @author Nick James
  *
  *
  */
 @SuppressWarnings("serial")
 public class RightClickMenu extends JPopupMenu{
 	
+	/**
+	 * Cut menu item
+	 */
 	private JMenuItem cut;
+	
+	/**
+	 * copy menu item
+	 */
 	private JMenuItem copy;
+	
+	/**
+	 * paste menu item
+	 */
 	private JMenuItem paste;
 	
+	
+	/**
+	 * Constructor
+	 */
 	public RightClickMenu() {
 		this.cut = new JMenuItem(new Cut());
 		this.copy = new JMenuItem(new DefaultEditorKit.CopyAction());

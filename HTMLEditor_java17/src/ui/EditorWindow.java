@@ -25,6 +25,9 @@ import java.util.List;
  * The Application GUI
  * 
  * @author Nick James
+ * @author Matthew Gallagher
+ * @author Adam Walsh
+ * @author Jesse Roux
  *
  */
 @SuppressWarnings("serial")
