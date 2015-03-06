@@ -15,7 +15,7 @@ public class SaveFile implements Command {
 	/**
 	 * The tab that holds the html file
 	 */
-	private Tab t;
+	private Tab tab;
 
 	/**
 	 * The SaveFile Constructor
@@ -26,7 +26,7 @@ public class SaveFile implements Command {
 	 *            - The application window
 	 */
 	public SaveFile(Tab t) {
-		this.t = t;
+		this.tab = t;
 	}
 
 	/**
@@ -34,15 +34,14 @@ public class SaveFile implements Command {
 	 */
 	@Override
 	public void execute() {
-		if(!t.getFile().isOnDisk())
+		if(!tab.getFile().isOnDisk())
 		{
-			SaveAsFile f = new SaveAsFile(t);
+			SaveAsFile f = new SaveAsFile(tab);
 			f.execute();
 		}
 		else
 		{
-			t.saveFile();
-			//t.getFile().save(t.getText());
+			tab.saveFile();
 		}
 	}
 }

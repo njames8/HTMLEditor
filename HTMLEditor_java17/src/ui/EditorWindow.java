@@ -224,7 +224,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				ParseCMD p = new ParseCMD(t);
 				p.execute();
 			}
-		});
+		});//TODO add auto-indent button
 	
 		// adds all the menu buttons and menu headers to the window.
 		menuBar.add(mnFile);

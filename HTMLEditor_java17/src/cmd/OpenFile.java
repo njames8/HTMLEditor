@@ -3,6 +3,8 @@
  */
 package cmd;
 
+import java.io.FileNotFoundException;
+
 import ui.EditorWindow;
 
 import javax.swing.JFileChooser;
@@ -34,7 +36,7 @@ public class OpenFile implements Command {
 	/**
 	 * The collection of tabs in the window
 	 */
-	private JTabbedPane tabbedPane;
+	private JTabbedPane pane;
 
 	/**
 	 * OpenFile Constructor
@@ -49,7 +51,7 @@ public class OpenFile implements Command {
 		this.chooser.setFileFilter(new FileNameExtensionFilter("HTM/HTML",
 				"html", "htm"));
 		this.eWindow = w;
-		this.tabbedPane = j;
+		this.pane = j;
 	}
 
 	/**
@@ -62,19 +64,16 @@ public class OpenFile implements Command {
 		// If the user selects a file and clicks 'open'
 		if (chooser.showOpenDialog(eWindow) == JFileChooser.APPROVE_OPTION) {
 			HTMLFile f = new HTMLFile();
-			String str = f.load(chooser.getSelectedFile().getPath());
-
-			// TODO: use exceptions instead of null
-			if (str == null) {
+			try {
+				String str = f.load(chooser.getSelectedFile().getPath());
+				eWindow.NewTab(f, str);
+				pane.setSelectedIndex(pane.getTabCount() - 1);
+			}
+			catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Could not load file: "
 						+ chooser.getSelectedFile().getName(),
 						"Could not load file", JOptionPane.OK_OPTION);
-				return;
 			}
-			
-			eWindow.NewTab(f, str);
-			tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-
 		}
 	}
 
