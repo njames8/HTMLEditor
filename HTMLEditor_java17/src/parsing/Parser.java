@@ -6,7 +6,8 @@ public class Parser {
 		"b", "p", "i", "li", "ol", "ul", "script", "a", "h1", "h2", "h3", "h4",
 		"h5", "h6", "link", "meta", "title", "link", "nav", "div", "button",
 		"header", "video", "source", "img", "section", "br", "td", "input", "iframe",
-		"param", "dt", "dd", "thead", "tr", "td", "tfoot", "colgroup"};//FIXME add rest of supported tags
+		"param", "dt", "dd", "thead", "tr", "td", "tfoot", "colgroup", "strong",
+		"small"};//FIXME add rest of supported tags
 	private static String[] optionalCloseTags = { "source", "html", "head",
 		"body", "p", "dt", "dd", "li", "option", "thead", "tr", "td", "tfoot",
 		"colgroup"};
@@ -45,7 +46,8 @@ public class Parser {
 					throw new SyntaxException(1, "Parsing failed. Invalid tag found, '" +
 				tagName + "'");
 				}
-				tagStack.add(tagName);
+				if (!isTagForbidden(tagName))//not forbidden
+					tagStack.add(tagName);
 			}
 		}
 		if (!tagStack.empty())
