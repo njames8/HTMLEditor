@@ -4,8 +4,14 @@ import java.util.*;
 public class Parser {
 	private static String[] allowedTags = {"html", "body", "head", "footer",
 		"b", "p", "i", "li", "ol", "ul", "script", "a", "h1", "h2", "h3", "h4",
-		"h5", "h6", "link", "meta", "title", "link"};//FIXME add rest of supported tags
-	private static String[] optionalCloseTags = { "link" };
+		"h5", "h6", "link", "meta", "title", "link", "nav", "div", "button",
+		"header", "video", "source", "img", "section", "br", "td", "input", "iframe",
+		"param", "dt", "dd", "thead", "tr", "td", "tfoot", "colgroup"};//FIXME add rest of supported tags
+	private static String[] optionalCloseTags = { "source", "html", "head",
+		"body", "p", "dt", "dd", "li", "option", "thead", "tr", "td", "tfoot",
+		"colgroup"};
+	private static String[] forbiddenCloseTags = { "meta", "img", "input",
+		"br", "frame", "param", "link"};
 	public static void Parse(String html) throws SyntaxException {
 		Stack<String> tagStack = new Stack<String>();
 		String[] parts = html.split("<");
@@ -20,10 +26,13 @@ public class Parser {
 				continue;
 			String tag = part.split(">")[0];
 			if (tag.startsWith("/")) {//ending tag
+				if (isTagForbidden(tag.substring(0)))
+					throw new SyntaxException(1, "Parsing failed, forbidden closing tag '" +
+				tag + "' found.");
 				String expectedTag = tagStack.pop();
 				tag = tag.substring(1);//cut off end tag slash
 				if (!expectedTag.equals(tag)) {//doesn't match last opened tag
-					if (isTagOptionalClose(expectedTag))//it's okay, it's optional
+					if (isTagOptionalClose(expectedTag) || isTagForbidden(expectedTag))//it's okay, it's optional
 						continue;
 					throw new SyntaxException(1, "Parsing failed. Expecting a closing tag of '" +
 				expectedTag + "'");
@@ -39,8 +48,18 @@ public class Parser {
 				tagStack.add(tagName);
 			}
 		}
+		if (!tagStack.empty())
+			throw new SyntaxException(1, "Parsing failed. Tag '" + tagStack.pop() + "'" +
+		" not closed.");
 	}
 	
+	private static boolean isTagForbidden(String tag) {
+		for (String t : forbiddenCloseTags)
+			if (t.equals(tag))
+				return true;
+		return false;
+	}
+
 	private static boolean isTagSupported(String tag) {
 		for (String t : allowedTags) {
 			if (t.equalsIgnoreCase(tag))
