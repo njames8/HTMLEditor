@@ -41,7 +41,7 @@ public class SaveFile implements Command {
 		}
 		else
 		{
-			tab.getFile().save(tab.getText());
+			tab.saveFile();
 		}
 	}
 }

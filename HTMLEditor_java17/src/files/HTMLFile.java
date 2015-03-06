@@ -76,16 +76,8 @@ public class HTMLFile {
 
 	// FIXME: this shouldn't be coupled with tab
 	public boolean save(String text) {
-		/*
-		// FIXME: do this logic elsewhere. saving should ONLY save
-		// A null location means this "file" only exists in memory
-		if (location == null) {
-			// Display the save as dialog instead
-			// TODO: call save as command
-			SaveAsFile s = new SaveAsFile(t);
-			s.execute();
-			return;
-		}*/
+		if(!needsToBeSaved)
+			return true;
 
 		Writer fw;
 
@@ -112,18 +104,10 @@ public class HTMLFile {
 
 	// Receives a location and the text to be saved
 	public boolean saveAs(String location, String text) {
-		this.location = location;
-		
-		updateName();
+		File file;
 		
 		try {
-			File file;
-			
-			if (this.name.endsWith(".html")) {
-				file = new File(this.name);
-			} else {
-				file = new File(this.name + ".html");
-			}
+			file = new File(location);
 
 			file.createNewFile();
 			
@@ -131,12 +115,13 @@ public class HTMLFile {
 			
 			output.write(text);
 			output.close();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
 		
+		this.location = location;
+		this.name = file.getName();
 		this.needsToBeSaved = false;
 		return true;
 	}

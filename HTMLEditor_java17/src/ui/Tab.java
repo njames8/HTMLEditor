@@ -118,13 +118,19 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		focus = b;
 	}
 	
-	public String GetTitle() {
+	public String getTitle() {
 		return (file.getNeedsSave() ? "* " : "") + file.getFileName();
 	}
 	
 	public void notifyObservers() {
 		for(Observer o : obs) {
 			o.update(this);
+		}
+	}
+	
+	public void saveAs(String path, String text) {
+		if(file.saveAs(path, text)) {
+			notifyObservers();
 		}
 	}
 

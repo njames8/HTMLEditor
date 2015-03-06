@@ -13,6 +13,7 @@ public abstract class ObservableTab extends JTextArea {
 	
 	public ObservableTab() {
 		super();
+		this.setTabSize(4);
 		obs = new ArrayList<Observer>();
 	}
 	

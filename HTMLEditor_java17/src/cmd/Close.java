@@ -20,7 +20,7 @@ public class Close implements Command {
 	public void execute() {
 		EditorWindow w = EditorWindow.getInstance();
 		
-		w.close();
+		w.closeAll();
 		
 		System.exit(0);
 		

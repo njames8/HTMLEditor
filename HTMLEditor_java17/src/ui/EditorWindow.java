@@ -18,6 +18,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Font;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The Application GUI
@@ -38,9 +40,9 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	private JTabbedPane tabbedPane;
 
 	/**
-	 * collection of tabs
+	 * collection of tabs, stored as a linked list
 	 */
-	private Tab[] tabs = new Tab[MAXIMUM_TABS];
+	private List<Tab> tabs;
 
 	private static EditorWindow singleton = null;
 	
@@ -73,7 +75,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-
+		tabs = new LinkedList<Tab>();
+		
 		tabbedPane = new JTabbedPane();
 		//tabbedPane.setFont();
 		getContentPane().add(tabbedPane);
@@ -101,7 +104,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// calls the command to open file and adds it to the window.
-				OpenFile o = new OpenFile(EditorWindow.this, tabbedPane);
+				OpenFileDialog o = new OpenFileDialog(EditorWindow.this, tabbedPane);
 				o.execute();
 			}
 		});
@@ -119,8 +122,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 													// saving files
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EditorWindow ew = EditorWindow.getInstance();
-				Tab t = (Tab)ew.tabbedPane.getSelectedComponent();
+				Tab t = EditorWindow.getInstance().getCurrentTab();
 				
 				SaveFile f = new SaveFile(t);
 				f.execute();
@@ -135,12 +137,9 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmCloseTab.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// Makes the command to close the current tab.
-				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
-				JViewport temp2 = temp.getViewport();
-				Tab tab = (Tab)temp2.getView();
-				CloseTab t = new CloseTab(tab, tabbedPane);
-				t.execute();
+				Tab t = EditorWindow.getInstance().getCurrentTab();
+				
+				new CloseTab(t, tabbedPane).execute();
 			}
 		});
 
@@ -150,12 +149,9 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmSaveAs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
-				JViewport temp2 = temp.getViewport();
-				Tab t = (Tab)temp2.getView();
-				SaveAsFile a = new SaveAsFile(t);
-				a.execute();
+				Tab t = EditorWindow.getInstance().getCurrentTab();
+				
+				new SaveAsFile(t).execute();
 			}
 
 		});
@@ -291,47 +287,54 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 *            - The area of tabs
 	 */
 	public void NewTab(HTMLFile file, String text) {
-		Tab tab = new Tab(file, text);
-		tab.addMouseListener(new RightClickListener());
-		tab.setFont(new Font("Consolas", Font.PLAIN, 11));
+		Tab t = new Tab(file, text);
+		t.addMouseListener(new RightClickListener());
+		t.setFont(new Font("Consolas", Font.PLAIN, 11));
 		
-		for (int i = 0; i < MAXIMUM_TABS; i++) {
-			if (tabs[i] == null) {
-				tabs[i] = tab;
-				break;
-			} else if (i == MAXIMUM_TABS-1) {
-				new MessageBox(
-					"Too Many Tabs",
-					"You have too many tabs open, please close some before continuing.",
-					JOptionPane.WARNING_MESSAGE);
-			}
+		// We are trying to add a new tab when we have the max number open already
+		if(tabs.size() == MAXIMUM_TABS) {
+			new MessageBox(
+				"Too Many Tabs",
+				"You have too many tabs open, please close some before continuing.",
+				JOptionPane.WARNING_MESSAGE);
+			
+			return;
 		}
 		
-		//JScrollPane scrollPane = new JScrollPane(tab);
-		tab.attachObserver(this);
-		tabbedPane.addTab(tab.GetTitle(), null, tab, null);
+		tabs.add(t);
+		
+		JScrollPane scrollPane = new JScrollPane(t);
+		t.attachObserver(this);
+		tabbedPane.addTab(t.getTitle(), null, scrollPane, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
 	}
 	
 	public Tab getCurrentTab() {
-		return (Tab)tabbedPane.getSelectedComponent();
+		return tabs.get(tabbedPane.getSelectedIndex());
 	}
 
 	@Override
 	public void update(Tab t) {
-		int index = tabbedPane.indexOfComponent(t);
-		
-		if(index == -1) {
-			// this shouldn't happen
-		} else {
-			tabbedPane.setTitleAt(index, t.GetTitle());
-		}
+		tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), t.getTitle());
 	}
 	
 	// Closes all tabs, triggering saves if needed
-	public void close() {
+	public void closeAll() {
 		for(Component c : tabbedPane.getComponents()) {
-			((Tab)c).close();
+			tabbedPane.setSelectedComponent(c);
+			close();
 		}
+	}
+	
+	// Closes the currently selected tab
+	public void close() {
+		int index = tabbedPane.getSelectedIndex();
+		
+		// This may trigger a save dialog if there are unsaved changes
+		tabs.get(index).close();
+		
+		// Remove the tab from our collection and the window
+		tabs.remove(index);
+		tabbedPane.remove(index);
 	}
 }
