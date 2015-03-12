@@ -1,6 +1,6 @@
 package cmd;
+import formatting.*;
 import ui.Tab;
-import Formatting.*;
 /**
  * IndentCMD - Command object for auto-indent calls
  * 
