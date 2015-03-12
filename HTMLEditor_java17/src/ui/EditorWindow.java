@@ -169,7 +169,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		JMenu mnHtmlTag = new JMenu("Tag");
 
 		JMenuItem table = new JMenuItem("Table");
-
+		table.addActionListener(new InsertTag("table"));
+		
 		JMenuItem html = new JMenuItem("HTML");
 		JMenuItem head = new JMenuItem("Head");
 		JMenuItem body = new JMenuItem("Body");
