@@ -217,6 +217,12 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		JMenuItem listItem = new JMenuItem("List Item");
 		listItem.addActionListener(new InsertTag("li"));
 		
+		JMenuItem img = new JMenuItem("Image");
+		img.addActionListener(new InsertTag("img", true));
+		
+		JMenuItem hyperlink = new JMenuItem("HyperLink (a)");
+		hyperlink.addActionListener(new InsertTag("a"));
+		
 		
 				
 		JMenuItem mnValidate = new JMenuItem("Validate");
@@ -253,6 +259,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				mnHtmlTag.add(paragraph);
 				mnHtmlTag.add(bold);
 				mnHtmlTag.add(italic);
+				mnHtmlTag.add(img);
+				mnHtmlTag.add(hyperlink);
 				
 				
 			mnInsert.add(mnList);
@@ -261,6 +269,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				mnList.add(listItem);
 				
 			mnInsert.add(table);
+			
 		menuBar.add(mnValidate);
 		
         addWindowListener(new WindowAdapter() {

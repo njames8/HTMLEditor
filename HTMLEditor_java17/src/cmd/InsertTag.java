@@ -3,13 +3,16 @@
  */
 package cmd;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.BadLocationException;
@@ -61,7 +64,7 @@ public class InsertTag implements ActionListener {
 		if (selfClosing)
 			return "<" + tag + " />\n";
 
-		return "<" + tag + ">\n</" + tag + ">";
+		return "<" + tag + ">\n\n</" + tag + ">";
 	}
 
 	/**
@@ -75,6 +78,8 @@ public class InsertTag implements ActionListener {
 		try {
 			if (tag.contains("table")) {
 				insertTable(t);
+			} else if (tag.equals("a")) {
+				insertATag(t);
 			} else {
 				t.getDocument().insertString(t.getCaretPosition(),
 						getFullTag(), null);
@@ -124,8 +129,48 @@ public class InsertTag implements ActionListener {
 				JOptionPane.showMessageDialog(null,
 						"Input was not valid. Please enter an integer.",
 						"Input Error", JOptionPane.ERROR_MESSAGE);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
 			}
-			catch (BadLocationException e){
+		}
+	}
+
+	private void insertATag(Tab t) {
+		String fullTag = getFullTag();
+		String aTag;
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(0, 1));
+		panel.setSize(500, 150);
+		JTextArea url = new JTextArea(1, 30);
+
+		JTextArea urlText = new JTextArea(1, 30);
+		panel.add(new JLabel("Url: "));
+		panel.add(url);
+		panel.add(new JLabel("Text: "));
+		panel.add(urlText);
+		JOptionPane pane = new JOptionPane(panel);
+		int x = pane.showOptionDialog(null, panel, "Hyperlink",
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+				null, null, null);
+
+		if (x == JOptionPane.OK_OPTION) {
+			String link = url.getText();
+			String text = urlText.getText();
+
+			if (link != null) {
+				aTag = fullTag.substring(0, 2) + " href=\"" + link + "\""
+						+ fullTag.substring(2, 4) + text + fullTag.substring(4);
+			} else {
+				aTag = fullTag.substring(0, 2) + " href=\"\""
+						+ fullTag.substring(2, 4) + text + fullTag.substring(4);
+			}
+
+			try {
+				t.getDocument().insertString(t.getCaretPosition(), aTag, null);
+				t.getFile().changed();
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
