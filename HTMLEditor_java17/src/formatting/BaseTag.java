@@ -21,6 +21,6 @@ public class BaseTag {
 	}
 	
 	public String GetContent() {
-		
+		return "";//TODO
 	}
 }
