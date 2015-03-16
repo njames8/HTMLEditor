@@ -25,6 +25,6 @@ public class IndentCMD implements Command{
 	 */
 	@Override
 	public void execute() {
-		Indenter.autoIndent(tab.getText());
+		Indenter.openIndent(tab.getText());
 	}
 }

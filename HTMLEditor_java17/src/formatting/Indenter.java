@@ -107,14 +107,4 @@ public class Indenter {
 		}
 		return closed;
 	}
-	
-	/**
-	 * Auto indents the HTML file
-	 * @param html - the html code
-	 * @return - the indented HTML code
-	 */
-	public static String autoIndent(String html){
-		String indentedHTML = "";	
-		return indentedHTML;
-	}
 }
