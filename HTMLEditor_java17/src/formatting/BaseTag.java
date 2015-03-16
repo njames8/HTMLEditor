@@ -27,16 +27,46 @@ public class BaseTag {
 	
 	/**
 	 * @author Matthew Gallagher
-	 *  
-	 * @param counter
-	 * @return
+	 * 
 	 */
-	public int traverse (int counter){
-		this.setLineNumber(counter);
+	
+	/**
+	 * 
+	 * @param indentLevel
+	 * if tag is collapsed
+	 * 		@return the tag opener and closer on the same line correctly indented.
+	 * if tag is not collapsed
+	 * 		@return the tag opener with all its children then the tag closer all on different lines correctly indented.
+	 */
+	public String getText(int indentLevel){
+		//TODO may need to change depending on how text tags are implemented.
+		String text = "";
+		for (int i = 0; i <= indentLevel; i++) {
+			text = text + "    ";//adds the number of indents that was sent
+		}
+		text = "<" + tag + ">";//adds the tag name
+		if(this.children.size() > 0 && collapsed == false){
+			text = text + "\n";
+			for(int i = 0; i < this.children.size(); i++){//iterates over the children of the tag.
+				text = text + this.children.get(i).getText(indentLevel + 1);//calls this method on all the children
+			}
+			for (int i = 0; i <= indentLevel; i++) {
+				text = text + "    ";//adds the number of indents that was sent only if there are children.
+			}
+		}
+		text = text + "</" + tag + ">\n";
+		return text;
+	}
+	/**
+	 * @param counter
+	 * @return the lineNumber of the next line.
+	 */
+	public int traverseForLineNumbers (int counter){
+		this.setLineNumber(counter);// sets the line number of this tag to be the counter
 		if(this.children.size() > 0){
 			counter = counter + 1;
-			for(int i = 0; i < children.size(); i++){
-				counter = children.get(i).traverse(counter);
+			for(int i = 0; i < children.size(); i++){//iterates over all the children of the tag
+				counter = children.get(i).traverseForLineNumbers(counter);//calls this method on each of its children
 			}
 		}
 		return counter + 1;
