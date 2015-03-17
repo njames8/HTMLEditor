@@ -96,6 +96,25 @@ public class BaseTag {
 	public void setLineNumberStart(int lineNumber) {
 		this.lineNumberStart = lineNumber;
 	}
+	
+	public boolean addToLineNum(int amount){
+		boolean added = true;
+		if(this.children.size() > 0){
+			for (int i = 0; i < children.size(); i++){
+				added = this.children.get(i).addToLineNum(amount);
+				if (added == false){
+					break;
+				}
+			}
+		}
+		if(added){
+			this.setLineNumberStart(this.getLineNumberStart() + amount);
+			this.setLineNumberEnd(this.getLineNumberEnd() + amount);
+			added = true;
+		}
+		return added;
+	}
+	
 	/**
 	 * 
 	 * @param child
