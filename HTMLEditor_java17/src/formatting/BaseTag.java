@@ -12,7 +12,7 @@ public class BaseTag {
 	private String tag;//tag value e.g. 'p' for a <p> tag
 	private Boolean collapsed;
 	private ArrayList<BaseTag> children;
-	private int lineNumber;
+	private int lineNumberStart, lineNumberEnd;
 	public BaseTag() {
 		this.children = new ArrayList<BaseTag>();
 	}
@@ -31,7 +31,7 @@ public class BaseTag {
 	 */
 	
 	/**
-	 * 
+	 *
 	 * @param indentLevel
 	 * if tag is collapsed
 	 * 		@return the tag opener and closer on the same line correctly indented.
@@ -42,16 +42,23 @@ public class BaseTag {
 		//TODO may need to change depending on how text tags are implemented.
 		String text = "";
 		for (int i = 0; i <= indentLevel; i++) {
-			text = text + "    ";//adds the number of indents that was sent
+			//adds the number of indents that was sent
+			text = text + "    ";
 		}
-		text = "<" + tag + ">";//adds the tag name
-		if(this.children.size() > 0 && collapsed == false){
+		//adds the tag name
+		text = "<" + tag + ">";
+		if(collapsed == false){
 			text = text + "\n";
-			for(int i = 0; i < this.children.size(); i++){//iterates over the children of the tag.
-				text = text + this.children.get(i).getText(indentLevel + 1);//calls this method on all the children
-			}
-			for (int i = 0; i <= indentLevel; i++) {
-				text = text + "    ";//adds the number of indents that was sent only if there are children.
+			if(this.children.size() > 0){
+				//iterates over the children of the tag.
+				for(int i = 0; i < this.children.size(); i++){
+					//calls this method on all the children
+					text = text + this.children.get(i).getText(indentLevel + 1);
+				}
+				for (int i = 0; i <= indentLevel; i++) {
+					//adds the number of indents that was sent only if there are children.
+					text = text + "    ";
+				}
 			}
 		}
 		text = text + "</" + tag + ">\n";
@@ -62,28 +69,32 @@ public class BaseTag {
 	 * @return the lineNumber of the next line.
 	 */
 	public int traverseForLineNumbers (int counter){
-		this.setLineNumber(counter);// sets the line number of this tag to be the counter
+		// sets the line number of this tag to be the counter
+		this.setLineNumberStart(counter);
+		counter = counter + 1;
 		if(this.children.size() > 0){
-			counter = counter + 1;
-			for(int i = 0; i < children.size(); i++){//iterates over all the children of the tag
-				counter = children.get(i).traverseForLineNumbers(counter);//calls this method on each of its children
+			//iterates over all the children of the tag
+			for(int i = 0; i < children.size(); i++){
+				//calls this method on each of its children
+				counter = children.get(i).traverseForLineNumbers(counter);
 			}
 		}
+		lineNumberEnd = counter;
 		return counter + 1;
 	}
 
 	/**
 	 * @return the lineNumber
 	 */
-	public int getLineNumber() {
-		return lineNumber;
+	public int getLineNumberStart() {
+		return lineNumberStart;
 	}
 
 	/**
 	 * @param lineNumber the lineNumber to set
 	 */
-	public void setLineNumber(int lineNumber) {
-		this.lineNumber = lineNumber;
+	public void setLineNumberStart(int lineNumber) {
+		this.lineNumberStart = lineNumber;
 	}
 	/**
 	 * 
@@ -91,8 +102,9 @@ public class BaseTag {
 	 * 
 	 * Adds the sent child to the end of this baseTag's children
 	 */
-	public void addChild(BaseTag child){
+	public boolean addChild(BaseTag child){
 		children.add(child);
+		return true;
 	}
 	/**
 	 * 
@@ -101,23 +113,48 @@ public class BaseTag {
 	 * 
 	 * Adds the sent child to the list of children and puts it in the
 	 * spot that is specified in the lineNum that was sent.
-	 * 
-	 * @throws Exception 
-	 * 		throws exception if the sent line number is smaller than this lineNumber
 	 */
-	public void addChild(BaseTag child, int lineNum) throws Exception{
-		if(lineNum < this.getLineNumber()){
+	public boolean addChild(BaseTag child, int lineNum){
+		boolean added = false;
+		// checks to see if the child has been sent to the correct tag
+		if(this.getLineNumberStart() < lineNum && lineNum <= this.getLineNumberEnd()){
+			//check to see if there are any children already
 			if(this.children.size() > 0){
+				// iterates over all the children backwards
 				for(int i = children.size() - 1; i >= 0; i++){
-					if(children.get(i).getLineNumber() < lineNum){
-						children.add(i,child);
+					// checks to see if the lineNum is greater than the start of the children.get(i)
+					if(children.get(i).getLineNumberStart() < lineNum){
+						// checks to see if the lineNum is less than the start of the children.get(i)
+						if(children.get(i).getLineNumberEnd() > lineNum){
+							//calls this function on the child
+							added = children.get(i).addChild(child, lineNum);
+						}else{
+							children.add(i,child);
+							added = true;
+						}
 						break;
 					}
 				}
+			}else{
+				added = this.addChild(child);
 			}
-		}else{
-			throw new Exception();
 		}
-		
+		return added;	
 	}
+
+	/**
+	 * @return the lineNumberEnd
+	 */
+	public int getLineNumberEnd() {
+		return lineNumberEnd;
+	}
+
+	/**
+	 * @param lineNumberEnd the lineNumberEnd to set
+	 */
+	public void setLineNumberEnd(int lineNumberEnd) {
+		this.lineNumberEnd = lineNumberEnd;
+	}
+	
+	
 }
