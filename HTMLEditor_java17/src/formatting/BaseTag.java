@@ -85,4 +85,39 @@ public class BaseTag {
 	public void setLineNumber(int lineNumber) {
 		this.lineNumber = lineNumber;
 	}
+	/**
+	 * 
+	 * @param child
+	 * 
+	 * Adds the sent child to the end of this baseTag's children
+	 */
+	public void addChild(BaseTag child){
+		children.add(child);
+	}
+	/**
+	 * 
+	 * @param child
+	 * @param lineNum
+	 * 
+	 * Adds the sent child to the list of children and puts it in the
+	 * spot that is specified in the lineNum that was sent.
+	 * 
+	 * @throws Exception 
+	 * 		throws exception if the sent line number is smaller than this lineNumber
+	 */
+	public void addChild(BaseTag child, int lineNum) throws Exception{
+		if(lineNum < this.getLineNumber()){
+			if(this.children.size() > 0){
+				for(int i = children.size() - 1; i >= 0; i++){
+					if(children.get(i).getLineNumber() < lineNum){
+						children.add(i,child);
+						break;
+					}
+				}
+			}
+		}else{
+			throw new Exception();
+		}
+		
+	}
 }
