@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class BaseTag {
 	private String tag;//tag value e.g. 'p' for a <p> tag
-	private Boolean collapsed;
+	private boolean collapsed;
 	private ArrayList<BaseTag> children;
 	private int lineNumberStart, lineNumberEnd;
 	public BaseTag() {
