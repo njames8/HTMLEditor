@@ -10,13 +10,29 @@ import java.util.*;
  */
 public class BaseTag {
 	private String tag;//tag value e.g. 'p' for a <p> tag
-	private boolean collapsed;
+	private boolean collapsed = false;
 	private ArrayList<BaseTag> children;
 	private int lineNumberStart, lineNumberEnd;
 	public BaseTag() {
 		this.children = new ArrayList<BaseTag>();
 	}
-	
+	public BaseTag(String t, int s, int e, boolean c, ArrayList<BaseTag> a){
+		tag = t;
+		collapsed = c;
+		
+		if(s >= 0)
+			lineNumberStart = s;
+		
+		if(e >= s)
+			lineNumberEnd = e;
+		else
+			lineNumberEnd = lineNumberStart + 1;
+		
+		if(a != null)
+			children = a;
+		else
+			this.children = new ArrayList<BaseTag>();
+	}
 	public void ToggleCollapse() {
 		this.collapsed = !this.collapsed;
 	}
