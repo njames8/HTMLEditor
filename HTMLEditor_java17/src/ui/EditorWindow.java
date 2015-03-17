@@ -70,7 +70,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 * 
 	 */
 	private void init() {
-
+		// Set the window size, position and title
 		setTitle("HTML Editor");
 		setMinimumSize(new Dimension(320, 240));
 		setSize(640, 480);
@@ -78,13 +78,27 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
+		// Init tabs and add the JTabbedPane to our window
 		tabs = new LinkedList<Tab>();
-		
 		tabbedPane = new JTabbedPane();
-		//tabbedPane.setFont();
 		getContentPane().add(tabbedPane);
-		NewTab();
 
+		// Setup the menus
+		initMenus();
+		
+		// Execute the Close command when the window is closed
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent ev) {
+                //frame.dispose();
+            	new Close().execute();
+            }
+        });
+        
+        // Create a blank tab for the user to start with
+        NewTab();
+	}
+	
+	private void initMenus() {
 		// Create menu bar
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -102,7 +116,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		});
 
-		JMenuItem mntmOpen = new JMenuItem("Open File");// Makes the menu button
+		JMenuItem mntmOpen = new JMenuItem("Open...");// Makes the menu button
 														// for opening files
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -134,7 +148,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		});
 
-		JMenuItem mntmCloseTab = new JMenuItem("Close Tab");// Makes the button
+		JMenuItem mntmCloseTab = new JMenuItem("Close");// Makes the button
 															// for closing the
 															// current tab.
 		mntmCloseTab.addActionListener(new ActionListener() {
@@ -143,6 +157,14 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				Tab t = EditorWindow.getInstance().getCurrentTab();
 				
 				new CloseTab(t, tabbedPane).execute();
+			}
+		});
+		
+		JMenuItem mntmCloseAll = new JMenuItem("Close All");
+		mntmCloseAll.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new CloseAllTab().execute();
 			}
 		});
 
@@ -240,9 +262,13 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		menuBar.add(mnFile);
 			mnFile.add(mntmNew);
 			mnFile.add(mntmOpen);
+			mnFile.addSeparator();
+			mnFile.add(mntmCloseTab);
+			mnFile.add(mntmCloseAll);
+			mnFile.addSeparator();
 			mnFile.add(mntmSave);
 			mnFile.add(mntmSaveAs);
-			mnFile.add(mntmCloseTab);
+			mnFile.addSeparator();
 			mnFile.add(mntmExit);
 			
 		menuBar.add(mnEdit);
@@ -271,13 +297,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			mnInsert.add(table);
 			
 		menuBar.add(mnValidate);
-		
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent ev) {
-                //frame.dispose();
-            	new Close().execute();
-            }
-        });
 	}
 
 	/**
@@ -349,5 +368,9 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		// Remove the tab from our collection and the window
 		tabs.remove(index);
 		tabbedPane.remove(index);
+		
+		if(tabs.size() == 0) {
+			NewTab();
+		}
 	}
 }
