@@ -5,7 +5,7 @@ package formatting;
 import java.util.*;
 
 /**
- * @author adamwalsh
+ * @author adam walsh
  *
  */
 public class BaseTag {
@@ -57,12 +57,12 @@ public class BaseTag {
 	public String getText(int indentLevel){
 		//TODO may need to change depending on how text tags are implemented.
 		String text = "";
-		for (int i = 0; i <= indentLevel; i++) {
+		for (int i = 0; i < indentLevel; i++) {
 			//adds the number of indents that was sent
 			text = text + "    ";
 		}
 		//adds the tag name
-		text = "<" + tag + ">";
+		text = text + "<" + tag + ">";
 		if(collapsed == false){
 			text = text + "\n";
 			if(this.children.size() > 0){
@@ -70,13 +70,14 @@ public class BaseTag {
 				for(int i = 0; i < this.children.size(); i++){
 					//calls this method on all the children
 					text = text + this.children.get(i).getText(indentLevel + 1);
-				}
-				for (int i = 0; i <= indentLevel; i++) {
-					//adds the number of indents that was sent only if there are children.
-					text = text + "    ";
-				}
+				}	
 			}
-		}
+			for (int i = 0; i < indentLevel; i++) {
+				//adds the number of indents that was sent only if there are children.
+				text = text + "    ";
+			}
+		}else
+			text = text + "...";
 		text = text + "</" + tag + ">\n";
 		return text;
 	}
@@ -85,10 +86,13 @@ public class BaseTag {
 	 * @return the lineNumber of the next line.
 	 */
 	public int traverseForLineNumbers (int counter){
+//System.out.println("traverse For Line Numbers");
 		// sets the line number of this tag to be the counter
 		this.setLineNumberStart(counter);
+//System.out.println("Set <"+ tag + "> lineNumStart to " + counter);
 		counter = counter + 1;
 		if(this.children.size() > 0){
+//System.out.println("number of direct Children is " + this.children.size());
 			//iterates over all the children of the tag
 			for(int i = 0; i < children.size(); i++){
 				//calls this method on each of its children
@@ -96,6 +100,7 @@ public class BaseTag {
 			}
 		}
 		lineNumberEnd = counter;
+//System.out.println("Set </" + tag + "> lineNumEnd to " + counter);
 		return counter + 1;
 	}
 
@@ -138,6 +143,7 @@ public class BaseTag {
 	 * Adds the sent child to the end of this baseTag's children
 	 */
 	public boolean addChild(BaseTag child){
+//System.out.println("Added new child to end of list");
 		children.add(child);
 		return true;
 	}
@@ -153,8 +159,10 @@ public class BaseTag {
 		boolean added = false;
 		// checks to see if the child has been sent to the correct tag
 		if(this.getLineNumberStart() < lineNum && lineNum <= this.getLineNumberEnd()){
+System.out.println("line Number is inside the current tag");
 			//check to see if there are any children already
 			if(this.children.size() > 0){
+System.out.println("children.size > 0");
 				// iterates over all the children backwards
 				for(int i = children.size() - 1; i >= 0; i++){
 					// checks to see if the lineNum is greater than the start of the children.get(i)
@@ -171,6 +179,7 @@ public class BaseTag {
 					}
 				}
 			}else{
+System.out.println("called adChild(BaseTag)");
 				added = this.addChild(child);
 			}
 		}

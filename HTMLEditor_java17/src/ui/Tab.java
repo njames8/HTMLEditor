@@ -11,6 +11,7 @@ import javax.swing.event.DocumentListener;
 
 import cmd.SaveFile;
 import files.HTMLFile;
+import formatting.BaseTag;
 
 /**
  * Represents a tab in the UI
@@ -25,7 +26,8 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 * The html file to be edited
 	 */
 	private HTMLFile file;
-
+	
+	public BaseTag head;
 	/**
 	 * Is this tab the focus of the window?
 	 */
