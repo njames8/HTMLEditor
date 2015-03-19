@@ -60,20 +60,20 @@ public class CopyOfInsertTag implements ActionListener {
 	}
 
 	private BaseTag makeNewTag(Tab t, String text) {
-		int pos = t.getCaretPosition();
+		int pos = t.getCaretLineNumber();
 		System.out.println(pos);
 		return new BaseTag(text, pos, pos + 1, false, null);
 	}
 
 	private void insertToTab(Tab t, BaseTag base) throws BadLocationException {
 		if (t.head != null) {
-			t.head.addChild(base, t.getCaretPosition());
+			t.head.addChild(base, t.getCaretLineNumber());
 		} else {
 			t.head = base;
 		}
 		t.head.traverseForLineNumbers(1);
 		t.getDocument().insertString(t.getCaretPosition(),
-				t.head.getText(0, t.getCaretPosition()), null);
+				t.head.getText(0, t.getCaretLineNumber()), null);
 	}
 
 	/**

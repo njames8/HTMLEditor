@@ -93,10 +93,14 @@ public class BaseTag {
 	public String getText(int indentLevel, int lineNum){
 		//TODO may need to change depending on how text tags are implemented.
 		String text = "Not a valid Line number";
+System.out.println("GetText(int:int)");
 		if(lineNum >= 0){
+System.out.println("LineNum >= 0");
 			text = "Not this tag!!!!!!!!!!!";
 			boolean t = this.inThisTag(lineNum);
 			int c = this.inChildTag(lineNum);
+System.out.println("InThisTag = " + t);
+System.out.println("InChildTag = " + c);
 			if( t && c == -1){
 				text = getText(indentLevel);
 			}else if(c != -1){
