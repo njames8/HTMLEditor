@@ -158,7 +158,8 @@ public class BaseTag {
 	public boolean addChild(BaseTag child, int lineNum){
 		boolean added = false;
 		// checks to see if the child has been sent to the correct tag
-		if(this.getLineNumberStart() < lineNum && lineNum <= this.getLineNumberEnd()){
+System.out.println("the sent line number is " + lineNum);
+		if(this.getLineNumberStart() <= lineNum && lineNum <= this.getLineNumberEnd()){
 System.out.println("line Number is inside the current tag");
 			//check to see if there are any children already
 			if(this.children.size() > 0){
@@ -168,7 +169,7 @@ System.out.println("children.size > 0");
 					// checks to see if the lineNum is greater than the start of the children.get(i)
 					if(children.get(i).getLineNumberStart() < lineNum){
 						// checks to see if the lineNum is less than the start of the children.get(i)
-						if(children.get(i).getLineNumberEnd() > lineNum){
+						if(children.get(i).getLineNumberEnd() >= lineNum){
 							//calls this function on the child
 							added = children.get(i).addChild(child, lineNum);
 						}else{

@@ -46,7 +46,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 * collection of tabs, stored as a linked list
 	 */
 	private List<Tab> tabs;
-
+	
 	private static EditorWindow singleton = null;
 	
 	public static EditorWindow getInstance() {
