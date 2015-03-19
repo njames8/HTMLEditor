@@ -81,6 +81,49 @@ public class BaseTag {
 		text = text + "</" + tag + ">\n";
 		return text;
 	}
+	
+	/**
+	 *
+	 * @param indentLevel
+	 * if tag is collapsed
+	 * 		@return the tag opener and closer on the same line correctly indented.
+	 * if tag is not collapsed
+	 * 		@return the tag opener with all its children then the tag closer all on different lines correctly indented.
+	 */
+	public String getText(int indentLevel, int lineNum){
+		//TODO may need to change depending on how text tags are implemented.
+		String text = "Not a valid Line number";
+		if(lineNum >= 0){
+			text = "Not this tag!!!!!!!!!!!";
+			boolean t = this.inThisTag(lineNum);
+			int c = this.inChildTag(lineNum);
+			if( t && c == -1){
+				text = getText(indentLevel);
+			}else if(c != -1){
+				text = this.children.get(c).getText(indentLevel + 1, lineNum);
+			}
+		}
+		return text;
+	}
+	
+	private int inChildTag(int lineNum){
+		if(this.children != null){
+			for(int i = 0; i < this.children.size(); i++){
+				if(this.children.get(i).getLineNumberStart() < lineNum && this.children.get(i).getLineNumberEnd() > lineNum){
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	private boolean inThisTag(int lineNum){
+		boolean b = false;
+			if(this.getLineNumberStart() < lineNum && this.getLineNumberEnd() > lineNum){
+				b = true;
+			}
+		return b;
+	}
 	/**
 	 * @param counter
 	 * @return the lineNumber of the next line.

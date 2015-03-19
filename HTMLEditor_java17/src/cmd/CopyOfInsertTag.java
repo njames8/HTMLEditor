@@ -70,7 +70,7 @@ public class CopyOfInsertTag implements ActionListener {
 			t.head = base;
 		}
 		t.head.traverseForLineNumbers(1);
-		t.getDocument().insertString(t.getCaretPosition(), t.head.getText(0), null);
+		t.getDocument().insertString(t.getCaretPosition(), t.head.getText(0,t.getCaretPosition()), null);
 	}
 	
 	/**
@@ -129,12 +129,7 @@ public class CopyOfInsertTag implements ActionListener {
 //					t.getDocument().insertString(t.getCaretPosition(), "</tr>\n", null);
 					base.addChild(c1);
 				}
-				if(t.head != null)
-					t.head.addChild(base);
-				else
-					t.head = base;
-				t.head.traverseForLineNumbers(1);
-				t.getDocument().insertString(t.getCaretPosition(), t.head.getText(0), null);
+				insertToTab(t, base);
 			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(null,
 						"Input was not valid. Please enter an integer.",
