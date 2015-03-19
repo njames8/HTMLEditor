@@ -22,7 +22,6 @@ public class LineNumberAssistant implements ui.Observer {
 				return i-1;
 		}
 		return -1;//failed
-				
 	}
 
 	@Override

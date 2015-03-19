@@ -55,24 +55,27 @@ public class CopyOfInsertTag implements ActionListener {
 	private String getFullTag() {
 		if (selfClosing)
 			return "<" + tag + " />\n";
-		
+
 		return "<" + tag + ">\n\n</" + tag + ">";
 	}
-	
-	private BaseTag makeNewTag(Tab t, String text){
-		return new BaseTag(text, t.getCaretPosition(), t.getCaretPosition() + 1, false, null);
+
+	private BaseTag makeNewTag(Tab t, String text) {
+		int pos = t.getCaretPosition();
+		System.out.println(pos);
+		return new BaseTag(text, pos, pos + 1, false, null);
 	}
-	
-	private void insertToTab(Tab t, BaseTag base) throws BadLocationException{
-		if(t.head != null){
+
+	private void insertToTab(Tab t, BaseTag base) throws BadLocationException {
+		if (t.head != null) {
 			t.head.addChild(base, t.getCaretPosition());
-		}else{
+		} else {
 			t.head = base;
 		}
 		t.head.traverseForLineNumbers(1);
-		t.getDocument().insertString(t.getCaretPosition(), t.head.getText(0,t.getCaretPosition()), null);
+		t.getDocument().insertString(t.getCaretPosition(),
+				t.head.getText(0, t.getCaretPosition()), null);
 	}
-	
+
 	/**
 	 * Inserts the tag into the document Puts cursor in middle of inserted tags
 	 */
@@ -80,7 +83,7 @@ public class CopyOfInsertTag implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		Tab t = EditorWindow.getInstance().getCurrentTab();
-//System.out.println(tag);
+		// System.out.println(tag);
 		try {
 			if (tag.contains("table")) {
 				insertTable(t);
@@ -117,16 +120,20 @@ public class CopyOfInsertTag implements ActionListener {
 				int row = (Integer) rows.getValue();
 				int col = (Integer) cols.getValue();
 				BaseTag base = makeNewTag(t, tag);
-//				t.getDocument().insertString(t.getCaretPosition(), getFullTag(), null);
-//				t.setCaretPosition((getFullTag().length() / 2));
+				// t.getDocument().insertString(t.getCaretPosition(),
+				// getFullTag(), null);
+				// t.setCaretPosition((getFullTag().length() / 2));
 				for (; row > 0; row--) {
-//					t.getDocument().insertString(t.getCaretPosition(), "<tr>\n", null);
+					// t.getDocument().insertString(t.getCaretPosition(),
+					// "<tr>\n", null);
 					BaseTag c1 = makeNewTag(t, "tr");
 					for (int i = 0; i < col; i++) {
 						c1.addChild(makeNewTag(t, "td"));
-//						t.getDocument().insertString(t.getCaretPosition(), "\t<td>\n\t</td>\n", null);
+						// t.getDocument().insertString(t.getCaretPosition(),
+						// "\t<td>\n\t</td>\n", null);
 					}
-//					t.getDocument().insertString(t.getCaretPosition(), "</tr>\n", null);
+					// t.getDocument().insertString(t.getCaretPosition(),
+					// "</tr>\n", null);
 					base.addChild(c1);
 				}
 				insertToTab(t, base);

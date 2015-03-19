@@ -2,6 +2,7 @@
  * 
  */
 package ui;
+import formatting.LineNumberAssistant;
 
 import java.awt.Font;
 
@@ -32,6 +33,8 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 * Is this tab the focus of the window?
 	 */
 	private boolean focus;
+	
+	private LineNumberAssistant helper;
 
 	/**
 	 * Constructs a tab with a new file
@@ -39,8 +42,13 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	public Tab() {
 		super();
 		this.file = new HTMLFile();
-		
 		this.getDocument().addDocumentListener(this);
+		this.helper = new LineNumberAssistant();
+		this.attachObserver(helper);
+	}
+	
+	public int getCaretLineNumber() {
+		return this.helper.convertCharNumToLineNum(this.getCaretPosition());
 	}
 
 	/**
@@ -64,6 +72,8 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.setFont(new Font("Consolas", Font.PLAIN, 11));
 		
 		this.getDocument().addDocumentListener(this);
+		this.helper = new LineNumberAssistant();
+		this.attachObserver(helper);
 	}
 	
 	/**
