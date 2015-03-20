@@ -82,8 +82,8 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	public void insertUpdate(DocumentEvent e) {
 		if(!file.getNeedsSave()) {
 			file.changed();
-			notifyObservers();
 		}
+		notifyObservers();
     }
 	
 	/**

@@ -1,5 +1,4 @@
 import javax.swing.UIManager;
-
 import cmd.OpenFile;
 import ui.EditorWindow;
 
