@@ -82,7 +82,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		tabs = new LinkedList<Tab>();
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane);
-
+		
+		
 		// Setup the menus
 		initMenus();
 		

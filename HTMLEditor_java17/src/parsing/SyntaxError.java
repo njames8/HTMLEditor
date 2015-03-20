@@ -32,5 +32,6 @@ public class SyntaxError {
 	public String toString() {
 		return "Error @ " + this.lineNum +
 				" - " + this.msg;
+		
 	}
 }
