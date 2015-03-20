@@ -21,8 +21,7 @@ import javax.swing.JLabel;
 public class ImagePreview {
 	JFrame frame;
 	
-	public ImagePreview(String path) {
-		Image image;
+	public ImagePreview(Image image) {
 
 		JLabel label = new JLabel();
 
@@ -32,23 +31,11 @@ public class ImagePreview {
 		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int)screensize.getWidth();
 		int height = (int)screensize.getHeight();
-
-		try {
-			if (path.contains("http://") || path.contains("https://")) {
-				URL url = new URL(path);
-				image = ImageIO.read(url);
-			} else {
-				image = ImageIO.read(new File(path));
-			}
 			
 			if (image.getHeight(null) >= height/2 || image.getWidth(null) >= width/2) {
 				image = image.getScaledInstance(image.getWidth(null)/2,image.getHeight(null)/2, Image.SCALE_SMOOTH);
 			}
 			label.setIcon(new ImageIcon(image));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		frame.getContentPane().add(label);
 		frame.pack();
 		frame.setLocation(200, 200);
