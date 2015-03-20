@@ -18,9 +18,11 @@ public class LineNumberAssistant implements ui.Observer {
 	}
 	
 	public int convertCharNumToLineNum(int charNum) {
+		if (charNum == 0)
+			return 0;
 		for (int i = 0; i < lineLengths.size(); i += 1) {
 			if (lineLengths.get(i) >= charNum)
-				return i;
+				return i - 1;
 		}
 		return -1;//failed
 	}
@@ -29,8 +31,10 @@ public class LineNumberAssistant implements ui.Observer {
 	public void update(Tab tab) {
 		String text = tab.getText();
 		lineLengths.clear();
+		int sum = 0;
 		for (String line : text.split("\n")) {
-			lineLengths.add(line.length());
+			sum += line.length();
+			lineLengths.add(sum);
 		}
 	}
 }
