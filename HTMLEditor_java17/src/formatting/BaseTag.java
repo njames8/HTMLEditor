@@ -96,8 +96,8 @@ System.out.println("end: " + e);
 		if(lineNum >= 0){
 			text = "Not this tag!!!!!!!!!!!";
 			boolean t = this.inThisTag(lineNum);
-			int c = this.inChildTag(lineNum);
 System.out.println("InThisTag = " + t);
+			int c = this.inChildTag(lineNum);
 System.out.println("InChildTag = " + c);
 			if( t && c == -1){
 				text = getText(indentLevel);
@@ -108,6 +108,23 @@ System.out.println("InChildTag = " + c);
 		return text;
 	}
 	
+	public BaseTag getChild(int lineNum){
+		//TODO may need to change depending on how text tags are implemented.
+System.out.println("GetChild, sent LineNum = " + lineNum);
+		BaseTag child = new BaseTag();
+		if(lineNum >= 0){
+			boolean t = this.inThisTag(lineNum);
+System.out.println("InThisTag = " + t);
+			int c = this.inChildTag(lineNum);
+System.out.println("InChildTag = " + c);
+			if( t && c == -1){
+				child = this;
+			}else if(c != -1){
+				child = this.children.get(c).getChild(lineNum);
+			}
+		}
+		return child;
+	}
 	private int inChildTag(int lineNum){
 System.out.println("\nInChildTag");
 		if(this.children != null){
@@ -174,20 +191,32 @@ System.out.println("Sent LineNum is less than or equal to the end");
 		this.lineNumberStart = lineNumber;
 	}
 	
-	public boolean addToLineNum(int amount){
+	public boolean addToLineNum(int amount, int lineNum ){
 		boolean added = true;
-		if(this.children.size() > 0){
-			for (int i = 0; i < children.size(); i++){
-				added = this.children.get(i).addToLineNum(amount);
-				if (added == false){
-					break;
+		boolean t = this.inThisTag(lineNum);
+System.out.println("InThisTag = " + t);
+		int c = this.inChildTag(lineNum);
+System.out.println("InChildTag = " + c);
+		if(t && c == -1){
+			if(this.children.size() > 0){
+				for (int i = 0; i < children.size(); i++){
+					added = this.children.get(i).addToLineNum(amount, lineNum);
+					if (added == false){
+						break;
+					}
 				}
 			}
-		}
-		if(added){
-			this.setLineNumberStart(this.getLineNumberStart() + amount);
-			this.setLineNumberEnd(this.getLineNumberEnd() + amount);
-			added = true;
+			if(added){
+				this.setLineNumberStart(this.getLineNumberStart() + amount);
+				this.setLineNumberEnd(this.getLineNumberEnd() + amount);
+				added = true;
+			}
+		}else if(c != -1){
+System.out.println("called addToLineNum on a child");
+			added = this.children.get(c).addToLineNum(amount, lineNum);
+			if(added){
+				this.setLineNumberEnd(this.getLineNumberEnd() + amount);
+			}
 		}
 		return added;
 	}
@@ -226,11 +255,11 @@ System.out.println("children.size > 0");
 					// checks to see if the lineNum is greater than the start of the children.get(i)
 					if(children.get(i).getLineNumberStart() <= lineNum){
 						// checks to see if the lineNum is less than the start of the children.get(i)
-						if(children.get(i).getLineNumberEnd() >= lineNum){
+						if(children.get(i).getLineNumberEnd() > lineNum){
 							//calls this function on the child
 							added = children.get(i).addChild(child, lineNum);
 						}else{
-							children.add(i,child);
+							children.add(i + 1, child);
 							added = true;
 						}
 						break;
@@ -261,5 +290,9 @@ System.out.println("called addChild(BaseTag)");
 		this.lineNumberEnd = lineNumberEnd;
 	}
 	
-	
+	public String toString(){
+		String text = "";
+		
+		return text;
+	}
 }

@@ -30,10 +30,15 @@ public class LineNumberAssistant implements ui.Observer {
 	@Override
 	public void update(Tab tab) {
 		String text = tab.getText();
-		lineLengths.clear();
+		lineLengths = new ArrayList<Integer>();
 		int sum = 0;
+		tab.head.traverseForLineNumbers(0);
 		for (String line : text.split("\n")) {
 			sum += line.length();
+			if(line.length() == 0){
+System.out.println("line.length == 0");
+				tab.head.addToLineNum(1, lineLengths.size());
+			}
 			lineLengths.add(sum);
 		}
 	}
