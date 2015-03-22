@@ -71,7 +71,6 @@ public class CopyOfInsertTag implements ActionListener {
 		} else {
 			t.head = base;
 		}
-		t.head.traverseForLineNumbers(1);
 		t.getDocument().insertString(t.getCaretPosition(), t.head.getText(0, pos + 1), null);
 	}
 
