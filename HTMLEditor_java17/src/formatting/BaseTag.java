@@ -298,38 +298,6 @@ System.out.println("added to the end");
 			}
 		}
 		return added;
-/*		
-//System.out.println("\nAdd Child");
-		boolean added = false;
-		
-//System.out.println("the sent line number is " + lineNum);
-		if(this.getLineNumberStart() <= lineNum && lineNum <= this.getLineNumberEnd()){
-//System.out.println("line Number is inside the current tag");
-			
-			if(this.children.size() > 0){
-//System.out.println("children.size > 0");
-				
-				for(int i = children.size() - 1; i >= 0; i--){
-					
-					if(children.get(i).getLineNumberStart() <= lineNum){
-						
-						if(children.get(i).getLineNumberEnd() > lineNum){
-							
-							added = children.get(i).addChild(child, lineNum);
-						}
-						break;
-					}
-				}
-				if(added == false){
-					children.add(0,child);
-				}
-			}else{
-//System.out.println("called addChild(BaseTag)");
-				added = this.addChild(child);
-			}
-		}
-		return added;
-*/
 	}
 
 	/**
@@ -345,6 +313,24 @@ System.out.println("added to the end");
 	public void setLineNumberEnd(int lineNumberEnd) {
 		this.lineNumberEnd = lineNumberEnd;
 	}
+
+	public BaseTag tagFromText(String text){
+		BaseTag newTag = new BaseTag();
+		String[] parts = text.split("(?=<)"); //splits current text into sections per tag
+		for (int i = 0; i < parts.length; i++){
+			
+		}
+		
+		
+		
+		return newTag;
+	}
+	
+	
+	
+	
+	
+	
 	
 	public String toString(){
 		String text = "";
