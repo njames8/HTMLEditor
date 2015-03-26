@@ -108,7 +108,7 @@ public class Tab extends ObservableTab implements DocumentListener  {
 							null,
 							"Would you like to save changes to file: "
 									+ file.getFileName(), "Save Changes?",
-							JOptionPane.YES_NO_CANCEL_OPTION);
+										JOptionPane.YES_NO_CANCEL_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
 				SaveFile s = new SaveFile(this);
 				s.execute();

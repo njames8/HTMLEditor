@@ -244,7 +244,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		img.addActionListener(new InsertTag("img", true));
 		
 		JMenuItem hyperlink = new JMenuItem("HyperLink (a)");
-		hyperlink.addActionListener(new InsertTag("a"));
+		hyperlink.addActionListener(new CopyOfInsertTag("a"));
 		
 		
 				
@@ -352,26 +352,32 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	}
 	
 	// Closes all tabs, triggering saves if needed
-	public void closeAll() {
+	public boolean closeAll() {
 		for(Component c : tabbedPane.getComponents()) {
 			tabbedPane.setSelectedComponent(c);
-			close();
+			if(!close()){
+				return false;
+			}
 		}
+		return true;
 	}
 	
 	// Closes the currently selected tab
-	public void close() {
+	public boolean close() {
 		int index = tabbedPane.getSelectedIndex();
-		
+
 		// This may trigger a save dialog if there are unsaved changes
-		tabs.get(index).close();
-		
-		// Remove the tab from our collection and the window
-		tabs.remove(index);
-		tabbedPane.remove(index);
-		
-		if(tabs.size() == 0) {
-			NewTab();
+
+		if (tabs.get(index).close()) {
+
+			// Remove the tab from our collection and the window
+			tabs.remove(index);
+			tabbedPane.remove(index);
+			if (tabs.size() == 0) {
+				NewTab();
+			}
+			return true;
 		}
+		return false;
 	}
 }

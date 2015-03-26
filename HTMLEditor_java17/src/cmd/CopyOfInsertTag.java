@@ -59,9 +59,9 @@ public class CopyOfInsertTag implements ActionListener {
 		return "<" + tag + ">\n\n</" + tag + ">";
 	}
 
-	private BaseTag makeNewTag(Tab t, String text) {
+	private BaseTag makeNewTag(Tab t, String text, String l) {
 		int pos = t.getCaretLineNumber();
-		return new BaseTag(text, pos, pos + 1, false, null);
+		return new BaseTag(text, pos, pos + 1, false, null, l);
 	}
 
 	private void insertToTab(Tab t, BaseTag base) throws BadLocationException {
@@ -71,7 +71,8 @@ public class CopyOfInsertTag implements ActionListener {
 		} else {
 			t.head = base;
 		}
-		t.getDocument().insertString(t.getCaretPosition(), t.head.getText(0, pos + 1), null);
+		t.getDocument().insertString(t.getCaretPosition(),
+				t.head.getText(0, pos + 1), null);
 	}
 
 	/**
@@ -88,7 +89,7 @@ public class CopyOfInsertTag implements ActionListener {
 			} else if (tag.equals("a")) {
 				insertATag(t);
 			} else {
-				insertToTab(t, makeNewTag(t, tag));
+				insertToTab(t, makeNewTag(t, tag, null));
 			}
 
 		} catch (BadLocationException e) {
@@ -117,16 +118,16 @@ public class CopyOfInsertTag implements ActionListener {
 			try {
 				int row = (Integer) rows.getValue();
 				int col = (Integer) cols.getValue();
-				BaseTag base = makeNewTag(t, tag);
+				BaseTag base = makeNewTag(t, tag, null);
 				// t.getDocument().insertString(t.getCaretPosition(),
 				// getFullTag(), null);
 				// t.setCaretPosition((getFullTag().length() / 2));
 				for (; row > 0; row--) {
 					// t.getDocument().insertString(t.getCaretPosition(),
 					// "<tr>\n", null);
-					BaseTag c1 = makeNewTag(t, "tr");
+					BaseTag c1 = makeNewTag(t, "tr", null);
 					for (int i = 0; i < col; i++) {
-						c1.addChild(makeNewTag(t, "td"));
+						c1.addChild(makeNewTag(t, "td", null));
 						// t.getDocument().insertString(t.getCaretPosition(),
 						// "\t<td>\n\t</td>\n", null);
 					}
@@ -146,44 +147,20 @@ public class CopyOfInsertTag implements ActionListener {
 	}
 
 	private void insertATag(Tab t) {
-		String fullTag = getFullTag();
-		String aTag;
+		
+		String url = JOptionPane.showInputDialog(null, "Link");
 
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(0, 1));
-		panel.setSize(500, 150);
-		JTextArea url = new JTextArea(1, 30);
+		BaseTag base;
+		if (url == null) {
+			return;
+		}
+		base = makeNewTag(t, "a", url);
+		try {
+			insertToTab(t, base);
 
-		JTextArea urlText = new JTextArea(1, 30);
-		panel.add(new JLabel("Url: "));
-		panel.add(url);
-		panel.add(new JLabel("Text: "));
-		panel.add(urlText);
-		JOptionPane pane = new JOptionPane(panel);
-		int x = pane.showOptionDialog(null, panel, "Hyperlink",
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-				null, null, null);
-
-		if (x == JOptionPane.OK_OPTION) {
-			String link = url.getText();
-			String text = urlText.getText();
-
-			if (link != null) {
-				aTag = fullTag.substring(0, 2) + " href=\"" + link + "\""
-						+ fullTag.substring(2, 4) + text + fullTag.substring(4);
-			} else {
-				aTag = fullTag.substring(0, 2) + " href=\"\""
-						+ fullTag.substring(2, 4) + text + fullTag.substring(4);
-			}
-
-			try {
-				t.getDocument().insertString(t.getCaretPosition(), aTag, null);
-				t.getFile().changed();
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-
 }

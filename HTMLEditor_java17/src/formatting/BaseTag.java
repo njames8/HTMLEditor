@@ -10,16 +10,17 @@ import java.util.*;
  */
 public class BaseTag {
 	private String tag;//tag value e.g. 'p' for a <p> tag
+	private String link;
 	private boolean collapsed = false;
 	private ArrayList<BaseTag> children;
 	private int lineNumberStart, lineNumberEnd;
 	public BaseTag() {
 		this.children = new ArrayList<BaseTag>();
 	}
-	public BaseTag(String t, int s, int e, boolean c, ArrayList<BaseTag> a){
-		tag = t;
-		collapsed = c;
-		
+	public BaseTag(String t, int s, int e, boolean c, ArrayList<BaseTag> a, String l){
+		this.tag = t;
+		this.collapsed = c;
+		this.link = l;
 		if(s >= 0)
 			lineNumberStart = s;
 //System.out.println("start: " + s);
@@ -64,7 +65,11 @@ public class BaseTag {
 			t += "    ";
 		}
 		//adds the tag name
-		text += t + "<" + tag + ">";
+		if (link == null) {
+			text += t + "<" + tag + ">";
+		} else {
+			text += t + "<" + tag + " href=\"" + this.link + "\">" ;
+		}
 		if(!collapsed){
 			text += "\n";
 			if(this.children.size() > 0){
@@ -75,8 +80,9 @@ public class BaseTag {
 				}
 			}
 			text += t;
-		}else
+		} else {
 			text += "...";
+		}
 		text += "</" + tag + ">";
 		return text;
 	}
