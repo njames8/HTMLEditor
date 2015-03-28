@@ -109,16 +109,20 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		 */
 		JMenu mnFile = new JMenu("File");
 
-		JMenuItem mntmNew = new JMenuItem("New");// Makes the menu button for
-													// making a new tab
+		// New File (CTRL + N)
+		JMenuItem mntmNew = new JMenuItem("New");
+		mntmNew.setAccelerator(KeyStroke.getKeyStroke('N', KeyEvent.CTRL_DOWN_MASK));
+		
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				NewTab();// Adds new tab to the window
 			}
 		});
 
-		JMenuItem mntmOpen = new JMenuItem("Open...");// Makes the menu button
-														// for opening files
+		// Open File (CTRL + O)
+		JMenuItem mntmOpen = new JMenuItem("Open...");
+		mntmOpen.setAccelerator(KeyStroke.getKeyStroke('O', KeyEvent.CTRL_DOWN_MASK));
+		
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// calls the command to open file and adds it to the window.
@@ -126,18 +130,35 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				o.execute();
 			}
 		});
-
-		JMenuItem mntmExit = new JMenuItem("Exit");// Makes the close button
-														// for closing the
-														// window.
-		mntmExit.addActionListener(new ActionListener() {
+		
+		// Close (CTRL + W)
+		JMenuItem mntmCloseTab = new JMenuItem("Close");
+		mntmCloseTab.setAccelerator(KeyStroke.getKeyStroke('W', KeyEvent.CTRL_DOWN_MASK));
+		
+		mntmCloseTab.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				new Close().execute();
+				Tab t = EditorWindow.getInstance().getCurrentTab();
+
+				new CloseTab(t, tabbedPane).execute();
 			}
 		});
 
-		JMenuItem mntmSave = new JMenuItem("Save");// Makes the Save button for
-													// saving files
+		// Close All (CTRL + Shift + W)
+		JMenuItem mntmCloseAll = new JMenuItem("Close All");
+		mntmCloseAll.setAccelerator(KeyStroke.getKeyStroke('W', KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
+		
+		mntmCloseAll.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new CloseAllTab().execute();
+			}
+		});
+
+		// Save (CTRL + S)
+		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_DOWN_MASK));
+		
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Tab t = EditorWindow.getInstance().getCurrentTab();
@@ -149,29 +170,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		});
 
-		JMenuItem mntmCloseTab = new JMenuItem("Close");// Makes the button
-															// for closing the
-															// current tab.
-		mntmCloseTab.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
-				
-				new CloseTab(t, tabbedPane).execute();
-			}
-		});
+		// Save As... (CTRL + Shift + S)
+		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
+		mntmSaveAs.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
 		
-		JMenuItem mntmCloseAll = new JMenuItem("Close All");
-		mntmCloseAll.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				new CloseAllTab().execute();
-			}
-		});
-
-		JMenuItem mntmSaveAs = new JMenuItem("Save As...");// Makes the Save
-															// button for saving
-															// files
 		mntmSaveAs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -180,6 +182,15 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				new SaveAsFile(t).execute();
 			}
 
+		});
+		
+		// Exit
+		JMenuItem mntmExit = new JMenuItem("Exit"); 
+		
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new Close().execute();
+			}
 		});
 
 		/*
@@ -198,8 +209,12 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		JMenuItem head = new JMenuItem("Head");
 		JMenuItem body = new JMenuItem("Body");
 		JMenuItem paragraph = new JMenuItem("Paragraph");
+		
 		JMenuItem bold = new JMenuItem("Bold");
+		bold.setAccelerator(KeyStroke.getKeyStroke('B', KeyEvent.CTRL_DOWN_MASK));
+		
 		JMenuItem italic = new JMenuItem("Italic");
+		italic.setAccelerator(KeyStroke.getKeyStroke('I', KeyEvent.CTRL_DOWN_MASK));
 
 		html.addActionListener(new InsertTag("html"));
 		
@@ -216,16 +231,29 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		
 		JMenuItem cut = new JMenuItem(new Cut());
 		cut.setText("Cut");
-		
-		
+		cut.setAccelerator(KeyStroke.getKeyStroke('X', KeyEvent.CTRL_DOWN_MASK));
 
 		JMenuItem copy = new JMenuItem(new DefaultEditorKit.CopyAction());
 		copy.setText("Copy");
+		copy.setAccelerator(KeyStroke.getKeyStroke('C', KeyEvent.CTRL_DOWN_MASK));
 		
 
 		JMenuItem paste = new JMenuItem(new Paste());
 		paste.setText("Paste");
-		paste.setMnemonic(KeyEvent.VK_P);
+		paste.setAccelerator(KeyStroke.getKeyStroke('V', KeyEvent.CTRL_DOWN_MASK));
+		
+		JMenuItem selectAll = new JMenuItem("Select All");
+		selectAll.setAccelerator(KeyStroke.getKeyStroke('A', KeyEvent.CTRL_DOWN_MASK));
+		
+		selectAll.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Tab t = EditorWindow.getInstance().getCurrentTab();
+					
+					t.selectAll();
+				}
+			}
+		);
 		
 		JMenu mnList = new JMenu("List");
 		
@@ -276,6 +304,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			mnEdit.add(cut);
 			mnEdit.add(copy);
 			mnEdit.add(paste);
+			mnEdit.addSeparator();
+			mnEdit.add(selectAll);
 		
 		menuBar.add(mnInsert);
 		
