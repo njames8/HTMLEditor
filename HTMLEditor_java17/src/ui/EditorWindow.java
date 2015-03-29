@@ -62,6 +62,9 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 */
 	public EditorWindow() {
 		init();
+		
+		// Create a blank tab for the user to start with
+        NewTab();
 	}
 
 	/**
@@ -83,7 +86,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane);
 		
-		
 		// Setup the menus
 		initMenus();
 		
@@ -94,19 +96,26 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
             	new Close().execute();
             }
         });
-        
-        // Create a blank tab for the user to start with
-        NewTab();
 	}
 	
 	private void initMenus() {
 		// Create menu bar
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-
-		/*
-		 * File
-		 */
+		
+		// Init and add menus
+		initFileMenu(menuBar);
+		initEditMenu(menuBar);
+		initInsertMenu(menuBar);
+		initFormatMenu(menuBar);
+	}
+	
+	/**
+	 * Initializes and adds the file menu to the menu bar
+	 * 
+	 * @param menu The JMenuBar that the menu items will be added to
+	 */
+	private void initFileMenu(JMenuBar menu) {
 		JMenu mnFile = new JMenu("File");
 
 		// New File (CTRL + N)
@@ -192,56 +201,45 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				new Close().execute();
 			}
 		});
-
-		/*
-		 * Edit
-		 */
-		JMenu mnEdit = new JMenu("Edit");// makes the edit menu
-
-		JMenu mnInsert = new JMenu("Insert");// makes the insert menu
-
-		JMenu mnHtmlTag = new JMenu("Tag");
-
-		JMenuItem table = new JMenuItem("Table");
-		table.addActionListener(new InsertTag("table"));
 		
-		JMenuItem html = new JMenuItem("HTML");
-		JMenuItem head = new JMenuItem("Head");
-		JMenuItem body = new JMenuItem("Body");
-		JMenuItem paragraph = new JMenuItem("Paragraph");
+		mnFile.add(mntmNew);
+		mnFile.add(mntmOpen);
+		mnFile.addSeparator(); // --------
+		mnFile.add(mntmCloseTab);
+		mnFile.add(mntmCloseAll);
+		mnFile.addSeparator(); // --------
+		mnFile.add(mntmSave);
+		mnFile.add(mntmSaveAs);
+		mnFile.addSeparator(); // --------
+		mnFile.add(mntmExit);
 		
-		JMenuItem bold = new JMenuItem("Bold");
-		bold.setAccelerator(KeyStroke.getKeyStroke('B', KeyEvent.CTRL_DOWN_MASK));
+		menu.add(mnFile);
+	}
+	
+	/**
+	 * Initializes and adds the edit menu to the menu bar
+	 * 
+	 * @param menu The JMenuBar that the menu items will be added to
+	 */
+	private void initEditMenu(JMenuBar menu) {
+		JMenu mnEdit = new JMenu("Edit");
 		
-		JMenuItem italic = new JMenuItem("Italic");
-		italic.setAccelerator(KeyStroke.getKeyStroke('I', KeyEvent.CTRL_DOWN_MASK));
-
-		html.addActionListener(new InsertTag("html"));
-		
-		head.addActionListener(new InsertTag("head"));
-		
-		body.addActionListener(new InsertTag("body"));
-		
-		paragraph.addActionListener(new InsertTag("p"));
-		
-		bold.addActionListener(new InsertTag("b"));
-		
-		italic.addActionListener(new InsertTag("i"));
-
-		
+		// Cut (CTRL + X)
 		JMenuItem cut = new JMenuItem(new Cut());
 		cut.setText("Cut");
 		cut.setAccelerator(KeyStroke.getKeyStroke('X', KeyEvent.CTRL_DOWN_MASK));
 
+		// Copy (CTRL + C)
 		JMenuItem copy = new JMenuItem(new DefaultEditorKit.CopyAction());
 		copy.setText("Copy");
 		copy.setAccelerator(KeyStroke.getKeyStroke('C', KeyEvent.CTRL_DOWN_MASK));
 		
-
+		// Paste (CTRL + V)
 		JMenuItem paste = new JMenuItem(new Paste());
 		paste.setText("Paste");
 		paste.setAccelerator(KeyStroke.getKeyStroke('V', KeyEvent.CTRL_DOWN_MASK));
 		
+		// Select All (CTRL + A)
 		JMenuItem selectAll = new JMenuItem("Select All");
 		selectAll.setAccelerator(KeyStroke.getKeyStroke('A', KeyEvent.CTRL_DOWN_MASK));
 		
@@ -255,29 +253,116 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		);
 		
+		menu.add(mnEdit);
+		
+		mnEdit.add(cut);
+		mnEdit.add(copy);
+		mnEdit.add(paste);
+		mnEdit.addSeparator(); // --------
+		mnEdit.add(selectAll);
+	}
+	
+	/**
+	 * Initializes and adds the insert menu to the menu bar
+	 * 
+	 * @param menu The JMenuBar that the menu items will be added to
+	 */
+	private void initInsertMenu(JMenuBar menu) {
+		JMenu mnInsert = new JMenu("Insert");
+
+		////////////////////////////////////////
+		// Tag sub menu
+		////////////////////////////////////////
+		JMenu mnHtmlTag = new JMenu("Tag");
+		
+		// <html>
+		JMenuItem html = new JMenuItem("HTML");
+		html.addActionListener(new InsertTag("html"));
+		
+		// <head>
+		JMenuItem head = new JMenuItem("Head");
+		head.addActionListener(new InsertTag("head"));
+		
+		// <body>
+		JMenuItem body = new JMenuItem("Body");
+		body.addActionListener(new InsertTag("body"));
+		
+		// <p>
+		JMenuItem paragraph = new JMenuItem("Paragraph");
+		paragraph.addActionListener(new InsertTag("p"));
+		
+		// <b> (CTRL + B)
+		JMenuItem bold = new JMenuItem("Bold");
+		bold.addActionListener(new InsertTag("b"));
+		bold.setAccelerator(KeyStroke.getKeyStroke('B', KeyEvent.CTRL_DOWN_MASK));
+		
+		// <i> (CTRL + i)
+		JMenuItem italic = new JMenuItem("Italic");
+		italic.addActionListener(new InsertTag("i"));
+		italic.setAccelerator(KeyStroke.getKeyStroke('I', KeyEvent.CTRL_DOWN_MASK));
+		
+		// <img>
+		JMenuItem img = new JMenuItem("Image");
+		img.addActionListener(new InsertTag("img", true));
+		
+		// <a>
+		JMenuItem hyperlink = new JMenuItem("HyperLink (a)");
+		hyperlink.addActionListener(new CopyOfInsertTag("a"));
+		
+		////////////////////////////////////////
+		// List sub menu
+		////////////////////////////////////////
 		JMenu mnList = new JMenu("List");
 		
 		JMenuItem ordered = new JMenuItem("Ordered");
 		ordered.addActionListener(new InsertTag("ol"));
 		
 		JMenuItem unordered = new JMenuItem("Unordered");
-
 		unordered.addActionListener(new InsertTag("ul"));
 
-		
 		JMenuItem listItem = new JMenuItem("List Item");
 		listItem.addActionListener(new InsertTag("li"));
 		
-		JMenuItem img = new JMenuItem("Image");
-		img.addActionListener(new InsertTag("img", true));
+		////////////////////////////////////////
+		// Table
+		////////////////////////////////////////
+		JMenuItem table = new JMenuItem("Table");
+		table.addActionListener(new InsertTag("table"));
 		
-		JMenuItem hyperlink = new JMenuItem("HyperLink (a)");
-		hyperlink.addActionListener(new CopyOfInsertTag("a"));
+		mnInsert.add(mnHtmlTag);
+			mnHtmlTag.add(html);
+			mnHtmlTag.add(head);
+			mnHtmlTag.add(body);
+			mnHtmlTag.add(paragraph);
+			mnHtmlTag.add(bold);
+			mnHtmlTag.add(italic);
+			mnHtmlTag.add(img);
+			mnHtmlTag.add(hyperlink);
+			
+			
+		mnInsert.add(mnList);
+			mnList.add(ordered);
+			mnList.add(unordered);
+			mnList.add(listItem);
+			
+		mnInsert.add(table);
+			
+		menu.add(mnInsert);
+	}
+	
+	/**
+	 * Initializes and adds the file menu to the menu bar
+	 * 
+	 * @param menu The JMenuBar that the menu items will be added to
+	 */
+	private void initFormatMenu(JMenuBar menu) {
+		JMenu mnFormat = new JMenu("Format");
 		
+		// Validate HTML (CTRL + Enter)
+		JMenuItem validate = new JMenuItem("Validate");
+		validate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.CTRL_DOWN_MASK));
 		
-				
-		JMenuItem mnValidate = new JMenuItem("Validate");
-		mnValidate.addActionListener(new ActionListener() {
+		validate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
 				JViewport temp2 = temp.getViewport();
@@ -285,49 +370,11 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				ParseCMD p = new ParseCMD(t);
 				p.execute();
 			}
-		});//TODO add auto-indent button
-	
-		// adds all the menu buttons and menu headers to the window.
-		menuBar.add(mnFile);
-			mnFile.add(mntmNew);
-			mnFile.add(mntmOpen);
-			mnFile.addSeparator();
-			mnFile.add(mntmCloseTab);
-			mnFile.add(mntmCloseAll);
-			mnFile.addSeparator();
-			mnFile.add(mntmSave);
-			mnFile.add(mntmSaveAs);
-			mnFile.addSeparator();
-			mnFile.add(mntmExit);
-			
-		menuBar.add(mnEdit);
-			mnEdit.add(cut);
-			mnEdit.add(copy);
-			mnEdit.add(paste);
-			mnEdit.addSeparator();
-			mnEdit.add(selectAll);
+		});
 		
-		menuBar.add(mnInsert);
+		mnFormat.add(validate);
 		
-			mnInsert.add(mnHtmlTag);
-				mnHtmlTag.add(html);
-				mnHtmlTag.add(head);
-				mnHtmlTag.add(body);
-				mnHtmlTag.add(paragraph);
-				mnHtmlTag.add(bold);
-				mnHtmlTag.add(italic);
-				mnHtmlTag.add(img);
-				mnHtmlTag.add(hyperlink);
-				
-				
-			mnInsert.add(mnList);
-				mnList.add(ordered);
-				mnList.add(unordered);
-				mnList.add(listItem);
-				
-			mnInsert.add(table);
-			
-		menuBar.add(mnValidate);
+		menu.add(mnFormat);
 	}
 
 	/**
