@@ -351,7 +351,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	}
 	
 	/**
-	 * Initializes and adds the file menu to the menu bar
+	 * Initializes and adds the format menu to the menu bar
 	 * 
 	 * @param menu The JMenuBar that the menu items will be added to
 	 */
@@ -379,9 +379,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 	/**
 	 * Adds a tab to the window with a new file
-	 * 
-	 * @param j
-	 *            - area for tabs
 	 */
 	public void NewTab() {
 		NewTab(new HTMLFile(), "");
