@@ -96,6 +96,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
             	new Close().execute();
             }
         });
+        
 	}
 	
 	private void initMenus() {

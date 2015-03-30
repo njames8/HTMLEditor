@@ -146,10 +146,12 @@ public class CopyOfInsertTag implements ActionListener {
 		}
 	}
 
+	/**
+	 * Inserts an a tag into the text area and tag tree
+	 * @param t - tab to insert tag into
+	 */
 	private void insertATag(Tab t) {
-		
 		String url = JOptionPane.showInputDialog(null, "Link");
-
 		BaseTag base;
 		if (url == null) {
 			return;
@@ -159,7 +161,6 @@ public class CopyOfInsertTag implements ActionListener {
 			insertToTab(t, base);
 
 		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
