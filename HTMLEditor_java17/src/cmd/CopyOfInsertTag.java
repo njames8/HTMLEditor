@@ -68,11 +68,14 @@ public class CopyOfInsertTag implements ActionListener {
 		int pos = t.getCaretLineNumber();
 		if (t.head != null) {
 			t.head.addChild(base, pos);
+			int indent = t.head.getIndentLevel(pos + 1);
+			t.getDocument().insertString(t.getCaretPosition(),
+					base.getText(indent), null);
 		} else {
 			t.head = base;
+			t.getDocument().insertString(t.getCaretPosition(),
+					t.head.getText(0), null);
 		}
-		t.getDocument().insertString(t.getCaretPosition(),
-				t.head.getText(0, pos + 1), null);
 	}
 
 	/**

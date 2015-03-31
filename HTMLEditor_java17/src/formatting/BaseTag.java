@@ -78,12 +78,13 @@ public class BaseTag {
 					//calls this method on all the children
 					text += this.children.get(i).getText(indentLevel + 1);
 				}
-			}
+			}else
+				text += "\n";
 			text += t;
 		} else {
 			text += "...";
 		}
-		text += "</" + tag + ">";
+		text += "</" + tag + ">\n";
 		return text;
 	}
 	
@@ -108,26 +109,20 @@ public class BaseTag {
 			}
 		}
 		return text;
-		
-		
-/*		
-		//TODO may need to change depending on how text tags are implemented.
-		String text = "Not a valid Line number";
-		if(lineNum >= 0){
-			text = "Not this tag!!!!!!!!!!!";
-			boolean t = this.inThisTag(lineNum);
-//System.out.println("InThisTag = " + t);
+	}
+	
+	public int getIndentLevel(int lineNum){
+		int indent = 0;
+		if(this.inThisTag(lineNum)){
 			int c = this.inChildTag(lineNum);
-//System.out.println("InChildTag = " + c);
-			if( t && c == -1){
-				text = getText(indentLevel);
-			}else if(c != -1){
-				text = this.children.get(c).getText(indentLevel + 1, lineNum);
+			if(c >= 0){
+				return this.children.get(c).getIndentLevel(lineNum) + 1;
 			}
 		}
-		return text;
-*/
+		
+		return indent - 1;
 	}
+	
 	
 	public BaseTag getChild(int lineNum){
 		//TODO may need to change depending on how text tags are implemented.
@@ -155,13 +150,10 @@ public class BaseTag {
 	 * 		-1 if there are no children.
 	 */
 	private int inChildTag(int lineNum){
-//System.out.println("\nInChildTag");
 		if(this.children.size() > 0){
 			for(int i = 0; i < this.children.size(); i++){
 				if(this.children.get(i).getLineNumberStart() <= lineNum){
-//System.out.println("Sent LineNum is greaterthan or equal to the start of the child");
 					if( this.children.get(i).getLineNumberEnd() >= lineNum){
-//System.out.println("Sent LineNum is less than or equal to the end of the child");
 						return i;
 					}
 				}
@@ -172,13 +164,9 @@ public class BaseTag {
 	}
 	
 	private boolean inThisTag(int lineNum){
-//System.out.println("\nInThisTag");
 		boolean b = false;
-//System.out.println("Sent LineNum: " + lineNum);
 		if(this.getLineNumberStart() <= lineNum){ 
-//System.out.println("Sent LineNum is greaterthan or equal to the start");
 			if(this.getLineNumberEnd() >= lineNum){
-//System.out.println("Sent LineNum is less than or equal to the end");
 				b = true;
 			}
 		}
@@ -203,7 +191,7 @@ System.out.println("Set <"+ tag + "> lineNumStart to " + counter);
 			}
 		}
 		lineNumberEnd = counter;
-//System.out.println("Set </" + tag + "> lineNumEnd to " + counter);
+System.out.println("Set </" + tag + "> lineNumEnd to " + counter);
 		return counter + 1;
 	}
 
@@ -232,6 +220,7 @@ System.out.println("InChildTag = " + c);
 		if(t && (c == -1 || c == -2)){
 			if(c == -2){
 				for (int i = 0; i < children.size(); i++){
+					//TODO check to see which children need this
 					added = this.children.get(i).addToLineNum(amount, lineNum);
 					if (added == false){
 						break;
@@ -248,7 +237,7 @@ System.out.println("added to the end of " + tag);
 					this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 				}
 			}
-		}else if(c != -1){
+		}else if(c != -1 && c != -2){
 System.out.println("called addToLineNum on a child");
 			added = this.children.get(c).addToLineNum(amount, lineNum);
 			if(added){
