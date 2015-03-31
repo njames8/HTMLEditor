@@ -1,3 +1,5 @@
-/formatting/
-/ui/
 /cmd/
+/files/
+/formatting/
+/parsing/
+/ui/

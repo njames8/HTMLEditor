@@ -28,6 +28,7 @@ import java.util.List;
  * @author Matthew Gallagher
  * @author Adam Walsh
  * @author Jesse Roux
+ * @author John Mullen
  *
  */
 @SuppressWarnings("serial")
@@ -254,6 +255,25 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		);
 		
+		
+		////////////////////////////////////////
+		// Preferences sub menu
+		////////////////////////////////////////
+		JMenu mnPreferences = new JMenu("Preferences");
+		
+		//Auto Word-Wrapping
+		JMenuItem wordWrapToggle = new JMenuItem("Auto Word-Wrapping");
+		wordWrapToggle.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						Tab t = EditorWindow.getInstance().getCurrentTab();
+						t.setLineWrap(false);
+					}
+				});
+		//Auto Indentation: NOT YET IMPLEMENTED
+		JMenuItem indentToggle = new JMenuItem("Auto Indentation");
+		indentToggle.addActionListener(null);
+		
 		menu.add(mnEdit);
 		
 		mnEdit.add(cut);
@@ -261,6 +281,12 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mnEdit.add(paste);
 		mnEdit.addSeparator(); // --------
 		mnEdit.add(selectAll);
+		mnEdit.addSeparator(); // --------
+		mnEdit.add(mnPreferences);
+		
+		mnPreferences.add(wordWrapToggle);
+		mnPreferences.add(indentToggle);
+	
 	}
 	
 	/**
