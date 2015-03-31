@@ -5,8 +5,12 @@ package cmd;
 
 import java.awt.GridLayout;
 import java.awt.event.*;
+import java.awt.image.ImageFilter;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.*;
 
 import ui.*;
@@ -71,8 +75,14 @@ public class CopyOfInsertTag implements ActionListener {
 		} else {
 			t.head = base;
 		}
-		t.getDocument().insertString(t.getCaretPosition(),
-				t.head.getText(0, pos + 1), null);
+		if (!this.selfClosing){
+			//TODO get selfCLosing tag text
+			t.getDocument().insertString(t.getCaretPosition(),
+					t.head.getText(0, pos + 1), null);
+		}else{
+			t.getDocument().insertString(t.getCaretPosition(),
+					t.head.getText(0, pos + 1), null);
+		}
 	}
 
 	/**
@@ -88,6 +98,8 @@ public class CopyOfInsertTag implements ActionListener {
 				insertTable(t);
 			} else if (tag.equals("a")) {
 				insertATag(t);
+			} else if (tag.equals("img")){
+				insertImg(t);
 			} else {
 				insertToTab(t, makeNewTag(t, tag, null));
 			}
@@ -163,5 +175,52 @@ public class CopyOfInsertTag implements ActionListener {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void insertImg(Tab t){
+		
+		String url = getPath();
+		BaseTag base;
+		if (url == null) {
+			return;
+		}
+		base = makeNewTag(t, "img", url);
+		try {
+			insertToTab(t, base);
+
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private String getPath(){
+		JPanel p = new JPanel();
+		final JTextArea t = new JTextArea();
+		t.setColumns(30);
+		
+		final JFileChooser c = new JFileChooser();
+		FileFilter imageFilter = new FileNameExtensionFilter(
+			    "Image files", ImageIO.getReaderFileSuffixes());
+		c.addChoosableFileFilter(imageFilter);
+		
+		JButton b = new JButton("Browse");
+		b.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				c.showOpenDialog(null);
+				if (c.getSelectedFile() != null) {
+					String path = c.getSelectedFile().getAbsolutePath();
+					t.setText(path);
+				}
+			}
+		});
+		
+		p.add(t);
+		p.add(b);
+		JOptionPane pane = new JOptionPane(p);
+		
+		pane.showOptionDialog(null, p, "Choose Source", 0, 0, null, null, null);
+		
+		return t.getText();
 	}
 }
