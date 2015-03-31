@@ -28,6 +28,7 @@ import java.util.List;
  * @author Matthew Gallagher
  * @author Adam Walsh
  * @author Jesse Roux
+ * @author John Mullen
  *
  */
 @SuppressWarnings("serial")
@@ -96,6 +97,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
             	new Close().execute();
             }
         });
+        
 	}
 	
 	private void initMenus() {
@@ -253,6 +255,33 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		);
 		
+		
+		////////////////////////////////////////
+		// Preferences sub menu
+		////////////////////////////////////////
+		JMenu mnPreferences = new JMenu("Preferences");
+		
+		//Auto Word-Wrapping
+		JCheckBoxMenuItem wordWrapToggle = new JCheckBoxMenuItem("Auto Word-Wrapping");
+		wordWrapToggle.setSelected(true);
+		wordWrapToggle.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						Tab t = EditorWindow.getInstance().getCurrentTab();
+						boolean curStat = t.getLineWrap();
+						if(curStat == true){
+							t.setLineWrap(false);
+						}
+						else{
+							t.setLineWrap(true);
+						}
+						
+					}
+				});
+		//Auto Indentation: NOT YET IMPLEMENTED
+		JMenuItem indentToggle = new JMenuItem("Auto Indentation");
+		indentToggle.addActionListener(null);
+		
 		menu.add(mnEdit);
 		
 		mnEdit.add(cut);
@@ -260,6 +289,12 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mnEdit.add(paste);
 		mnEdit.addSeparator(); // --------
 		mnEdit.add(selectAll);
+		mnEdit.addSeparator(); // --------
+		mnEdit.add(mnPreferences);
+		
+		mnPreferences.add(wordWrapToggle);
+		mnPreferences.add(indentToggle);
+	
 	}
 	
 	/**
@@ -303,7 +338,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		
 		// <img>
 		JMenuItem img = new JMenuItem("Image");
-		img.addActionListener(new InsertTag("img", true));
+		img.addActionListener(new CopyOfInsertTag("img", true));
 		
 		// <a>
 		JMenuItem hyperlink = new JMenuItem("HyperLink (a)");
