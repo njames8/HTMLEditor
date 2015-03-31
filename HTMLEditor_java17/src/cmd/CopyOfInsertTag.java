@@ -3,6 +3,8 @@
  */
 package cmd;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import java.awt.image.ImageFilter;
@@ -179,7 +181,7 @@ public class CopyOfInsertTag implements ActionListener {
 	
 	private void insertImg(Tab t){
 		
-		String url = getPath();
+		String url = getImagePath();
 		BaseTag base;
 		if (url == null) {
 			return;
@@ -193,10 +195,9 @@ public class CopyOfInsertTag implements ActionListener {
 		}
 	}
 	
-	private String getPath(){
-		JPanel p = new JPanel();
-		final JTextArea t = new JTextArea();
-		t.setColumns(30);
+	private String getImagePath(){
+		JPanel p = new JPanel(new BorderLayout());
+		final JTextArea t = new JTextArea(1,30);
 		
 		final JFileChooser c = new JFileChooser();
 		FileFilter imageFilter = new FileNameExtensionFilter(
@@ -215,12 +216,15 @@ public class CopyOfInsertTag implements ActionListener {
 			}
 		});
 		
-		p.add(t);
-		p.add(b);
-		JOptionPane pane = new JOptionPane(p);
+		p.add(t, BorderLayout.CENTER);
+		p.add(b,BorderLayout.EAST);
+			
+		int choice = JOptionPane.showConfirmDialog(null, p, "Choose Source", 0);
 		
-		pane.showOptionDialog(null, p, "Choose Source", 0, 0, null, null, null);
+		if (choice == JOptionPane.YES_OPTION){
+			return t.getText();
+		}
+		return null;
 		
-		return t.getText();
 	}
 }
