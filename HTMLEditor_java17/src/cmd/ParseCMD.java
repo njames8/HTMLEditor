@@ -27,12 +27,14 @@ public class ParseCMD implements Command {
 	 */
 	@Override
 	public void execute() {
+//*
 		try {
 			Parser.Parse(tab.getText());
 		}
 		catch (SyntaxException e) {
 			new MessageBox("Syntax Exception", e.toString(), JOptionPane.ERROR_MESSAGE);
 		}
+//*/	System.out.println(tab.head);
 	}
 
 }

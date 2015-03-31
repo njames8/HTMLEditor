@@ -312,28 +312,28 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		
 		// <html>
 		JMenuItem html = new JMenuItem("HTML");
-		html.addActionListener(new InsertTag("html"));
+		html.addActionListener(new CopyOfInsertTag("html"));
 		
 		// <head>
 		JMenuItem head = new JMenuItem("Head");
-		head.addActionListener(new InsertTag("head"));
+		head.addActionListener(new CopyOfInsertTag("head"));
 		
 		// <body>
 		JMenuItem body = new JMenuItem("Body");
-		body.addActionListener(new InsertTag("body"));
+		body.addActionListener(new CopyOfInsertTag("body"));
 		
 		// <p>
 		JMenuItem paragraph = new JMenuItem("Paragraph");
-		paragraph.addActionListener(new InsertTag("p"));
+		paragraph.addActionListener(new CopyOfInsertTag("p"));
 		
 		// <b> (CTRL + B)
 		JMenuItem bold = new JMenuItem("Bold");
-		bold.addActionListener(new InsertTag("b"));
+		bold.addActionListener(new CopyOfInsertTag("b"));
 		bold.setAccelerator(KeyStroke.getKeyStroke('B', KeyEvent.CTRL_DOWN_MASK));
 		
 		// <i> (CTRL + i)
 		JMenuItem italic = new JMenuItem("Italic");
-		italic.addActionListener(new InsertTag("i"));
+		italic.addActionListener(new CopyOfInsertTag("i"));
 		italic.setAccelerator(KeyStroke.getKeyStroke('I', KeyEvent.CTRL_DOWN_MASK));
 		
 		// <img>
@@ -350,19 +350,19 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		JMenu mnList = new JMenu("List");
 		
 		JMenuItem ordered = new JMenuItem("Ordered");
-		ordered.addActionListener(new InsertTag("ol"));
+		ordered.addActionListener(new CopyOfInsertTag("ol"));
 		
 		JMenuItem unordered = new JMenuItem("Unordered");
-		unordered.addActionListener(new InsertTag("ul"));
+		unordered.addActionListener(new CopyOfInsertTag("ul"));
 
 		JMenuItem listItem = new JMenuItem("List Item");
-		listItem.addActionListener(new InsertTag("li"));
+		listItem.addActionListener(new CopyOfInsertTag("li"));
 		
 		////////////////////////////////////////
 		// Table
 		////////////////////////////////////////
 		JMenuItem table = new JMenuItem("Table");
-		table.addActionListener(new InsertTag("table"));
+		table.addActionListener(new CopyOfInsertTag("table"));
 		
 		mnInsert.add(mnHtmlTag);
 			mnHtmlTag.add(html);
