@@ -9,11 +9,12 @@ import java.util.*;
  *
  */
 public class BaseTag {
-	private String tag;//tag value e.g. 'p' for a <p> tag
-	private String link;
-	private boolean collapsed = false;
+	protected String tag;//tag value e.g. 'p' for a <p> tag
+	protected String link;
+	protected boolean collapsed = false;
 	private ArrayList<BaseTag> children;
-	private int lineNumberStart, lineNumberEnd;
+	protected int lineNumberStart, lineNumberEnd;
+	
 	public BaseTag() {
 		this.children = new ArrayList<BaseTag>();
 	}
