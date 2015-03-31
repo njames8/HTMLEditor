@@ -11,7 +11,7 @@ import java.util.*;
 public class BaseTag {
 	protected String tag;//tag value e.g. 'p' for a <p> tag
 	protected String link;
-	protected boolean collapsed = false;
+	private boolean collapsed = false;
 	private ArrayList<BaseTag> children;
 	protected int lineNumberStart, lineNumberEnd;
 	
@@ -152,7 +152,7 @@ public class BaseTag {
 	 * 		-1 if there are no children.
 	 */
 	private int inChildTag(int lineNum){
-		if(this.children.size() > 0){
+		if(!(this.children == null) && this.children.size() > 0 ){
 			for(int i = 0; i < this.children.size(); i++){
 				if(this.children.get(i).getLineNumberStart() <= lineNum){
 					if( this.children.get(i).getLineNumberEnd() >= lineNum){
