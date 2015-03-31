@@ -285,18 +285,11 @@ public class BaseTag {
 	 * spot that is specified in the lineNum that was sent.
 	 */
 	public boolean addChild(BaseTag child, int lineNum){
-		
 		boolean added = false;
 		// checks to see if the child has been sent to the correct tag
 		if(this.inThisTag(lineNum)){
 			//check to see if there are any children already
 			if(this.children.size() > 0){
-				/*for(int i = 0; i < this.children.size(); i++){
-					
-				}
-				*/
-				
-
 				// iterates over all the children backwards
 				for(int i = 0; i < this.children.size(); i++){
 					// checks to see if the lineNum is greater than the start of the children.get(i)
