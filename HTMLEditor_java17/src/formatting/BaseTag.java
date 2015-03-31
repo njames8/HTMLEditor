@@ -118,9 +118,10 @@ public class BaseTag {
 			if(c >= 0){
 				return this.children.get(c).getIndentLevel(lineNum) + 1;
 			}
+			indent++;
 		}
 		
-		return indent - 1;
+		return indent;
 	}
 	
 	
@@ -180,7 +181,7 @@ public class BaseTag {
 //System.out.println("traverse For Line Numbers");
 		// sets the line number of this tag to be the counter
 		this.setLineNumberStart(counter);
-System.out.println("Set <"+ tag + "> lineNumStart to " + counter);
+//System.out.println("Set <"+ tag + "> lineNumStart to " + counter);
 		counter = counter + 1;
 		if(this.children.size() > 0){
 //System.out.println("number of direct Children is " + this.children.size());
@@ -191,7 +192,7 @@ System.out.println("Set <"+ tag + "> lineNumStart to " + counter);
 			}
 		}
 		lineNumberEnd = counter;
-System.out.println("Set </" + tag + "> lineNumEnd to " + counter);
+//System.out.println("Set </" + tag + "> lineNumEnd to " + counter);
 		return counter + 1;
 	}
 
@@ -199,7 +200,7 @@ System.out.println("Set </" + tag + "> lineNumEnd to " + counter);
 	 * @return the lineNumber
 	 */
 	public int getLineNumberStart() {
-System.out.println("line number start sent");
+//System.out.println("line number start sent");
 		return lineNumberStart;
 	}
 
@@ -207,47 +208,57 @@ System.out.println("line number start sent");
 	 * @param lineNumber the lineNumber to set
 	 */
 	public void setLineNumberStart(int lineNumber) {
-System.out.println("line number end changed");
+//System.out.println("line number end changed");
 		this.lineNumberStart = lineNumber;
 	}
 	
 	public boolean addToLineNum(int amount, int lineNum ){
 		boolean added = true;
 		boolean t = this.inThisTag(lineNum);
-System.out.println("InThisTag = " + t);
+//System.out.println("InThisTag = " + t);
 		int c = this.inChildTag(lineNum);
-System.out.println("InChildTag = " + c);
+//System.out.println("InChildTag = " + c);
 		if(t && (c == -1 || c == -2)){
 			if(c == -2){
 				for (int i = 0; i < children.size(); i++){
 					//TODO check to see which children need this
 					added = this.children.get(i).addToLineNum(amount, lineNum);
-					if (added == false){
+					if(!added)//the amount was not added at some point
 						break;
-					}
 				}
 			}
 			if(added){
-				if(c == -2){
-System.out.println("added to the start and end of " + tag);
-					this.setLineNumberStart(this.getLineNumberStart() + amount);
-					this.setLineNumberEnd(this.getLineNumberEnd() + amount);
-				}else if(c == -1){
 System.out.println("added to the end of " + tag);
-					this.setLineNumberEnd(this.getLineNumberEnd() + amount);
-				}
+				this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 			}
 		}else if(c != -1 && c != -2){
-System.out.println("called addToLineNum on a child");
+//System.out.println("called addToLineNum on a child");
 			added = this.children.get(c).addToLineNum(amount, lineNum);
+			for(int i = c + 1; i < this.children.size(); i++){
+				added = this.children.get(i).addToLineNum(amount);
+				if(!added)//the amount was not added at some point
+					break;
+			}
 			if(added){
-System.out.println("added to the end");
+//System.out.println("added to the end");
 				this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 			}
 		}
 		return added;
 	}
-	
+	protected boolean addToLineNum(int amount){
+		boolean added = true;
+		this.setLineNumberStart(this.getLineNumberStart() + amount);
+		if (this.children.size() > 0){
+			for( int i = 0; i < this.children.size(); i++){
+				added = this.children.get(i).addToLineNum(amount);
+				if(!added)//the amount was not added at some point
+					break;
+			}
+		}
+		this.setLineNumberEnd(this.getLineNumberEnd() + amount);
+		return added;
+	}
 	/**
 	 * 
 	 * @param child

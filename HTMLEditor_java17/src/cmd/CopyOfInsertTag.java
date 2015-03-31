@@ -67,8 +67,8 @@ public class CopyOfInsertTag implements ActionListener {
 	private void insertToTab(Tab t, BaseTag base) throws BadLocationException {
 		int pos = t.getCaretLineNumber();
 		if (t.head != null) {
+			int indent = t.head.getIndentLevel(pos);
 			t.head.addChild(base, pos);
-			int indent = t.head.getIndentLevel(pos + 1);
 			t.getDocument().insertString(t.getCaretPosition(),
 					base.getText(indent), null);
 		} else {
