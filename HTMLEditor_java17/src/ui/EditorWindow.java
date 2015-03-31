@@ -262,12 +262,20 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		JMenu mnPreferences = new JMenu("Preferences");
 		
 		//Auto Word-Wrapping
-		JMenuItem wordWrapToggle = new JMenuItem("Auto Word-Wrapping");
+		JCheckBoxMenuItem wordWrapToggle = new JCheckBoxMenuItem("Auto Word-Wrapping");
+		wordWrapToggle.setSelected(true);
 		wordWrapToggle.addActionListener(
 				new ActionListener(){
 					public void actionPerformed(ActionEvent arg0) {
 						Tab t = EditorWindow.getInstance().getCurrentTab();
-						t.setLineWrap(false);
+						boolean curStat = t.getLineWrap();
+						if(curStat == true){
+							t.setLineWrap(false);
+						}
+						else{
+							t.setLineWrap(true);
+						}
+						
 					}
 				});
 		//Auto Indentation: NOT YET IMPLEMENTED
