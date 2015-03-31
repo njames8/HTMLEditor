@@ -73,7 +73,7 @@ public class BaseTag {
 		}
 		if(!collapsed){
 			text += "\n";
-			if(this.children.size() > 0){
+			if(this.children != null && this.children.size() > 0){
 				//iterates over the children of the tag.
 				for(int i = 0; i < this.children.size(); i++){
 					//calls this method on all the children
@@ -100,7 +100,7 @@ public class BaseTag {
 	public String getText(int indentLevel, int lineNum){
 		String text = "";
 		if(lineNum >= 0){
-			if(this.inThisTag(lineNum)){
+			if(this.inThisTag(lineNum) && this.children != null){
 				int c = this.inChildTag(lineNum);
 				if( c >= 0){
 					text = this.children.get(c).getText(indentLevel + 1, lineNum);
@@ -114,7 +114,7 @@ public class BaseTag {
 	
 	public int getIndentLevel(int lineNum){
 		int indent = 0;
-		if(this.inThisTag(lineNum)){
+		if(this.inThisTag(lineNum) && this.children != null){
 			int c = this.inChildTag(lineNum);
 			if(c >= 0){
 				return this.children.get(c).getIndentLevel(lineNum) + 1;
@@ -130,7 +130,7 @@ public class BaseTag {
 		//TODO may need to change depending on how text tags are implemented.
 //System.out.println("GetChild, sent LineNum = " + lineNum);
 		BaseTag child = new BaseTag();
-		if(lineNum >= 0){
+		if(lineNum >= 0 &&  this.children != null){
 			boolean t = this.inThisTag(lineNum);
 //System.out.println("InThisTag = " + t);
 			int c = this.inChildTag(lineNum);
@@ -184,7 +184,7 @@ public class BaseTag {
 		this.setLineNumberStart(counter);
 //System.out.println("Set <"+ tag + "> lineNumStart to " + counter);
 		counter = counter + 1;
-		if(this.children.size() > 0){
+		if(this.children != null && this.children.size() > 0){
 //System.out.println("number of direct Children is " + this.children.size());
 			//iterates over all the children of the tag
 			for(int i = 0; i < children.size(); i++){
@@ -255,7 +255,7 @@ public class BaseTag {
 	protected boolean addToLineNum(int amount){
 		boolean added = true;
 		this.setLineNumberStart(this.getLineNumberStart() + amount);
-		if (this.children.size() > 0){
+		if (this.children != null && this.children.size() > 0){
 			for( int i = 0; i < this.children.size(); i++){
 				added = this.children.get(i).addToLineNum(amount);
 				if(!added)//the amount was not added at some point
@@ -289,7 +289,7 @@ public class BaseTag {
 		// checks to see if the child has been sent to the correct tag
 		if(this.inThisTag(lineNum)){
 			//check to see if there are any children already
-			if(this.children.size() > 0){
+			if(this.children != null && this.children.size() > 0){
 				// iterates over all the children backwards
 				for(int i = 0; i < this.children.size(); i++){
 					// checks to see if the lineNum is greater than the start of the children.get(i)
@@ -360,7 +360,7 @@ public class BaseTag {
 		text = text + this.getLineNumberStart() + "    <" + tag + ">";
 		if(collapsed == false){
 			text = text + "\n";
-			if(this.children.size() > 0){
+			if(this.children != null && this.children.size() > 0){
 				//iterates over the children of the tag.
 				for(int i = 0; i < this.children.size(); i++){
 				//calls this method on all the children
