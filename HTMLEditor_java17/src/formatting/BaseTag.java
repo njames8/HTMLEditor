@@ -228,7 +228,6 @@ public class BaseTag {
 				}
 			}
 			if(added){
-System.out.println("added to the end of " + tag);
 				this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 			}
 		}else if(c != -1 && c != -2){
@@ -246,6 +245,12 @@ System.out.println("added to the end of " + tag);
 		}
 		return added;
 	}
+	
+	/**
+	 * 
+	 * @param amount
+	 * @return
+	 */
 	protected boolean addToLineNum(int amount){
 		boolean added = true;
 		this.setLineNumberStart(this.getLineNumberStart() + amount);
@@ -279,11 +284,18 @@ System.out.println("added to the end of " + tag);
 	 * spot that is specified in the lineNum that was sent.
 	 */
 	public boolean addChild(BaseTag child, int lineNum){
+		
 		boolean added = false;
 		// checks to see if the child has been sent to the correct tag
 		if(this.inThisTag(lineNum)){
 			//check to see if there are any children already
 			if(this.children.size() > 0){
+				/*for(int i = 0; i < this.children.size(); i++){
+					
+				}
+				*/
+				
+
 				// iterates over all the children backwards
 				for(int i = 0; i < this.children.size(); i++){
 					// checks to see if the lineNum is greater than the start of the children.get(i)
@@ -297,10 +309,19 @@ System.out.println("added to the end of " + tag);
 					}
 				}
 				if(!added){
-					this.children.add(0, child);
+					for(int i = 0; i < this.children.size(); i++){
+						if(this.children.get(i).getLineNumberStart() >= lineNum){
+							this.children.add(i, child);
+							added = true;
+							break;
+						}
+					}
 				}
-			}else{
+
+			}
+			if(!added){
 				this.addChild(child);
+				added = true;
 			}
 		}
 		return added;
