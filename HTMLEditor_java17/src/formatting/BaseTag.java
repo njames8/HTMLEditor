@@ -77,7 +77,7 @@ public class BaseTag {
 				//iterates over the children of the tag.
 				for(int i = 0; i < this.children.size(); i++){
 					//calls this method on all the children
-					text += this.children.get(i).getText(indentLevel + 1);
+					text += this.children.get(i).getText(indentLevel + 1) + "\n";
 				}
 			}else
 				text += "\n";
@@ -85,7 +85,7 @@ public class BaseTag {
 		} else {
 			text += "...";
 		}
-		text += "</" + tag + ">\n";
+		text += "</" + tag + ">";
 		return text;
 	}
 	
@@ -357,7 +357,12 @@ public class BaseTag {
 		String text = "";
 		//TODO may need to change depending on how text tags are implemented.
 		//adds the tag name
-		text = text + this.getLineNumberStart() + "    <" + tag + ">";
+		text = text + this.getLineNumberStart();
+		if (link == null) {
+			text += "    <" + tag + ">";
+		} else {
+			text += "    <" + tag + " href=\"" + this.link + "\">" ;
+		}
 		if(collapsed == false){
 			text = text + "\n";
 			if(this.children != null && this.children.size() > 0){
