@@ -38,7 +38,6 @@ public class LineNumberAssistant implements ui.Observer {
 		for (String line : text.split("\n")) {
 			sum += line.length();
 			if(line.length() == 0){
-System.out.println("line.length == 0");
 				tab.head.addToLineNum(1, i);
 			}
 			lineLengths.add(sum);
