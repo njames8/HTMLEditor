@@ -6,7 +6,8 @@ import java.util.*;
 
 /**
  * @author adam walsh
- *
+ * @author Matthew Gallagher
+ * 
  */
 public class BaseTag {
 	protected String tag;//tag value e.g. 'p' for a <p> tag
@@ -44,11 +45,6 @@ public class BaseTag {
 	}
 	
 	/**
-	 * @author Matthew Gallagher
-	 * 
-	 */
-	
-	/**
 	 *
 	 * @param indentLevel
 	 * if tag is collapsed
@@ -56,7 +52,6 @@ public class BaseTag {
 	 * if tag is not collapsed
 	 * 		@return the tag opener with all its children then the tag closer all on different lines correctly indented.
 	 */
-	
 	
 	public String getText(int indentLevel){
 		String text = "";
@@ -112,6 +107,11 @@ public class BaseTag {
 		return text;
 	}
 	
+	/**
+	 * 
+	 * @param lineNum
+	 * @returns the number of indents needed
+	 */
 	public int getIndentLevel(int lineNum){
 		int indent = 0;
 		if(this.inThisTag(lineNum) && this.children != null){
@@ -125,7 +125,11 @@ public class BaseTag {
 		return indent;
 	}
 	
-	
+	/**
+	 * 
+	 * @param lineNum
+	 * @return the lowest child that has the sent line number in it.
+	 */
 	public BaseTag getChild(int lineNum){
 		//TODO may need to change depending on how text tags are implemented.
 //System.out.println("GetChild, sent LineNum = " + lineNum);
@@ -135,9 +139,9 @@ public class BaseTag {
 //System.out.println("InThisTag = " + t);
 			int c = this.inChildTag(lineNum);
 //System.out.println("InChildTag = " + c);
-			if( t && c == -1){
+			if( t && (c < 0)){
 				child = this;
-			}else if(c != -1){
+			}else if(c >= 0){
 				child = this.children.get(c).getChild(lineNum);
 			}
 		}
@@ -165,6 +169,13 @@ public class BaseTag {
 		return -1;
 	}
 	
+	/**
+	 * 
+	 * @param lineNum
+	 * @return 
+	 * 		true if the sent number is in side the start and end of this tag
+	 * 		false if the sent number is before the start tag or after the end tag
+	 */
 	private boolean inThisTag(int lineNum){
 		boolean b = false;
 		if(this.getLineNumberStart() < lineNum){ 
@@ -198,7 +209,7 @@ public class BaseTag {
 	}
 
 	/**
-	 * @return the lineNumber
+	 * @return the lineNumberStart
 	 */
 	public int getLineNumberStart() {
 //System.out.println("line number start sent");
@@ -206,21 +217,38 @@ public class BaseTag {
 	}
 
 	/**
-	 * @param lineNumber the lineNumber to set
+	 * @param lineNumber
+	 * 		the lineNumber is used to set the lineNumberStart
 	 */
 	public void setLineNumberStart(int lineNumber) {
 //System.out.println("line number end changed");
 		this.lineNumberStart = lineNumber;
 	}
 	
+	/**
+	 * 
+	 * @param amount
+	 * @param lineNum
+	 * 
+	 * finds where the lineNum is inside the tree, 
+	 * then adds the amount sent to everything under that line number.
+	 * 
+	 * @return
+	 * 		true if the amount was added
+	 */
 	public boolean addToLineNum(int amount, int lineNum ){
 		boolean added = true;
 		boolean t = this.inThisTag(lineNum);
 //System.out.println("InThisTag = " + t);
 		int c = this.inChildTag(lineNum);
 //System.out.println("InChildTag = " + c);
-		if(t && (c == -1 || c == -2)){
+		if(t && (c < 0)){
+			//t is true if the line number sent is in this tag
+			//c is < 0 when this tag has no children 
+			//OR
+			//when then line number is not in any of the children
 			if(c == -2){
+				//line number is not in any of the children
 				for (int i = 0; i < children.size(); i++){
 					//TODO check to see which children need this
 					added = this.children.get(i).addToLineNum(amount, lineNum);
@@ -250,7 +278,13 @@ public class BaseTag {
 	/**
 	 * 
 	 * @param amount
+	 * 
+	 * adds the sent amount to the start
+	 * calls this method for any children if there are any
+	 * adds the sent amount to the end
+	 * 
 	 * @return
+	 * 		true if the amount was added
 	 */
 	protected boolean addToLineNum(int amount){
 		boolean added = true;
