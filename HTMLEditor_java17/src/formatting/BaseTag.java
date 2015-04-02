@@ -320,6 +320,7 @@ public class BaseTag {
 		this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 		return added;
 	}
+	
 	/**
 	 * 
 	 * @param child

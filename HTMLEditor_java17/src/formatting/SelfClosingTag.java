@@ -45,15 +45,24 @@ public class SelfClosingTag extends BaseTag{
 	
 	
 	public boolean addToLineNum(int amount, int lineNum ){
+		return this.addToLineNum(amount);
+	}
+	
+	/**
+	 * 
+	 * @param amount
+	 * @return
+	 */
+	protected boolean addToLineNum(int amount){
 		boolean added = true;
-		this.addToLineNum(amount);
+		//adds sent amount to the start of the tag
+		this.setLineNumberStart(this.getLineNumberStart() + amount);
 		return added;
 	}
 	
-	
 	public String toString(){
 		String text = "";
-		text += this.getLineNumberStart() + "<" + tag;
+		text += this.getLineNumberStart() + "    <" + tag;
 		if (link != null) {
 			if (tag.equals("img")){
 				text += " src=\"" + this.link + "\"";
