@@ -32,7 +32,7 @@ public class SelfClosingTag extends BaseTag{
 			if (tag.equals("img")){
 				text += " src=\"" + this.link + "\"";
 			}else{
-			text += " href=\"" + this.link + "\"" ;
+				text += " href=\"" + this.link + "\"" ;
 			}
 		}
 			
