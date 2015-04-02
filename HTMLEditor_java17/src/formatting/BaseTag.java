@@ -106,7 +106,6 @@ public class BaseTag {
 		return text;
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * @author John Mullen
 	 * @return gets the current status of whether the system should auto indent
@@ -128,8 +127,7 @@ public class BaseTag {
 		}
 	}
 	
-=======
->>>>>>> b3f3792433b075ebe84ef0e813bc4126d308e239
+
 	public int getIndentLevel(int lineNum){
 		int indent = 0;
 		if(autoIndent == false){
