@@ -7,12 +7,14 @@ import java.util.*;
 /**
  * @author adam walsh
  * @author Matthew Gallagher
+ * @author John Mullen
  */
 public class BaseTag {
 	protected String tag;//tag value e.g. 'p' for a <p> tag
 	protected String link;
 	private boolean autoIndent = true;
 	private boolean collapsed = false;
+	private boolean outLineView = false;
 	private ArrayList<BaseTag> children;
 	protected int lineNumberStart, lineNumberEnd;
 	
@@ -43,6 +45,49 @@ public class BaseTag {
 	public String GetContent() {
 		return "";//TODO
 	}
+
+	
+	/**
+	 * 
+	 * @return gets the current status of whether the system should auto indent
+	 */
+	public boolean getAutoIndent(){
+		return autoIndent;
+	}
+	
+	/**
+	 * 
+	 * @return switches auto-indentation on and off.
+	 */
+	public void setAutoIndent(){
+		if (autoIndent == true){
+			autoIndent = false;
+		}
+		else{
+			autoIndent = true;
+		}
+	}
+	
+	/**
+	 * 
+	 * @return gets if in outLineView or not
+	 */
+	public boolean getOutLineView(){
+		return outLineView;
+	}
+	
+	/**
+	 * 
+	 * @return switches OutLineView on and off.
+	 */
+	public void setOutLineView(){
+		if (outLineView == true){
+			outLineView = false;
+		}
+		else{
+			outLineView = true;
+		}
+	}
 	
 	/**
 	 *
@@ -55,9 +100,11 @@ public class BaseTag {
 	public String getText(int indentLevel){
 		String text = "";
 		String t = "";
-		//adds the number of indents that was sent
-		for(int i = 0; i < indentLevel; i++){
-			t += "    ";
+		if(autoIndent){
+			//adds the number of indents that was sent
+			for(int i = 0; i < indentLevel; i++){
+				t += "    ";
+			}
 		}
 		//adds the tag name
 		if (link == null) {
@@ -65,7 +112,7 @@ public class BaseTag {
 		} else {
 			text += t + "<" + tag + " href=\"" + this.link + "\">" ;
 		}
-		if(!collapsed){
+		if(!outLineView || !collapsed){
 			text += "\n";
 			if(this.children != null && this.children.size() > 0){
 				//iterates over the children of the tag.
@@ -106,34 +153,15 @@ public class BaseTag {
 		return text;
 	}
 	
-	/**
-	 * @author John Mullen
-	 * @return gets the current status of whether the system should auto indent
-	 */
-	public boolean getAutoIndent(){
-		return autoIndent;
-	}
-	
-	/**
-	 * @author John Mullen
-	 * @return switches auto-indentation on and off.
-	 */
-	public void setAutoIndent(){
-		if (autoIndent == true){
-			autoIndent = false;
-		}
-		else{
-			autoIndent = true;
-		}
-	}
-	
 
+	
+	
 	public int getIndentLevel(int lineNum){
 		int indent = 0;
 		if(autoIndent == false){
 			return indent;
 		}
-		else if(this.inThisTag(lineNum)){
+		else if(this.inThisTag(lineNum) && this.children != null){
 			int c = this.inChildTag(lineNum);
 			if(c >= 0){
 				return this.children.get(c).getIndentLevel(lineNum) + 1;
@@ -148,7 +176,7 @@ public class BaseTag {
 	public BaseTag getChild(int lineNum){
 		//TODO may need to change depending on how text tags are implemented.
 //System.out.println("GetChild, sent LineNum = " + lineNum);
-		BaseTag child = new BaseTag();
+		BaseTag child = null;
 		if(lineNum >= 0 &&  this.children != null){
 			boolean t = this.inThisTag(lineNum);
 //System.out.println("InThisTag = " + t);
@@ -292,6 +320,7 @@ public class BaseTag {
 		this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 		return added;
 	}
+	
 	/**
 	 * 
 	 * @param child
@@ -390,7 +419,7 @@ public class BaseTag {
 		//TODO may need to change depending on how text tags are implemented.
 		//adds the tag name
 		text = text + this.getLineNumberStart() + "    <" + tag + ">";
-		if(collapsed == false){
+		if(!outLineView || !collapsed){
 			text = text + "\n";
 			if(this.children != null && this.children.size() > 0){
 				//iterates over the children of the tag.
