@@ -215,7 +215,6 @@ public class BaseTag {
 		if(t && (c == -1 || c == -2)){
 			if(c == -2){
 				for (int i = 0; i < children.size(); i++){
-					//TODO check to see which children need this
 					added = this.children.get(i).addToLineNum(amount, lineNum);
 					if(!added)//the amount was not added at some point
 						break;
@@ -226,14 +225,18 @@ public class BaseTag {
 			}
 		}else if(c != -1 && c != -2){
 //System.out.println("called addToLineNum on a child");
+			//calls this method on the child that the sent line number is in
 			added = this.children.get(c).addToLineNum(amount, lineNum);
+			//traverses the children after the one at index c
 			for(int i = c + 1; i < this.children.size(); i++){
+				//calls addToLineNum(amount) on children
 				added = this.children.get(i).addToLineNum(amount);
 				if(!added)//the amount was not added at some point
 					break;
 			}
 			if(added){
 //System.out.println("added to the end");
+				//adds the amount to the end tag
 				this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 			}
 		}
@@ -247,14 +250,19 @@ public class BaseTag {
 	 */
 	protected boolean addToLineNum(int amount){
 		boolean added = true;
+		//adds sent amount to the start of the tag
 		this.setLineNumberStart(this.getLineNumberStart() + amount);
+		//checks to see if there are any children
 		if (this.children != null && this.children.size() > 0){
+			//iterates over all the children
 			for( int i = 0; i < this.children.size(); i++){
+				//calls this method on all the children
 				added = this.children.get(i).addToLineNum(amount);
 				if(!added)//the amount was not added at some point
 					break;
 			}
 		}
+		//adds the amount to the end of the tag
 		this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 		return added;
 	}
@@ -269,6 +277,7 @@ public class BaseTag {
 		children.add(child);
 		return true;
 	}
+	
 	/**
 	 * 
 	 * @param child
@@ -296,7 +305,11 @@ public class BaseTag {
 					}
 				}
 				if(!added){
+					// iterates over all the children
 					for(int i = 0; i < this.children.size(); i++){
+						// if the sent line number is greater than or equal to the child's start
+						// then the sent child is added to the list of children where that tag is
+						// this also moves everything else in the list down one index.
 						if(this.children.get(i).getLineNumberStart() >= lineNum){
 							this.children.add(i, child);
 							added = true;
