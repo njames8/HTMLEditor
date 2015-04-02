@@ -7,12 +7,14 @@ import java.util.*;
 /**
  * @author adam walsh
  * @author Matthew Gallagher
+ * @author John Mullen
  */
 public class BaseTag {
 	protected String tag;//tag value e.g. 'p' for a <p> tag
 	protected String link;
 	private boolean autoIndent = true;
 	private boolean collapsed = false;
+	private boolean outLineView = false;
 	private ArrayList<BaseTag> children;
 	protected int lineNumberStart, lineNumberEnd;
 	
@@ -43,6 +45,28 @@ public class BaseTag {
 	public String GetContent() {
 		return "";//TODO
 	}
+
+	
+	/**
+	 * 
+	 * @return gets the current status of whether the system should auto indent
+	 */
+	public boolean getAutoIndent(){
+		return autoIndent;
+	}
+	
+	/**
+	 * 
+	 * @return switches auto-indentation on and off.
+	 */
+	public void setAutoIndent(){
+		if (autoIndent == true){
+			autoIndent = false;
+		}
+		else{
+			autoIndent = true;
+		}
+	}
 	
 	/**
 	 *
@@ -55,9 +79,11 @@ public class BaseTag {
 	public String getText(int indentLevel){
 		String text = "";
 		String t = "";
-		//adds the number of indents that was sent
-		for(int i = 0; i < indentLevel; i++){
-			t += "    ";
+		if(autoIndent){
+			//adds the number of indents that was sent
+			for(int i = 0; i < indentLevel; i++){
+				t += "    ";
+			}
 		}
 		//adds the tag name
 		if (link == null) {
@@ -65,7 +91,7 @@ public class BaseTag {
 		} else {
 			text += t + "<" + tag + " href=\"" + this.link + "\">" ;
 		}
-		if(!collapsed){
+		if(!outLineView || !collapsed){
 			text += "\n";
 			if(this.children != null && this.children.size() > 0){
 				//iterates over the children of the tag.
@@ -107,27 +133,27 @@ public class BaseTag {
 	}
 	
 	/**
-	 * @author John Mullen
-	 * @return gets the current status of whether the system should auto indent
+	 * 
+	 * @return gets if in outLineView or not
 	 */
-	public boolean getAutoIndent(){
-		return autoIndent;
+	public boolean getOutLineView(){
+		return outLineView;
 	}
 	
 	/**
-	 * @author John Mullen
-	 * @return switches auto-indentation on and off.
+	 * 
+	 * @return switches OutLineView on and off.
 	 */
-	public void setAutoIndent(){
-		if (autoIndent == true){
-			autoIndent = false;
+	public void setOutLineView(){
+		if (outLineView == true){
+			outLineView = false;
 		}
 		else{
-			autoIndent = true;
+			outLineView = true;
 		}
 	}
 	
-
+	
 	public int getIndentLevel(int lineNum){
 		int indent = 0;
 		if(autoIndent == false){
@@ -390,7 +416,7 @@ public class BaseTag {
 		//TODO may need to change depending on how text tags are implemented.
 		//adds the tag name
 		text = text + this.getLineNumberStart() + "    <" + tag + ">";
-		if(collapsed == false){
+		if(!outLineView || !collapsed){
 			text = text + "\n";
 			if(this.children != null && this.children.size() > 0){
 				//iterates over the children of the tag.
