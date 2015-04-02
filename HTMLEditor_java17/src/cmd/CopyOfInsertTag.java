@@ -50,26 +50,50 @@ public class CopyOfInsertTag implements ActionListener {
 		this.tag = type;
 		selfClosing = false;
 	}
-
+	
+	/**
+	 * Constructor
+	 * @param type - html tag
+	 * @param selfClosing - is this tag self closing?
+	 */
 	public CopyOfInsertTag(String type, boolean selfClosing) {
 		this.tag = type;
 		this.selfClosing = true;
 	}
 
-	// Takes the tag and makes it into a full html tag
-	// head --> <head></head>
+	/**
+	 *  Takes the tag and makes it into a full html tag
+	 *  head --> <head></head>
+	 */
 	private String getFullTag() {
 		if (selfClosing)
 			return "<" + tag + " />\n";
 
 		return "<" + tag + ">\n\n</" + tag + ">";
 	}
-
-	private BaseTag makeNewTag(Tab t, String text, String l) {
+	
+	/**
+	 * makes a new html tag
+	 * @param t - the current tab
+	 * @param text - the text of the html tag
+	 * @param l - the tag's link (can be null)
+	 * @param sc - is this tag self closing?
+	 * @return - a constructed tag
+	 */
+	private BaseTag makeNewTag(Tab t, String text, String l, boolean sc) {
 		int pos = t.getCaretLineNumber();
+		if (sc){
+			return new SelfClosingTag(text, pos, pos + 1, l);
+		}
 		return new BaseTag(text, pos, pos + 1, false, null, l);
 	}
-
+	
+	/**
+	 * 
+	 * @param t
+	 * @param base
+	 * @throws BadLocationException
+	 */
 	private void insertToTab(Tab t, BaseTag base) throws BadLocationException {
 		int pos = t.getCaretLineNumber();
 		if (t.head != null) {
@@ -103,7 +127,7 @@ public class CopyOfInsertTag implements ActionListener {
 			} else if (tag.equals("img")){
 				insertImg(t);
 			} else {
-				insertToTab(t, makeNewTag(t, tag, null));
+				insertToTab(t, makeNewTag(t, tag, null, this.selfClosing));
 			}
 
 		} catch (BadLocationException e) {
@@ -113,6 +137,10 @@ public class CopyOfInsertTag implements ActionListener {
 
 	}
 
+	/**
+	 * 
+	 * @param t
+	 */
 	private void insertTable(Tab t) {
 		JPanel panel = new JPanel();
 		JSpinner rows = new JSpinner(new SpinnerNumberModel(0, 0,
@@ -132,16 +160,16 @@ public class CopyOfInsertTag implements ActionListener {
 			try {
 				int row = (Integer) rows.getValue();
 				int col = (Integer) cols.getValue();
-				BaseTag base = makeNewTag(t, tag, null);
+				BaseTag base = makeNewTag(t, tag, null, this.selfClosing);
 				// t.getDocument().insertString(t.getCaretPosition(),
 				// getFullTag(), null);
 				// t.setCaretPosition((getFullTag().length() / 2));
 				for (; row > 0; row--) {
 					// t.getDocument().insertString(t.getCaretPosition(),
 					// "<tr>\n", null);
-					BaseTag c1 = makeNewTag(t, "tr", null);
+					BaseTag c1 = makeNewTag(t, "tr", null, this.selfClosing);
 					for (int i = 0; i < col; i++) {
-						c1.addChild(makeNewTag(t, "td", null));
+						c1.addChild(makeNewTag(t, "td", null, this.selfClosing));
 						// t.getDocument().insertString(t.getCaretPosition(),
 						// "\t<td>\n\t</td>\n", null);
 					}
@@ -170,7 +198,7 @@ public class CopyOfInsertTag implements ActionListener {
 		if (url == null) {
 			return;
 		}
-		base = makeNewTag(t, "a", url);
+		base = makeNewTag(t, "a", url, this.selfClosing);
 		try {
 			insertToTab(t, base);
 
@@ -179,6 +207,10 @@ public class CopyOfInsertTag implements ActionListener {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param t
+	 */
 	private void insertImg(Tab t){
 		
 		String url = getImagePath();
@@ -186,7 +218,7 @@ public class CopyOfInsertTag implements ActionListener {
 		if (url == null) {
 			return;
 		}
-		base = makeNewTag(t, "img", url);
+		base = makeNewTag(t, "img", url, this.selfClosing);
 		try {
 			insertToTab(t, base);
 
@@ -195,6 +227,10 @@ public class CopyOfInsertTag implements ActionListener {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	private String getImagePath(){
 		JPanel p = new JPanel(new BorderLayout());
 		final JTextArea t = new JTextArea(1,30);
