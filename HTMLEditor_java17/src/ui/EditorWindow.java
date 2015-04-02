@@ -127,6 +127,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				NewTab();// Adds new tab to the window
+				
 			}
 		});
 
@@ -150,7 +151,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Tab t = EditorWindow.getInstance().getCurrentTab();
-
+				new LinkView(t);
 				new CloseTab(t, tabbedPane).execute();
 			}
 		});
