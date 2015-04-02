@@ -192,4 +192,12 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * Switches the setting for auto-indentation for the current tab
+	 * @author John Mullen
+	 */
+	public void setAutoIndent() {
+		head.setAutoIndent();
+	}
 }

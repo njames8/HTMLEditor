@@ -278,9 +278,17 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 						
 					}
 				});
-		//Auto Indentation: NOT YET IMPLEMENTED
-		JMenuItem indentToggle = new JMenuItem("Auto Indentation");
-		indentToggle.addActionListener(null);
+		//Auto Indentation
+		JCheckBoxMenuItem indentToggle = new JCheckBoxMenuItem("Auto Indentation");
+		indentToggle.setSelected(true);
+		indentToggle.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						Tab t = EditorWindow.getInstance().getCurrentTab();
+						t.setAutoIndent();
+					}
+				});
+
 		
 		menu.add(mnEdit);
 		

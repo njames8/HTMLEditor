@@ -12,6 +12,7 @@ import java.util.*;
 public class BaseTag {
 	protected String tag;//tag value e.g. 'p' for a <p> tag
 	protected String link;
+	private boolean autoIndent = true;
 	private boolean collapsed = false;
 	private ArrayList<BaseTag> children;
 	protected int lineNumberStart, lineNumberEnd;
@@ -108,13 +109,32 @@ public class BaseTag {
 	}
 	
 	/**
-	 * 
-	 * @param lineNum
-	 * @returns the number of indents needed
+	 * @author John Mullen
+	 * @return gets the current status of whether the system should auto indent
 	 */
+	public boolean getAutoIndent(){
+		return autoIndent;
+	}
+	
+	/**
+	 * @author John Mullen
+	 * @return switches auto-indentation on and off.
+	 */
+	public void setAutoIndent(){
+		if (autoIndent == true){
+			autoIndent = false;
+		}
+		else{
+			autoIndent = true;
+		}
+	}
+	
 	public int getIndentLevel(int lineNum){
 		int indent = 0;
-		if(this.inThisTag(lineNum) && this.children != null){
+		if(autoIndent == false){
+			return indent;
+		}
+		else if(this.inThisTag(lineNum)){
 			int c = this.inChildTag(lineNum);
 			if(c >= 0){
 				return this.children.get(c).getIndentLevel(lineNum) + 1;
