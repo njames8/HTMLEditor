@@ -44,6 +44,12 @@ public class SelfClosingTag extends BaseTag{
 	}
 	
 	
+	public boolean addToLineNum(int amount, int lineNum ){
+		boolean added = true;
+		this.addToLineNum(amount);
+		return added;
+	}
+	
 	
 	public String toString(){
 		String text = "";

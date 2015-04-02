@@ -133,7 +133,7 @@ public class BaseTag {
 		if(autoIndent == false){
 			return indent;
 		}
-		else if(this.inThisTag(lineNum)){
+		else if(this.inThisTag(lineNum) && this.children != null){
 			int c = this.inChildTag(lineNum);
 			if(c >= 0){
 				return this.children.get(c).getIndentLevel(lineNum) + 1;
@@ -148,7 +148,7 @@ public class BaseTag {
 	public BaseTag getChild(int lineNum){
 		//TODO may need to change depending on how text tags are implemented.
 //System.out.println("GetChild, sent LineNum = " + lineNum);
-		BaseTag child = new BaseTag();
+		BaseTag child = null;
 		if(lineNum >= 0 &&  this.children != null){
 			boolean t = this.inThisTag(lineNum);
 //System.out.println("InThisTag = " + t);
