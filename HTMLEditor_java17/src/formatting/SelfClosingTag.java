@@ -3,7 +3,6 @@
  */
 package formatting;
 
-import java.util.ArrayList;
 
 /**
  * @author Nick James
