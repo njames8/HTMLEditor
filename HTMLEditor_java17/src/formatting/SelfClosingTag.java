@@ -41,4 +41,11 @@ public class SelfClosingTag extends BaseTag{
 		return text;
 	}
 	
+	
+	
+	public String toString(){
+		String text = "";
+		
+		return text; 
+	}
 }

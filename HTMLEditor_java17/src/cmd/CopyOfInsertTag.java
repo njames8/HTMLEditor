@@ -89,10 +89,10 @@ public class CopyOfInsertTag implements ActionListener {
 	}
 	
 	/**
-	 * 
-	 * @param t
-	 * @param base
-	 * @throws BadLocationException
+	 * inserts a constructed html tag into a tab
+	 * @param t - the current tab
+	 * @param base - the tag to insert
+	 * @throws BadLocationException - if the spot on the tab doesnt exist
 	 */
 	private void insertToTab(Tab t, BaseTag base) throws BadLocationException {
 		int pos = t.getCaretLineNumber();
@@ -138,8 +138,8 @@ public class CopyOfInsertTag implements ActionListener {
 	}
 
 	/**
-	 * 
-	 * @param t
+	 * inserts a table into the tab
+	 * @param t - the current tab
 	 */
 	private void insertTable(Tab t) {
 		JPanel panel = new JPanel();
@@ -190,7 +190,7 @@ public class CopyOfInsertTag implements ActionListener {
 
 	/**
 	 * Inserts an a tag into the text area and tag tree
-	 * @param t - tab to insert tag into
+	 * @param t - the current tab
 	 */
 	private void insertATag(Tab t) {
 		String url = JOptionPane.showInputDialog(null, "Link");
@@ -208,8 +208,8 @@ public class CopyOfInsertTag implements ActionListener {
 	}
 	
 	/**
-	 * 
-	 * @param t
+	 * insert img tag into tab
+	 * @param t - current tab
 	 */
 	private void insertImg(Tab t){
 		
@@ -228,8 +228,8 @@ public class CopyOfInsertTag implements ActionListener {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * gets the path of an image 
+	 * @return - the path of an image
 	 */
 	private String getImagePath(){
 		JPanel p = new JPanel(new BorderLayout());
