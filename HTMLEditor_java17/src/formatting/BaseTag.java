@@ -69,6 +69,27 @@ public class BaseTag {
 	}
 	
 	/**
+	 * 
+	 * @return gets if in outLineView or not
+	 */
+	public boolean getOutLineView(){
+		return outLineView;
+	}
+	
+	/**
+	 * 
+	 * @return switches OutLineView on and off.
+	 */
+	public void setOutLineView(){
+		if (outLineView == true){
+			outLineView = false;
+		}
+		else{
+			outLineView = true;
+		}
+	}
+	
+	/**
 	 *
 	 * @param indentLevel
 	 * if tag is collapsed
@@ -132,26 +153,7 @@ public class BaseTag {
 		return text;
 	}
 	
-	/**
-	 * 
-	 * @return gets if in outLineView or not
-	 */
-	public boolean getOutLineView(){
-		return outLineView;
-	}
-	
-	/**
-	 * 
-	 * @return switches OutLineView on and off.
-	 */
-	public void setOutLineView(){
-		if (outLineView == true){
-			outLineView = false;
-		}
-		else{
-			outLineView = true;
-		}
-	}
+
 	
 	
 	public int getIndentLevel(int lineNum){
