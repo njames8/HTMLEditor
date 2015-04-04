@@ -151,7 +151,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Tab t = EditorWindow.getInstance().getCurrentTab();
-				new LinkView(t);
 				new CloseTab(t, tabbedPane).execute();
 			}
 		});
