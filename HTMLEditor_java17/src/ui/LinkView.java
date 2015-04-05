@@ -3,26 +3,23 @@ package ui;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import formatting.Link;
 
-public class LinkView {
+public class LinkView extends JPanel{
 	
-	private JFrame frame;
 	private JTextArea linkArea;
-	private ArrayList<Link> links;
 	private Tab t;
 	
 	public LinkView(ArrayList<Link> links, Tab t){
 		this.linkArea = new JTextArea();
-		this.links = links;
 		for (Link l : links){
 			this.linkArea.insert(l.getLink()+"\n", 0);
 		}
 		
-		this.frame = new JFrame();
-		this.frame.add(linkArea);
+		this.add(linkArea);
 	}
 	
 	public LinkView(Tab t){
