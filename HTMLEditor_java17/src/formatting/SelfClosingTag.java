@@ -54,10 +54,9 @@ public class SelfClosingTag extends BaseTag{
 	 * @return
 	 */
 	protected boolean addToLineNum(int amount){
-		boolean added = true;
 		//adds sent amount to the start of the tag
 		this.setLineNumberStart(this.getLineNumberStart() + amount);
-		return added;
+		return true;
 	}
 	
 	public String toString(){
