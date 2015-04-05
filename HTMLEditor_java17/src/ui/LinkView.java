@@ -12,27 +12,39 @@ public class LinkView extends JPanel{
 	
 	private JTextArea linkArea;
 	private Tab t;
-	
-	public LinkView(ArrayList<Link> links, Tab t){
-		this.linkArea = new JTextArea();
-		for (Link l : links){
-			this.linkArea.insert(l.getLink()+"\n", 0);
-		}
-		
-		this.add(linkArea);
-	}
+	private ArrayList<Link> links;
+
 	
 	public LinkView(Tab t){
 		this.t = t;
-		traverseTab();
+		this.links = getLinks();
+		makeView();
+	}
+		
+	public LinkView(ArrayList<Link> links, Tab t){
+		this.links = links;
+		makeView();
+	}
+	public void makeView(){
+		this.linkArea = new JTextArea();	
+		this.add(linkArea);
+		String text = "";
+		for (Link l : this.links){
+			text += l.getLink() + "\n";
+		}
+		linkArea.setText(text);
 	}
 	
-	private ArrayList<Link> traverseTab(){
+	private ArrayList<Link> getLinks(){
 		String text = this.t.getText();
-		//TODO fix split
-		String parts[] = text.split("(href=[\"\']).*([\'\"])");
-		System.out.println(parts[0]);
-		return null;
+		ArrayList<Link> temp = new ArrayList<Link>();
+		String parts[] = text.split("\\s*<a\\s*href\\s*=\\s*\"|\">(.*)</a>");
+		for (int i = 0; i < parts.length; i++) {
+			if (parts[i]!=null){
+				temp.add(new Link(parts[i]));
+			}
+		}
+		return temp;
 	}
 	
 	

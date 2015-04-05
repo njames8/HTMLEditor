@@ -24,6 +24,7 @@ public class ImagePreviewCMD implements Command{
 	 * The path to the image to preview
 	 */
 	private String path;
+
 	
 	/**
 	 * Constructor
