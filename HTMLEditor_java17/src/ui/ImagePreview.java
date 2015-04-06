@@ -24,7 +24,7 @@ public class ImagePreview extends JFrame{
 
 		this.label = new JLabel();
 		this.label.setIcon(new ImageIcon(image));
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.getContentPane().add(label);
 		this.pack();
 		this.setLocation(200, 200);

@@ -6,6 +6,7 @@ package cmd;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.*;
 import java.awt.image.ImageFilter;
 
@@ -17,6 +18,7 @@ import javax.swing.text.*;
 
 import ui.*;
 import formatting.*;
+import cmd.ImagePreviewCMD;
 
 /**
  * Action listener for the insertion of tags Handles all basic HTML tags:
@@ -50,11 +52,14 @@ public class CopyOfInsertTag implements ActionListener {
 		this.tag = type;
 		selfClosing = false;
 	}
-	
+
 	/**
 	 * Constructor
-	 * @param type - html tag
-	 * @param selfClosing - is this tag self closing?
+	 * 
+	 * @param type
+	 *            - html tag
+	 * @param selfClosing
+	 *            - is this tag self closing?
 	 */
 	public CopyOfInsertTag(String type, boolean selfClosing) {
 		this.tag = type;
@@ -62,8 +67,7 @@ public class CopyOfInsertTag implements ActionListener {
 	}
 
 	/**
-	 *  Takes the tag and makes it into a full html tag
-	 *  head --> <head></head>
+	 * Takes the tag and makes it into a full html tag head --> <head></head>
 	 */
 	private String getFullTag() {
 		if (selfClosing)
@@ -71,36 +75,45 @@ public class CopyOfInsertTag implements ActionListener {
 
 		return "<" + tag + ">\n\n</" + tag + ">";
 	}
-	
+
 	/**
 	 * makes a new html tag
-	 * @param t - the current tab
-	 * @param text - the text of the html tag
-	 * @param l - the tag's link (can be null)
-	 * @param sc - is this tag self closing?
+	 * 
+	 * @param t
+	 *            - the current tab
+	 * @param text
+	 *            - the text of the html tag
+	 * @param l
+	 *            - the tag's link (can be null)
+	 * @param sc
+	 *            - is this tag self closing?
 	 * @return - a constructed tag
 	 */
 	private BaseTag makeNewTag(Tab t, String text, String l, boolean sc) {
 		int pos = t.getCaretLineNumber();
-		if (sc){
+		if (sc) {
 			return new SelfClosingTag(text, pos, pos, l);
 		}
 		return new BaseTag(text, pos, pos + 1, false, null, l);
 	}
-	
+
 	/**
 	 * inserts a constructed html tag into a tab
-	 * @param t - the current tab
-	 * @param base - the tag to insert
-	 * @throws BadLocationException - if the spot on the tab doesnt exist
+	 * 
+	 * @param t
+	 *            - the current tab
+	 * @param base
+	 *            - the tag to insert
+	 * @throws BadLocationException
+	 *             - if the spot on the tab doesnt exist
 	 */
 	private void insertToTab(Tab t, BaseTag base) throws BadLocationException {
 		int pos = t.getCaretLineNumber();
 		if (t.head != null) {
 			int indent = t.head.getIndentLevel(pos);
 			t.head.addChild(base, pos);
-			if (!this.selfClosing){
-				//TODO get selfCLosing tag text
+			if (!this.selfClosing) {
+				// TODO get selfCLosing tag text
 			}
 			t.getDocument().insertString(t.getCaretPosition(),
 					base.getText(indent), null);
@@ -124,7 +137,7 @@ public class CopyOfInsertTag implements ActionListener {
 				insertTable(t);
 			} else if (tag.equals("a")) {
 				insertATag(t);
-			} else if (tag.equals("img")){
+			} else if (tag.equals("img")) {
 				insertImg(t);
 			} else {
 				insertToTab(t, makeNewTag(t, tag, null, this.selfClosing));
@@ -139,7 +152,9 @@ public class CopyOfInsertTag implements ActionListener {
 
 	/**
 	 * inserts a table into the tab
-	 * @param t - the current tab
+	 * 
+	 * @param t
+	 *            - the current tab
 	 */
 	private void insertTable(Tab t) {
 		JPanel panel = new JPanel();
@@ -190,7 +205,9 @@ public class CopyOfInsertTag implements ActionListener {
 
 	/**
 	 * Inserts an a tag into the text area and tag tree
-	 * @param t - the current tab
+	 * 
+	 * @param t
+	 *            - the current tab
 	 */
 	private void insertATag(Tab t) {
 		String url = JOptionPane.showInputDialog(null, "Link");
@@ -206,42 +223,69 @@ public class CopyOfInsertTag implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * insert img tag into tab
-	 * @param t - current tab
+	 * 
+	 * @param t
+	 *            - current tab
 	 */
-	private void insertImg(Tab t){
-		
-		String url = getImagePath();
+	private void insertImg(final Tab t) {
+
+		final String url = getImagePath();
 		BaseTag base;
 		if (url == null) {
 			return;
 		}
 		base = makeNewTag(t, "img", url, this.selfClosing);
+
 		try {
 			insertToTab(t, base);
+			t.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent me) {
+
+					if (me.getModifiers() == 18) {
+						// 18 = ctrl+left click
+						int x = me.getX();
+						int y = me.getY();
+						System.out.println("X : " + x);
+						System.out.println("Y : " + y);
+						int startOffset = t.viewToModel(new Point(x, y));
+						System.out.println("Start Offset : " + startOffset);
+						String text = t.getText();
+						int searchLocation = text.indexOf(url);
+						System.out.println("Search Location : "
+								+ searchLocation);
+						if (startOffset >= searchLocation
+								&& startOffset <= searchLocation + url.length()) {
+							ImagePreviewCMD img = new ImagePreviewCMD(url);
+							img.execute();
+						}
+					}
+				}
+			});
 
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * gets the path of an image 
+	 * gets the path of an image
+	 * 
 	 * @return - the path of an image
 	 */
-	private String getImagePath(){
+	private String getImagePath() {
 		JPanel p = new JPanel(new BorderLayout());
-		final JTextArea t = new JTextArea(1,30);
-		
+		final JTextArea t = new JTextArea(1, 30);
+
 		final JFileChooser c = new JFileChooser();
-		FileFilter imageFilter = new FileNameExtensionFilter(
-			    "Image files", ImageIO.getReaderFileSuffixes());
+		FileFilter imageFilter = new FileNameExtensionFilter("Image files",
+				ImageIO.getReaderFileSuffixes());
 		c.addChoosableFileFilter(imageFilter);
-		
+
 		JButton b = new JButton("Browse");
-		b.addActionListener(new ActionListener(){
+		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				c.showOpenDialog(null);
@@ -251,16 +295,16 @@ public class CopyOfInsertTag implements ActionListener {
 				}
 			}
 		});
-		
+
 		p.add(t, BorderLayout.CENTER);
-		p.add(b,BorderLayout.EAST);
-			
+		p.add(b, BorderLayout.EAST);
+
 		int choice = JOptionPane.showConfirmDialog(null, p, "Choose Source", 0);
-		
-		if (choice == JOptionPane.YES_OPTION){
+
+		if (choice == JOptionPane.YES_OPTION) {
 			return t.getText();
 		}
 		return null;
-		
+
 	}
 }
