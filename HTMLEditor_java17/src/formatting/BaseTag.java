@@ -201,10 +201,8 @@ public class BaseTag {
 	private int inChildTag(int lineNum){
 		if(!(this.children == null) && this.children.size() > 0 ){
 			for(int i = 0; i < this.children.size(); i++){
-				if(this.children.get(i).getLineNumberStart() <= lineNum){
-					if( this.children.get(i).getLineNumberEnd() >= lineNum){
-						return i;
-					}
+				if(this.children.get(i).inThisTag(lineNum)){
+					return i;
 				}
 			}
 			return -2;
@@ -214,7 +212,7 @@ public class BaseTag {
 	
 	private boolean inThisTag(int lineNum){
 		boolean b = false;
-		if(this.getLineNumberStart() <= lineNum){ 
+		if(this.getLineNumberStart() < lineNum){ 
 			if(this.getLineNumberEnd() >= lineNum){
 				b = true;
 			}

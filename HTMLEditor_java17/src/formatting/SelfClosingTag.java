@@ -43,9 +43,26 @@ public class SelfClosingTag extends BaseTag{
 		return text;
 	}
 	
+	private boolean inThisTag(int lineNum){
+		boolean b = false;
+		return b;
+	}
+	/**
+	 * @param counter
+	 * @return the lineNumber of the next line.
+	 */
+	public int traverseForLineNumbers (int counter){
+		// sets the line number of this tag to be the counter
+		this.setLineNumberStart(counter);
+		lineNumberEnd = counter;
+		return counter + 1;
+	}
 	
 	public boolean addToLineNum(int amount, int lineNum ){
-		return this.addToLineNum(amount);
+		if(lineNum < this.getLineNumberStart()){
+			return this.addToLineNum(amount);
+		}
+		return true;
 	}
 	
 	/**

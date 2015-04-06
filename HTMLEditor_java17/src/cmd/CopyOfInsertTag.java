@@ -83,7 +83,7 @@ public class CopyOfInsertTag implements ActionListener {
 	private BaseTag makeNewTag(Tab t, String text, String l, boolean sc) {
 		int pos = t.getCaretLineNumber();
 		if (sc){
-			return new SelfClosingTag(text, pos, pos + 1, l);
+			return new SelfClosingTag(text, pos, pos, l);
 		}
 		return new BaseTag(text, pos, pos + 1, false, null, l);
 	}
