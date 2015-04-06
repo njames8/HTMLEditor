@@ -59,12 +59,12 @@ public class BaseTag {
 	 * 
 	 * @return switches auto-indentation on and off.
 	 */
-	public void setAutoIndent(){
-		if (autoIndent == true){
-			autoIndent = false;
-		}
-		else{
-			autoIndent = true;
+	public void setAutoIndent(boolean b){
+		autoIndent = b;
+		if(this.children != null && this.children.size() > 0){
+			for(int i = 0; i < this.children.size(); i++){
+				this.children.get(i).setAutoIndent(b);
+			}
 		}
 	}
 	
@@ -80,12 +80,12 @@ public class BaseTag {
 	 * 
 	 * @return switches OutLineView on and off.
 	 */
-	public void setOutLineView(){
-		if (outLineView == true){
-			outLineView = false;
-		}
-		else{
-			outLineView = true;
+	public void setOutLineView(boolean b){
+		outLineView = b;
+		if(this.children != null && this.children.size() > 0){
+			for(int i = 0; i < this.children.size(); i++){
+				this.children.get(i).setOutLineView(b);
+			}
 		}
 	}
 	

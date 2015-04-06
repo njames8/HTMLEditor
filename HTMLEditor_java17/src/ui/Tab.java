@@ -198,6 +198,6 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 * @author John Mullen
 	 */
 	public void setAutoIndent() {
-		head.setAutoIndent();
+		head.setAutoIndent(!head.getAutoIndent());
 	}
 }
