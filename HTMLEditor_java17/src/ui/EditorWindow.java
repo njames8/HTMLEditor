@@ -395,7 +395,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				} else {
 					t.setLinkView(null);
 				}
-				EditorWindow.getInstance().repaint();
+				EditorWindow.getInstance().revalidate();
 			}
 		});
 

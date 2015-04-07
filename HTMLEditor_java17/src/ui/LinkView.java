@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,19 +30,27 @@ public class LinkView extends JPanel{
 		this.links = links;
 		makeView();
 	}
+	
 	public void makeView(){
+		Dimension d = new Dimension(EditorWindow.getInstance().getWidth(), EditorWindow.getInstance().getHeight()/5);
+		this.setPreferredSize(d);
+		
 		this.linkArea = new JTextArea();	
 		String text = "";
 		for (Link l : this.links){
 			text += l.getLink() + "\n";
 		}
-		
 		linkArea.setText(text);
-		this.setSize(EditorWindow.getInstance().getWidth(), EditorWindow.getInstance().getHeight()/5);
 		linkArea.setSize(this.getSize());
+		linkArea.setEditable(false);
+		
 		JScrollPane sp = new JScrollPane(linkArea);
+		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		
 		this.setLayout(new BorderLayout());
 		this.add(sp, BorderLayout.CENTER);
+		
+		
 	}
 	
 	private ArrayList<Link> getLinks(){
