@@ -9,18 +9,26 @@ public class UserSettings extends Observable {
 	private boolean outlineView, linkView, autoIndent, wordWrap;
 		
 	public UserSettings() {
-		resetSettings();
+		initSettings();
 	}
 	
 	/**
-	 * Resets/inits the settings. Can be used to reset the program
-	 * settings to their defaults 
+	 * Sets the default settings
 	 */
-	public void resetSettings() {
+	private void initSettings() {
 		outlineView = false;
 		linkView = false;
 		autoIndent = true;
 		wordWrap = true;
+	}
+	
+	/**
+	 * Resets the settings to their default values and notifies any observers
+	 */
+	public void resetSettings() {
+		initSettings();
+		
+		this.notifyObservers();
 	}
 
 	// Outline View
