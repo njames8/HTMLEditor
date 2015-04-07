@@ -104,6 +104,16 @@ public class HTMLTag implements Observer{
 		}
 		return counter;
 	}
+	
+	public int getIndentLevel(int lineNum){
+		int indent = 0;
+		for(int i = 0; i < tags.size(); i++){
+			indent = tags.get(i).getIndentLevel(lineNum);
+			if(indent != 0)
+				break;
+		}
+		return indent;
+	}
 	public boolean addToLineNum(int amount, int lineNum ){
 		boolean added = true;
 		for(int i = 0; i < tags.size(); i++){

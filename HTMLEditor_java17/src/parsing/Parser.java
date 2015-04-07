@@ -1,7 +1,16 @@
 package parsing;
 import java.util.*;
 
-public class Parser {
+import ui.Tab;
+/*
+ * Parser
+ * 
+ * Observers the tab and parses the contained text
+ * 
+ * @author Adam Walsh
+ * 
+ */
+public class Parser implements ui.Observer {
 	
 	/**
 	 * The allowed tags to parse
@@ -25,88 +34,84 @@ public class Parser {
 	 */
 	private static String[] forbiddenCloseTags = { "meta", "img", "input",
 		"br", "frame", "param", "link"};
+	/*
+	 * List to store the found errors in
+	 * 
+	 * @author Adam Walsh
+	 */
+	private static ArrayList<SyntaxException> errors;
+	/*
+	 * Get the current errors list
+	 * 
+	 * @author Adam Walsh
+	 * 
+	 */
+	public static ArrayList<SyntaxException> getErrors() {
+		return errors;
+	}
+	/*
+	 * Check for an element in an array of that type of elements
+	 * 
+	 * @author Adam Walsh
+	 * 
+	 */
+	private static <E> boolean isIn (E elem, E[] col) {
+		for(E each : col)
+			if (each.equals(elem))
+				return true;
+		return false;
+	}
 	
 	/**
-	 * Validates the html code
-	 * @param html - the html code
+	 * Validates the HTML code
+	 * @param html - the HTML code
 	 * @throws SyntaxException
 	 */
-	public static void Parse(String html) throws SyntaxException {
+	public static void Parse(String html) {
+		errors = new ArrayList<SyntaxException>();
 		Stack<String> tagStack = new Stack<String>();
 		String[] parts = html.split("<");
 		int tagCount = parts.length;
 		if (tagCount == 1)
-			throw new SyntaxException(1, "Parsing failed, no tags found.");
+			errors.add(new SyntaxException(1, "Parsing failed, no tags found."));
 		else 
 			if (tagCount == 2)
-				throw new SyntaxException(1, "Parsing failed, only one tag found.");
+				errors.add(new SyntaxException(1, "Parsing failed, only one tag found."));
 		for (String part : parts) {
 			if (part.startsWith("!"))//skip comments
 				continue;
 			String tag = part.split(">")[0];
 			if (tag.startsWith("/")) {//ending tag
-				if (isTagForbidden(tag.substring(0)))
-					throw new SyntaxException(1, "Parsing failed, forbidden closing tag '" +
-				tag + "' found.");
+				if (isIn(tag.substring(0), forbiddenCloseTags))
+					errors.add(new SyntaxException(1, "Parsing failed, forbidden closing tag '" +
+				tag + "' found."));
 				String expectedTag = tagStack.pop();
 				tag = tag.substring(1);//cut off end tag slash
 				if (!expectedTag.equals(tag)) {//doesn't match last opened tag
-					if (isTagOptionalClose(expectedTag) || isTagForbidden(expectedTag))//it's okay, it's optional
+					if (isIn(expectedTag, optionalCloseTags) || isIn(expectedTag, forbiddenCloseTags))//it's okay, it's optional
 						continue;
-					throw new SyntaxException(1, "Parsing failed. Expecting a closing tag of '" +
-				expectedTag + "'");
+					errors.add(new SyntaxException(1, "Parsing failed. Expecting a closing tag of '" +
+				expectedTag + "'"));
 				}
 			}
 			else {//non-ending tag
 				if (tag.equals("")) { continue; }
 				String tagName = tag.split(" ")[0];
-				if (!isTagSupported(tagName) || tagName.endsWith("/")) {
-					throw new SyntaxException(1, "Parsing failed. Invalid tag found, '" +
-				tagName + "'");
+				if (!isIn(tagName, allowedTags) || tagName.endsWith("/")) {
+					errors.add(new SyntaxException(1, "Parsing failed. Invalid tag found, '" +
+				tagName + "'"));
 				}
-				if (!isTagForbidden(tagName))//not forbidden
+				if (!isIn(tagName, forbiddenCloseTags))//not forbidden
 					tagStack.add(tagName);
 			}
 		}
 		if (!tagStack.empty())
-			throw new SyntaxException(1, "Parsing failed. Tag '" + tagStack.pop() + "'" +
-		" not closed.");
+			errors.add(new SyntaxException(1, "Parsing failed. Tag '" + tagStack.pop() + "'" +
+		" not closed."));
 	}
-	
-	/**
-	 * Should tag be looked over?
-	 * @param tag - the tag in question
-	 * @return - true if forbidden, false otherwise
-	 */
-	private static boolean isTagForbidden(String tag) {
-		for (String t : forbiddenCloseTags)
-			if (t.equals(tag))
-				return true;
-		return false;
-	}
-	
-	/**
-	 * Should the tag be validated?
-	 * @param tag - the tag in question
-	 * @return - true if supported, false otherwise
-	 */
-	private static boolean isTagSupported(String tag) {
-		for (String t : allowedTags) {
-			if (t.equalsIgnoreCase(tag))
-				return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Is tag an optional ending tag?
-	 * @param tag - the tag in question
-	 * @return - true if optional false otherwise
-	 */
-	private static boolean isTagOptionalClose(String tag) {
-		for (String t : optionalCloseTags)
-			if (t.equalsIgnoreCase(tag))
-				return true;
-		return false;
+
+	@Override
+	public void update(Tab t) {
+		Parse(t.getText());
 	}
 }
