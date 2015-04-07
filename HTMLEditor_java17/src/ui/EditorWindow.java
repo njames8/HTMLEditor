@@ -379,8 +379,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		outLineToggle.setSelected(false);
 		outLineToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
-				t.setOutLineView();
+				//FIXME needs to change the user settings 
 			}
 		});
 		mnView.add(outLineToggle);
@@ -463,8 +462,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		indentToggle.setSelected(true);
 		indentToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
-				t.setAutoIndent();
+				//FIXME needs to change the user settings 
 			}
 		});
 

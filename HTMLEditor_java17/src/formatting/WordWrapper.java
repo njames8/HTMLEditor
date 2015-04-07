@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
  * @author Jesse
  *
  */
+@SuppressWarnings("unused")
 public class WordWrapper {
 	/**
 	 * Formats raw text into properly word wrapped text for displaying to the user

@@ -36,12 +36,15 @@ public class HTMLTag implements Observer{
 		UserSettings u = (UserSettings)arg0;
 		List<Tab> tabs = EditorWindow.getInstance().getTabs();
 		for (int i = 0; i < tabs.size(); i++){
-			BaseTag b = tabs.get(i).head;
-			if(b != null){
-				if(b.getAutoIndent() != u.getAutoIndent())
-					b.setAutoIndent(u.getAutoIndent());
-				if(b.getOutLineView() != u.getOutlineView())
-					b.setOutLineView(u.getOutlineView());
+			HTMLTag h = tabs.get(i).head;
+			if(h != null){
+				for (int j = 0; j < h.tags.size(); j++){
+					BaseTag b = h.tags.get(j);
+					if(b.getAutoIndent() != u.getAutoIndent())
+						b.setAutoIndent(u.getAutoIndent());
+					if(b.getOutLineView() != u.getOutlineView())
+						b.setOutLineView(u.getOutlineView());
+				}
 			}
 		}
 	}

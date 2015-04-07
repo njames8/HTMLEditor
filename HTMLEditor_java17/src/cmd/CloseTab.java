@@ -11,6 +11,7 @@ import ui.Tab;
 /**
  * @author Nick James
  */
+@SuppressWarnings("unused")
 public class CloseTab implements Command {
 	/**
 	 * The current Tab

@@ -10,6 +10,7 @@ import ui.Tab;
  * Indents the html code to be pretty
  *
  */
+@SuppressWarnings("unused")
 public class Indenter {
 	private Tab tab;
 	/*

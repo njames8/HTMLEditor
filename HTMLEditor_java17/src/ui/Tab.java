@@ -2,11 +2,13 @@
  * 
  */
 package ui;
+import formatting.HTMLTag;
 import formatting.Indenter;
 import formatting.LineNumberAssistant;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -30,7 +32,7 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 */
 	private HTMLFile file;
 	
-	public BaseTag head;
+	public HTMLTag head;
 	/**
 	 * Is this tab the focus of the window?
 	 */
@@ -215,16 +217,19 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 * Switches the setting for auto-indentation for the current tab
 	 * @author John Mullen
 	 */
+/*	
 	public void setAutoIndent() {
 		head.setAutoIndent(!head.getAutoIndent());
 	}
-	
+*/
 	/**
 	 * Switches the view for the current tab (Outline View)
 	 */
+/*
 	public void setOutLineView(){
 		head.setOutLineView(!head.getOutLineView());
 	}
+*/
 	
 	/**
 	 * Switches the view for the current tab (Link View)

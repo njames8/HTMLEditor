@@ -4,8 +4,9 @@
 package cmd;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -25,6 +26,7 @@ import cmd.ImagePreviewCMD;
  * @author Matthew Gallagher
  * 
  */
+@SuppressWarnings("unused")
 public class InsertTag implements ActionListener {
 	/**
 	 * The type of HTML tag (html, bold, body, italic, etc)
@@ -91,20 +93,19 @@ public class InsertTag implements ActionListener {
 	 * @param base
 	 *            - the tag to insert
 	 * @throws BadLocationException
-	 *             - if the spot on the tab doesnt exist
+	 *             - if the spot on the tab doesn't exist
 	 */
 	private void insertToTab(Tab t, BaseTag base) throws BadLocationException {
 		int pos = t.getCaretLineNumber();
 		if (t.head != null) {
 			int indent = t.head.getIndentLevel(pos);
 			t.head.addChild(base, pos);
-			if (!this.selfClosing) {
-				// TODO get selfCLosing tag text
-			}
 			t.getDocument().insertString(t.getCaretPosition(),
 					base.getText(indent), null);
 		} else {
-			t.head = base;
+			ArrayList<BaseTag> b = new ArrayList<BaseTag>();
+			b.add(base);
+			t.head = new HTMLTag(b);
 			t.getDocument().insertString(t.getCaretPosition(),
 					t.head.getText(0), null);
 		}
@@ -115,7 +116,6 @@ public class InsertTag implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		Tab t = EditorWindow.getInstance().getCurrentTab();
 		// System.out.println(tag);
 		try {
@@ -130,7 +130,6 @@ public class InsertTag implements ActionListener {
 			}
 
 		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -154,6 +153,7 @@ public class InsertTag implements ActionListener {
 		panel.add(cols);
 		JOptionPane pane = new JOptionPane(panel);
 		pane.setSize(300, 150);
+		@SuppressWarnings("static-access")
 		int tableSize = pane.showOptionDialog(null, panel, "Table Size",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
 				null, null, null);
@@ -162,20 +162,11 @@ public class InsertTag implements ActionListener {
 				int row = (Integer) rows.getValue();
 				int col = (Integer) cols.getValue();
 				BaseTag base = makeNewTag(t, tag, null, this.selfClosing);
-				// t.getDocument().insertString(t.getCaretPosition(),
-				// getFullTag(), null);
-				// t.setCaretPosition((getFullTag().length() / 2));
 				for (; row > 0; row--) {
-					// t.getDocument().insertString(t.getCaretPosition(),
-					// "<tr>\n", null);
 					BaseTag c1 = makeNewTag(t, "tr", null, this.selfClosing);
 					for (int i = 0; i < col; i++) {
 						c1.addChild(makeNewTag(t, "td", null, this.selfClosing));
-						// t.getDocument().insertString(t.getCaretPosition(),
-						// "\t<td>\n\t</td>\n", null);
 					}
-					// t.getDocument().insertString(t.getCaretPosition(),
-					// "</tr>\n", null);
 					base.addChild(c1);
 				}
 				insertToTab(t, base);
