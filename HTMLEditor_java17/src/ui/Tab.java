@@ -200,4 +200,18 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	public void setAutoIndent() {
 		head.setAutoIndent(!head.getAutoIndent());
 	}
+	
+	/**
+	 * Switches the view for the current tab (Outline View)
+	 */
+	public void setOutLineView(){
+		head.setOutLineView(!head.getOutLineView());
+	}
+	
+	/**
+	 * Switches the view for the current tab (Link View)
+	 */
+	public void setLinkView(){
+		//TODO
+	}
 }

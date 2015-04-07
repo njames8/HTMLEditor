@@ -109,6 +109,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		initFileMenu(menuBar);
 		initEditMenu(menuBar);
 		initInsertMenu(menuBar);
+		initViewMenu(menuBar);
 		initFormatMenu(menuBar);
 	}
 	
@@ -393,6 +394,39 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		menu.add(mnInsert);
 	}
 	
+	/**
+	 * Initializes and adds the format menu to the menu bar
+	 * 
+	 * @param menu The JMenuBar that the menu items will be added to
+	 */
+	private void initViewMenu(JMenuBar menu) {
+		JMenu mnView = new JMenu("View");
+		
+		JCheckBoxMenuItem outLineToggle = new JCheckBoxMenuItem("OutLine View");
+		outLineToggle.setSelected(false);
+		outLineToggle.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						Tab t = EditorWindow.getInstance().getCurrentTab();
+						t.setOutLineView();
+					}
+				});
+		mnView.add(outLineToggle);
+		//Auto Indentation
+		JCheckBoxMenuItem linkToggle = new JCheckBoxMenuItem("Link View");
+		linkToggle.setSelected(false);
+		linkToggle.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						Tab t = EditorWindow.getInstance().getCurrentTab();
+						t.setLinkView();
+					}
+				});
+		
+		mnView.add(linkToggle);
+		
+		menu.add(mnView);
+	}
 	/**
 	 * Initializes and adds the format menu to the menu bar
 	 * 
