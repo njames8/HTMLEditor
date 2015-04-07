@@ -11,11 +11,10 @@ import ui.Tab;
  * 
  */
 public class Parser implements ui.Observer {
-	
 	/**
 	 * The allowed tags to parse
 	 */
-	private static String[] allowedTags = {"html", "body", "head", "footer",
+	private String[] allowedTags = {"html", "body", "head", "footer",
 		"b", "p", "i", "li", "ol", "ul", "script", "a", "h1", "h2", "h3", "h4",
 		"h5", "h6", "link", "meta", "title", "link", "nav", "div", "button",
 		"header", "video", "source", "img", "section", "br", "td", "input", "iframe",
@@ -25,28 +24,36 @@ public class Parser implements ui.Observer {
 	/**
 	 * The closing tags to parse
 	 */
-	private static String[] optionalCloseTags = { "source", "html", "head",
+	private String[] optionalCloseTags = { "source", "html", "head",
 		"body", "p", "dt", "dd", "li", "option", "thead", "tr", "td", "tfoot",
 		"colgroup"};
 	
 	/**
 	 * Look over these tags
 	 */
-	private static String[] forbiddenCloseTags = { "meta", "img", "input",
+	private String[] forbiddenCloseTags = { "meta", "img", "input",
 		"br", "frame", "param", "link"};
 	/*
 	 * List to store the found errors in
 	 * 
 	 * @author Adam Walsh
 	 */
-	private static ArrayList<SyntaxException> errors;
+	private ArrayList<SyntaxException> errors;
+	/*
+	 * Constructor
+	 * 
+	 * @author Adam Walsh
+	 */
+	public Parser() {
+		
+	}
 	/*
 	 * Get the current errors list
 	 * 
 	 * @author Adam Walsh
 	 * 
 	 */
-	public static ArrayList<SyntaxException> getErrors() {
+	public ArrayList<SyntaxException> getErrors() {
 		return errors;
 	}
 	/*
@@ -55,7 +62,7 @@ public class Parser implements ui.Observer {
 	 * @author Adam Walsh
 	 * 
 	 */
-	private static <E> boolean isIn (E elem, E[] col) {
+	private <E> boolean isIn (E elem, E[] col) {
 		for(E each : col)
 			if (each.equals(elem))
 				return true;
@@ -67,7 +74,7 @@ public class Parser implements ui.Observer {
 	 * @param html - the HTML code
 	 * @throws SyntaxException
 	 */
-	public static void Parse(String html) {
+	public void Parse(String html) {
 		errors = new ArrayList<SyntaxException>();
 		Stack<String> tagStack = new Stack<String>();
 		String[] parts = html.split("<");
