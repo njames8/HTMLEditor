@@ -2,16 +2,16 @@
  * 
  */
 package ui;
+import formatting.Indenter;
 import formatting.LineNumberAssistant;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.LayoutManager;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import parsing.Parser;
 import cmd.SaveFile;
 import files.HTMLFile;
 import formatting.BaseTag;
@@ -34,10 +34,11 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	/**
 	 * Is this tab the focus of the window?
 	 */
-	private boolean focus;
+	public LineNumberAssistant lnAssistant;
+	public Parser parser;
+	public Indenter indenter;
 	
-	private LineNumberAssistant helper;
-	
+	private boolean focus;	
 	private LinkView lv;
 
 	/**
@@ -47,13 +48,16 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		super();
 		this.file = new HTMLFile();
 		this.getDocument().addDocumentListener(this);
-		this.helper = new LineNumberAssistant();
-		this.attachObserver(helper);
+		this.lnAssistant = new LineNumberAssistant();
+		this.attachObserver(lnAssistant);
+		this.parser = new Parser();
+		this.attachObserver(this.parser);
+		this.indenter = new Indenter(this);
 		this.lv = null;
 	}
 	
 	public int getCaretLineNumber() {
-		return this.helper.convertCharNumToLineNum(this.getCaretPosition());
+		return this.lnAssistant.convertCharNumToLineNum(this.getCaretPosition());
 	}
 
 	/**
@@ -77,8 +81,11 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.setFont(new Font("Consolas", Font.PLAIN, 11));
 		
 		this.getDocument().addDocumentListener(this);
-		this.helper = new LineNumberAssistant();
-		this.attachObserver(helper);
+		this.lnAssistant = new LineNumberAssistant();
+		this.attachObserver(lnAssistant);
+		this.parser = new Parser();
+		this.attachObserver(this.parser);
+		this.indenter = new Indenter(this);
 		this.lv = null;
 	}
 	
