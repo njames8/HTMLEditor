@@ -227,29 +227,7 @@ public class InsertTag implements ActionListener {
 
 		try {
 			insertToTab(t, base);
-			t.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent me) {
-
-					if (me.getModifiers() == 18) {
-						// 18 = ctrl+left click
-						int x = me.getX();
-						int y = me.getY();
-						System.out.println("X : " + x);
-						System.out.println("Y : " + y);
-						int startOffset = t.viewToModel(new Point(x, y));
-						System.out.println("Start Offset : " + startOffset);
-						String text = t.getText();
-						int searchLocation = text.indexOf(url);
-						System.out.println("Search Location : "
-								+ searchLocation);
-						if (startOffset >= searchLocation
-								&& startOffset <= searchLocation + url.length()) {
-							ImagePreviewCMD img = new ImagePreviewCMD(url);
-							img.execute();
-						}
-					}
-				}
-			});
+			t.addMouseListener(new ClickableImageSrc(url, t));
 
 		} catch (BadLocationException e) {
 			e.printStackTrace();
