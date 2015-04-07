@@ -22,50 +22,44 @@ public class UserSettings extends Observable {
 		autoIndent = true;
 		wordWrap = true;
 	}
-	
-	/**
-	 * Sets the outline view
-	 * 
-	 * @param val enable or disables outline view
-	 */
+
+	// Outline View
 	public void setOutlineView(boolean val) {
 		outlineView = val;
 		this.notifyObservers();
 	}
 	
-	/**
-	 * Gets the outline view.
-	 * 
-	 * @return whether outline view is enabled
-	 */
 	public boolean getOutlineView() {
 		return outlineView;
 	}
 	
+	// Link View
 	public void setLinkView(boolean val) {
-		outlineView = val;
+		linkView = val;
 		this.notifyObservers();
 	}
 	
 	public boolean getLinkView() {
-		return outlineView;
+		return linkView;
 	}
 	
+	// Auto Indent
 	public void setAutoIndent(boolean val) {
-		outlineView = val;
+		autoIndent = val;
 		this.notifyObservers();
 	}
 	
 	public boolean getAutoIndent() {
-		return outlineView;
+		return autoIndent;
 	}
 	
+	// Word Wrap
 	public void setWordWrap(boolean val) {
-		outlineView = val;
+		wordWrap = val;
 		this.notifyObservers();
 	}
 	
 	public boolean getWordWrap() {
-		return outlineView;
+		return wordWrap;
 	}
 }
