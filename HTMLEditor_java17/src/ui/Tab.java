@@ -112,6 +112,11 @@ public class Tab extends ObservableTab implements DocumentListener  {
 			if (reply == JOptionPane.YES_OPTION) {
 				SaveFile s = new SaveFile(this);
 				s.execute();
+				
+				// If the save command failed or was cancelled
+				if(!s.getSaved()) {
+					return false;
+				}
 			}
 			else if (reply == JOptionPane.CANCEL_OPTION){
 				return false;

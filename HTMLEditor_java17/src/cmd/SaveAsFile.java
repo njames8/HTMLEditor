@@ -26,6 +26,8 @@ public class SaveAsFile implements Command {
 	 * the tab containing the html file
 	 */
 	private Tab tab;
+	
+	private boolean saved;
 
 	/**
 	 * SaveAsFile Constructor
@@ -41,6 +43,8 @@ public class SaveAsFile implements Command {
 				"html"));
 
 		this.tab = t;
+		
+		saved = false;
 	}
 
 	/**
@@ -62,10 +66,19 @@ public class SaveAsFile implements Command {
 				
 				tab.saveAs(path, tab.getText());
 				//System.out.println(tab.GetTitle());
+				
+				saved = true;
+				return;
 			} catch (IOException e) {
 				// TODO
 				e.printStackTrace();
 			}
 		}
+		
+		saved = false;
+	}
+	
+	public boolean getSaved() {
+		return saved;
 	}
 }

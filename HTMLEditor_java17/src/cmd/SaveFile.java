@@ -16,6 +16,8 @@ public class SaveFile implements Command {
 	 * The tab that holds the html file
 	 */
 	private Tab tab;
+	
+	private boolean saved;
 
 	/**
 	 * The SaveFile Constructor
@@ -27,6 +29,7 @@ public class SaveFile implements Command {
 	 */
 	public SaveFile(Tab t) {
 		this.tab = t;
+		saved = false;
 	}
 
 	/**
@@ -38,10 +41,16 @@ public class SaveFile implements Command {
 		{
 			SaveAsFile f = new SaveAsFile(tab);
 			f.execute();
+			
+			this.saved = f.getSaved();
 		}
 		else
 		{
-			tab.saveFile();
+			this.saved = tab.saveFile();
 		}
+	}
+	
+	public boolean getSaved() {
+		return saved;
 	}
 }
