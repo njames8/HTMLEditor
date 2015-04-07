@@ -214,4 +214,9 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	public void setLinkView(){
 		//TODO
 	}
+	
+	public void setCollapsed(int lineNum){
+		BaseTag b = head.getChild(lineNum);
+		b.ToggleCollapse();
+	}
 }

@@ -451,6 +451,19 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		
 		mnFormat.add(validate);
 		
+		JMenuItem collapse = new JMenuItem("Collapse");
+		
+		collapse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JScrollPane temp = (JScrollPane)tabbedPane.getSelectedComponent();
+				JViewport temp2 = temp.getViewport();
+				Tab t = (Tab)temp2.getView();
+				ParseCMD p = new ParseCMD(t);
+				p.execute();
+			}
+		});
+		
+		mnFormat.add(collapse);
 		menu.add(mnFormat);
 	}
 
