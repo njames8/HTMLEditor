@@ -5,11 +5,10 @@ import ui.EditorWindow;
 /**
  * Initializes the program
  * 
- * @author
+ * @author Jesse Roux
  *
  */
 public class User {
-	
 	/**
 	 * The main method to start the program
 	 * @param args - the file name to open from the command line
