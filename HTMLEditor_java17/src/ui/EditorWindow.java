@@ -498,6 +498,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	public Tab getCurrentTab() {
 		return tabs.get(tabbedPane.getSelectedIndex());
 	}
+	
+	public List<Tab> getTabs() {
+		return tabs;
+	}
 
 	@Override
 	public void update(Tab t) {
