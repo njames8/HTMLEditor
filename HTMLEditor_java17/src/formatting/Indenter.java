@@ -96,15 +96,9 @@ public class Indenter {
 	 * 		false if the sent string's tags are not closed
 	 */
 	public static boolean tagClosedOnSameLine(String htmlString){
-		boolean closed = false;
-		try{
-			Parser.Parse(htmlString);//calls Parser.parse on htmlString to see if it is syntactically correct.
+		Parser.Parse(htmlString);//calls Parser.parse on htmlString to see if it is syntactically correct.
 									 //if htmlString is syntactically correct that mean the tag is opened and closed on the same line.
 									 //if htmlString is not syntactically correct it means that the tag was left open.
-			closed = true;
-		}catch(SyntaxException e){
-			closed = false;
-		}
-		return closed;
+		return !Parser.getErrors().isEmpty();
 	}
 }
