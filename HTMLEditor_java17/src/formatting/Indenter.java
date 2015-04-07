@@ -1,5 +1,6 @@
 package formatting;
 import parsing.*;
+import ui.Tab;
 
 /**
  * 
@@ -10,13 +11,21 @@ import parsing.*;
  *
  */
 public class Indenter {
-	
+	private Tab tab;
+	/*
+	 * Constructor
+	 * 
+	 * @author Adam Walsh
+	 */
+	public Indenter(Tab t) {
+		this.tab = t;
+	}
 	/**
 	 * Indents appropriate amount per tag
 	 * @param html - html code
 	 * @return - the indented html code
 	 */
-	public static String openIndent(String html){
+	public String openIndent(String html){
 		int depth = -1; //used to determine number of spaces
 		String returnText = ""; //text to be returned
 		String[] parts = html.split("(?=<)"); //splits current text into sections per tag
@@ -65,7 +74,7 @@ public class Indenter {
 	 * @return
 	 * 		the correct indentation for the new line.
 	 */
-	public static String indentNewLine(String htmlString){
+	public String indentNewLine(String htmlString){
 		String returnText = "";
 		char[] htmlChar = htmlString.toCharArray();//Splits the htmlString up so its easier to use.
 		int counter = 0;
@@ -95,10 +104,10 @@ public class Indenter {
 	 * 		true if the sent string's tags are closed
 	 * 		false if the sent string's tags are not closed
 	 */
-	public static boolean tagClosedOnSameLine(String htmlString){
-		Parser.Parse(htmlString);//calls Parser.parse on htmlString to see if it is syntactically correct.
+	public boolean tagClosedOnSameLine(String htmlString){
+		this.tab.parser.Parse(htmlString);//calls Parser.parse on htmlString to see if it is syntactically correct.
 									 //if htmlString is syntactically correct that mean the tag is opened and closed on the same line.
 									 //if htmlString is not syntactically correct it means that the tag was left open.
-		return !Parser.getErrors().isEmpty();
+		return !this.tab.parser.getErrors().isEmpty();
 	}
 }
