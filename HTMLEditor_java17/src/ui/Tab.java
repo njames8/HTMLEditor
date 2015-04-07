@@ -6,6 +6,7 @@ import formatting.LineNumberAssistant;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.LayoutManager;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -36,6 +37,8 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	private boolean focus;
 	
 	private LineNumberAssistant helper;
+	
+	private LinkView lv;
 
 	/**
 	 * Constructs a tab with a new file
@@ -46,6 +49,7 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.getDocument().addDocumentListener(this);
 		this.helper = new LineNumberAssistant();
 		this.attachObserver(helper);
+		this.lv = null;
 	}
 	
 	public int getCaretLineNumber() {
@@ -75,6 +79,7 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.getDocument().addDocumentListener(this);
 		this.helper = new LineNumberAssistant();
 		this.attachObserver(helper);
+		this.lv = null;
 	}
 	
 	/**
@@ -219,7 +224,18 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 */
 	public void setLinkView(LinkView l){
 		//TODO
-		EditorWindow.getInstance().add(l, BorderLayout.SOUTH);
+		EditorWindow w = EditorWindow.getInstance();
+		if (l == null){
+			w.remove(this.lv);
+			this.lv = null;
+			
+		} else {
+			if (this.lv != null) {
+				w.remove(this.lv);
+			}
+			this.lv = l;
+			w.add(l, BorderLayout.SOUTH);
+		}
 	}
 	
 	public void setCollapsed(int lineNum){
