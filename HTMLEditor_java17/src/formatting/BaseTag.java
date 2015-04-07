@@ -327,6 +327,8 @@ public class BaseTag {
 	 */
 	public boolean addChild(BaseTag child){
 //System.out.println("Added new child to end of list");
+		child.setAutoIndent(this.autoIndent);
+		child.setOutLineView(this.outLineView);
 		children.add(child);
 		return true;
 	}
@@ -364,6 +366,8 @@ public class BaseTag {
 						// then the sent child is added to the list of children where that tag is
 						// this also moves everything else in the list down one index.
 						if(this.children.get(i).getLineNumberStart() >= lineNum){
+							child.setAutoIndent(this.autoIndent);
+							child.setOutLineView(this.outLineView);
 							this.children.add(i, child);
 							added = true;
 							break;
