@@ -378,7 +378,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				new ActionListener(){
 					public void actionPerformed(ActionEvent arg0) {
 						Tab t = EditorWindow.getInstance().getCurrentTab();
-						t.setLinkView();
+						t.setLinkView(new LinkView(t));
 					}
 				});
 		

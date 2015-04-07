@@ -4,6 +4,7 @@
 package ui;
 import formatting.LineNumberAssistant;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 
 import javax.swing.*;
@@ -216,8 +217,9 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	/**
 	 * Switches the view for the current tab (Link View)
 	 */
-	public void setLinkView(){
+	public void setLinkView(LinkView l){
 		//TODO
+		EditorWindow.getInstance().add(l, BorderLayout.SOUTH);
 	}
 	
 	public void setCollapsed(int lineNum){
