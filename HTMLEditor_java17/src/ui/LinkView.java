@@ -46,10 +46,12 @@ public class LinkView extends JPanel{
 	
 	private ArrayList<Link> getLinks(){
 		String text = this.t.getText();
+		System.out.println(text);
 		ArrayList<Link> temp = new ArrayList<Link>();
-		String parts[] = text.split("(.|\\n)*\\s*<a\\s*href\\s*=\\s*\"|\">(.|\\n)*</a>(.|\\n)*>");
+		String parts[] = text.split("(<[^>a]*>)|(<a href=\")|(\">)|(</a>)");
 		for (int i = 0; i < parts.length; i++) {
 			if (parts[i]!=null && parts[i].length()!=0 && (int)parts[i].charAt(0)!= 10){
+				System.out.println(parts[i]);
 				temp.add(new Link(parts[i]));
 			}
 		}
