@@ -1,3 +1,4 @@
+package settings;
 import java.util.Observable;
 
 /**
