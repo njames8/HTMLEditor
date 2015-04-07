@@ -4,6 +4,7 @@
 package ui;
 
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
  * @author Nick James
  *
  */
+@SuppressWarnings("serial")
 public class ImagePreview extends JFrame{
 	
 	JLabel label;

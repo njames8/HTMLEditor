@@ -33,7 +33,6 @@ public class CloseTab implements Command {
 	public CloseTab(Tab t, JTabbedPane j) {
 		this.tab = t;
 		this.tabbedPane = j;
-
 	}
 
 	/**

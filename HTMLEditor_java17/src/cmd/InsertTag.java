@@ -4,12 +4,8 @@
 package cmd;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.*;
-import java.awt.image.ImageFilter;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -64,16 +60,6 @@ public class InsertTag implements ActionListener {
 	public InsertTag(String type, boolean selfClosing) {
 		this.tag = type;
 		this.selfClosing = true;
-	}
-
-	/**
-	 * Takes the tag and makes it into a full html tag head --> <head></head>
-	 */
-	private String getFullTag() {
-		if (selfClosing)
-			return "<" + tag + " />\n";
-
-		return "<" + tag + ">\n\n</" + tag + ">";
 	}
 
 	/**

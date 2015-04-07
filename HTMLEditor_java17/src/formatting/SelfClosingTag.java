@@ -43,10 +43,6 @@ public class SelfClosingTag extends BaseTag{
 		return text;
 	}
 	
-	private boolean inThisTag(int lineNum){
-		boolean b = false;
-		return b;
-	}
 	/**
 	 * @param counter
 	 * @return the lineNumber of the next line.

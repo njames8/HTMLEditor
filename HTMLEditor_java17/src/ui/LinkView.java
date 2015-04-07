@@ -3,16 +3,13 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import formatting.Link;
 
+@SuppressWarnings("serial")
 public class LinkView extends JPanel{
 	
 	private JTextArea linkArea;
