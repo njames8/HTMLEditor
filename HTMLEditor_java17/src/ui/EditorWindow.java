@@ -256,41 +256,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		);
 		
-		
-		////////////////////////////////////////
-		// Preferences sub menu
-		////////////////////////////////////////
-		JMenu mnPreferences = new JMenu("Preferences");
-		
-		//Auto Word-Wrapping
-		JCheckBoxMenuItem wordWrapToggle = new JCheckBoxMenuItem("Auto Word-Wrapping");
-		wordWrapToggle.setSelected(true);
-		wordWrapToggle.addActionListener(
-				new ActionListener(){
-					public void actionPerformed(ActionEvent arg0) {
-						Tab t = EditorWindow.getInstance().getCurrentTab();
-						boolean curStat = t.getLineWrap();
-						if(curStat == true){
-							t.setLineWrap(false);
-						}
-						else{
-							t.setLineWrap(true);
-						}
-						
-					}
-				});
-		//Auto Indentation
-		JCheckBoxMenuItem indentToggle = new JCheckBoxMenuItem("Auto Indentation");
-		indentToggle.setSelected(true);
-		indentToggle.addActionListener(
-				new ActionListener(){
-					public void actionPerformed(ActionEvent arg0) {
-						Tab t = EditorWindow.getInstance().getCurrentTab();
-						t.setAutoIndent();
-					}
-				});
-
-		
 		menu.add(mnEdit);
 		
 		mnEdit.add(cut);
@@ -298,12 +263,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mnEdit.add(paste);
 		mnEdit.addSeparator(); // --------
 		mnEdit.add(selectAll);
-		mnEdit.addSeparator(); // --------
-		mnEdit.add(mnPreferences);
-		
-		mnPreferences.add(wordWrapToggle);
-		mnPreferences.add(indentToggle);
-	
 	}
 	
 	/**
@@ -449,7 +408,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		});
 		
-		mnFormat.add(validate);
 		
 		JMenuItem collapse = new JMenuItem("Collapse");
 		
@@ -462,7 +420,39 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 		});
 		
+		//Auto Word-Wrapping
+		JCheckBoxMenuItem wordWrapToggle = new JCheckBoxMenuItem("Auto Word-Wrapping");
+		wordWrapToggle.setSelected(true);
+		wordWrapToggle.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						Tab t = EditorWindow.getInstance().getCurrentTab();
+						boolean curStat = t.getLineWrap();
+						if(curStat == true){
+							t.setLineWrap(false);
+						}
+						else{
+							t.setLineWrap(true);
+						}
+						
+					}
+				});
+		//Auto Indentation
+		JCheckBoxMenuItem indentToggle = new JCheckBoxMenuItem("Auto Indentation");
+		indentToggle.setSelected(true);
+		indentToggle.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						Tab t = EditorWindow.getInstance().getCurrentTab();
+						t.setAutoIndent();
+					}
+				});
+		
+		mnFormat.add(validate);
 		mnFormat.add(collapse);
+		mnFormat.addSeparator(); // --------
+		mnFormat.add(wordWrapToggle);
+		mnFormat.add(indentToggle);
 		menu.add(mnFormat);
 	}
 
