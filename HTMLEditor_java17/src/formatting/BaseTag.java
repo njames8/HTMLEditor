@@ -211,7 +211,7 @@ public class BaseTag {
 		return -1;
 	}
 	
-	private boolean inThisTag(int lineNum){
+	protected boolean inThisTag(int lineNum){
 		boolean b = false;
 		if(this.getLineNumberStart() < lineNum){ 
 			if(this.getLineNumberEnd() >= lineNum){
@@ -266,26 +266,28 @@ public class BaseTag {
 		int c = this.inChildTag(lineNum);
 //System.out.println("InChildTag = " + c);
 		if(t && (c == -1 || c == -2)){
+			added = true;
 			if(c == -2){
 				for (int i = 0; i < children.size(); i++){
 					added = this.children.get(i).addToLineNum(amount, lineNum);
-					if(!added)//the amount was not added at some point
-						break;
+//					if(!added)//the amount was not added at some point
+//						break;
 				}
 			}
 			if(added){
 				this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 			}
-		}else if(c != -1 && c != -2){
+		}else if(c != -1 && c != -2 && t){
 //System.out.println("called addToLineNum on a child");
+			added = true;
 			//calls this method on the child that the sent line number is in
 			added = this.children.get(c).addToLineNum(amount, lineNum);
 			//traverses the children after the one at index c
 			for(int i = c + 1; i < this.children.size(); i++){
 				//calls addToLineNum(amount) on children
 				added = this.children.get(i).addToLineNum(amount);
-				if(!added)//the amount was not added at some point
-					break;
+//				if(!added)//the amount was not added at some point
+//					break;
 			}
 			if(added){
 //System.out.println("added to the end");
@@ -293,6 +295,8 @@ public class BaseTag {
 				this.setLineNumberEnd(this.getLineNumberEnd() + amount);
 			}
 		}
+//		else
+//			added = t;
 		return added;
 	}
 	

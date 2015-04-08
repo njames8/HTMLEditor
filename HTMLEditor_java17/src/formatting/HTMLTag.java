@@ -50,13 +50,17 @@ public class HTMLTag implements Observer{
 	}
 	
 	public boolean addChild(BaseTag child, int lineNum){
-		boolean added = true;
+		boolean added = false;
 		if (tags != null){
 			for (int i = 0; i < tags.size(); i++){
-				added = tags.get(i).addChild(child, lineNum);
-				if (added)
+				boolean b = tags.get(i).inThisTag(lineNum);
+				if(b){
+					added = tags.get(i).addChild(child, lineNum);
 					break;
+				}
 			}
+			if(!added)
+				tags.add(child);
 		}else{
 			tags = new ArrayList<BaseTag>();
 			tags.add(child);
@@ -118,9 +122,13 @@ public class HTMLTag implements Observer{
 		return indent;
 	}
 	public boolean addToLineNum(int amount, int lineNum ){
-		boolean added = true;
+		boolean added = false;
 		for(int i = 0; i < tags.size(); i++){
-			added = tags.get(i).addToLineNum(amount, lineNum);
+			boolean b = tags.get(i).inThisTag(lineNum);
+			if(b)
+				added = tags.get(i).addToLineNum(amount, lineNum);
+			else if(!b && added)
+				tags.get(i).addToLineNum(amount);
 		}
 		return added;
 	}

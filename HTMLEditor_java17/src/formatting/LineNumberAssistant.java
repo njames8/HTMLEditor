@@ -23,6 +23,8 @@ public class LineNumberAssistant implements ui.Observer {
 		for (int i = 0; i < lineLengths.size(); i += 1) {
 			if (lineLengths.get(i) >= charNum)
 				return i - 1;
+			if(i == lineLengths.size() - 1)
+				return i + 1;
 		}
 		return -1;//failed
 	}
