@@ -418,10 +418,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 		validate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JScrollPane temp = (JScrollPane) tabbedPane
+				TabPane temp = (TabPane) tabbedPane
 						.getSelectedComponent();
-				JViewport temp2 = temp.getViewport();
-				Tab t = (Tab) temp2.getView();
+				Tab t = temp.getTab();
+				
 				ParseCMD p = new ParseCMD(t);
 				p.execute();
 			}
