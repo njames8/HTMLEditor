@@ -19,8 +19,7 @@ public class LinkView extends JPanel{
 	
 	public LinkView(Tab t){
 		this.t = t;
-		this.links = getLinks();
-		makeView();
+		this.linkArea = null;
 	}
 		
 	public LinkView(ArrayList<Link> links, Tab t){
@@ -29,15 +28,13 @@ public class LinkView extends JPanel{
 	}
 	
 	public void makeView(){
+		this.links = getLinks();
 		Dimension d = new Dimension(EditorWindow.getInstance().getWidth(), EditorWindow.getInstance().getHeight()/5);
 		this.setPreferredSize(d);
 		
 		this.linkArea = new JTextArea();	
-		String text = "";
-		for (Link l : this.links){
-			text += l.getLink() + "\n";
-		}
-		linkArea.setText(text);
+		
+		setText();
 		linkArea.setSize(this.getSize());
 		linkArea.setEditable(false);
 		
@@ -54,6 +51,7 @@ public class LinkView extends JPanel{
 		String text = this.t.getText();
 		System.out.println(text);
 		ArrayList<Link> temp = new ArrayList<Link>();
+		if (text!=null && text.length()>0){
 		String parts[] = text.split("(<[^>a]*>)|(<a href=\")|(\">)|(</a>)");
 		for (int i = 0; i < parts.length; i++) {
 			if (parts[i]!=null && parts[i].length()!=0 && (int)parts[i].charAt(0)!= 10){
@@ -61,7 +59,25 @@ public class LinkView extends JPanel{
 				temp.add(new Link(parts[i]));
 			}
 		}
+		}
 		return temp;
+	}
+	
+	private void setText(){
+		String text = "";
+		for (Link l : this.links){
+			text += l.getLink() + "\n";
+		}
+		linkArea.setText(text);
+	}
+	
+	public void updateLinks(){
+		if (this.linkArea == null){
+			makeView();
+		}
+		this.links = getLinks();
+		this.setText();
+		
 	}
 	
 	

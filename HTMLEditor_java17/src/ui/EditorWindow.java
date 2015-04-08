@@ -388,12 +388,11 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		linkToggle.setSelected(false);
 		linkToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
 				if (linkToggle.isSelected()) {
-					t.setLinkView(new LinkView(t));
+					((TabPane)tabbedPane.getSelectedComponent()).showLinkView();
 				} else {
-					t.setLinkView(null);
-				}
+					((TabPane)tabbedPane.getSelectedComponent()).hideLinkView();
+					}
 				EditorWindow.getInstance().revalidate();
 			}
 		});
@@ -507,11 +506,11 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		}
 
 		tabs.add(t);
-
-		JScrollPane scrollPane = new JScrollPane(t);
+		TabPane p = new TabPane(t);
 		t.attachObserver(this);
-		tabbedPane.addTab(t.getTitle(), null, scrollPane, null);
+		tabbedPane.addTab(t.getTitle(), null, p, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+		
 	}
 
 	public Tab getCurrentTab() {

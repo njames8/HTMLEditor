@@ -236,18 +236,7 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 */
 	public void setLinkView(LinkView l){
 		//TODO
-		EditorWindow w = EditorWindow.getInstance();
-		if (l == null){
-			w.remove(this.lv);
-			this.lv = null;
-			
-		} else {
-			if (this.lv != null) {
-				w.remove(this.lv);
-			}
-			this.lv = l;
-			w.add(l, BorderLayout.SOUTH);
-		}
+		
 	}
 	
 	public void setCollapsed(int lineNum){
