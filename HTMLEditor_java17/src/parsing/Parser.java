@@ -39,13 +39,14 @@ public class Parser implements ui.Observer {
 	 * @author Adam Walsh
 	 */
 	private ArrayList<SyntaxException> errors;
+	protected ParserState state;
 	/*
 	 * Constructor
 	 * 
 	 * @author Adam Walsh
 	 */
 	public Parser() {
-		
+		//TODO start at empty state
 	}
 	/*
 	 * Get the current errors list
@@ -120,5 +121,9 @@ public class Parser implements ui.Observer {
 	@Override
 	public void update(Tab t) {
 		Parse(t.getText());
+	}
+	
+	private interface ParserState {
+		public void takeInput(char nxt);
 	}
 }
