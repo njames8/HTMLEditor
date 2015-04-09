@@ -48,11 +48,15 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 */
 	private List<Tab> tabs;
 	
-	private boolean linkView = false;
+	private boolean outlineView, linkView, autoIndent, wordWrap;
 	/**
 	 * Constructs the window
 	 */
 	public EditorWindow() {
+		outlineView = false;
+		linkView = false;
+		autoIndent = true;
+		wordWrap = true;
 		init();
 
 		// Create a blank tab for the user to start with
@@ -368,7 +372,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		outLineToggle.setSelected(false);
 		outLineToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//FIXME needs to change the user settings 
+				setOutlineView(!getOutlineView());
+				for(int i = 0; i < tabs.size(); i++){
+					tabs.get(i).head.setOutLineView(getOutlineView());
+				} 
 			}
 		});
 		mnView.add(outLineToggle);
@@ -377,6 +384,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		linkToggle.setSelected(false);
 		linkToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				setLinkView(!getLinkView());
 				if (linkToggle.isSelected()) {
 					setLinkView(true);
 					Component[] c = tabbedPane.getComponents();
@@ -449,7 +457,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				} else {
 					t.setLineWrap(true);
 				}
-
+				setWordWrap(!getWordWrap());
 			}
 		});
 		// Auto Indentation
@@ -458,7 +466,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		indentToggle.setSelected(true);
 		indentToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//FIXME needs to change the user settings 
+				setAutoIndent(!getAutoIndent());
+				for(int i = 0; i < tabs.size(); i++){
+					tabs.get(i).head.setAutoIndent(getAutoIndent());
+				} 
 			}
 		});
 
@@ -490,7 +501,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		Tab t = new Tab(file, text);
 		t.addMouseListener(new RightClickListener(getThis()));
 		t.setFont(new Font("Consolas", Font.PLAIN, 11));
-
+		t.head.setAutoIndent(this.getAutoIndent());
+		t.head.setOutLineView(this.getOutlineView());
 		// We are trying to add a new tab when we have the max number open
 		// already
 		if (tabs.size() == MAXIMUM_TABS) {
@@ -557,7 +569,40 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	public EditorWindow getThis(){
 		return this;
 	}
-	private void setLinkView(boolean b){
-		linkView = b;
+
+	// Outline View
+	private void setOutlineView(boolean val) {
+		outlineView = val;
+	}
+	
+	public boolean getOutlineView() {
+		return outlineView;
+	}
+	
+	// Link View
+	private void setLinkView(boolean val) {
+		linkView = val;
+	}
+	
+	public boolean getLinkView() {
+		return linkView;
+	}
+	
+	// Auto Indent
+	private void setAutoIndent(boolean val) {
+		autoIndent = val;
+	}
+	
+	public boolean getAutoIndent() {
+		return autoIndent;
+	}
+	
+	// Word Wrap
+	private void setWordWrap(boolean val) {
+		wordWrap = val;
+	}
+	
+	public boolean getWordWrap() {
+		return wordWrap;
 	}
 }

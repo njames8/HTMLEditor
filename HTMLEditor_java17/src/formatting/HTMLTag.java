@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import settings.UserSettings;
 import ui.Tab;
 import ui.EditorWindow;
 
@@ -16,8 +15,10 @@ import ui.EditorWindow;
  * @author Matthew Gallagher
  *
  */
-public class HTMLTag implements Observer{
+public class HTMLTag{
 	private List<BaseTag> tags;
+	private boolean outLineView = false;
+	private boolean autoIndent = true;
 	
 	public HTMLTag() {
 		tags = new ArrayList<BaseTag>();
@@ -30,24 +31,10 @@ public class HTMLTag implements Observer{
 			tags = new ArrayList<BaseTag>();
 	}
 	
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		UserSettings u = (UserSettings)arg0;
-		HTMLTag h = this;
-		if(h != null){
-			for (int j = 0; j < h.tags.size(); j++){
-				BaseTag b = h.tags.get(j);
-				if(b.getAutoIndent() != u.getAutoIndent())
-					b.setAutoIndent(u.getAutoIndent());
-				if(b.getOutLineView() != u.getOutlineView())
-					b.setOutLineView(u.getOutlineView());
-			}
-		}
-	}
-	
 	public boolean addChild(BaseTag child, int lineNum){
 		boolean added = false;
+		child.setAutoIndent(autoIndent);
+		child.setOutLineView(outLineView);
 		if (tags != null){
 			for (int i = 0; i < tags.size(); i++){
 				boolean b = tags.get(i).inThisTag(lineNum);
@@ -137,6 +124,18 @@ public class HTMLTag implements Observer{
 				break;
 		}
 		return child;
+	}
+	public void setOutLineView(boolean b){
+		outLineView = b;
+		for(int i = 0; i < tags.size(); i++){
+			tags.get(i).setOutLineView(outLineView);
+		}
+	}
+	public void setAutoIndent(boolean b){
+		autoIndent = b;
+		for(int i = 0; i < tags.size(); i++){
+			tags.get(i).setAutoIndent(autoIndent);
+		}
 	}
 	public String toString(){
 		String text = "";

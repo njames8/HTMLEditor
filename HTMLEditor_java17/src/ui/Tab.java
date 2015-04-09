@@ -48,6 +48,7 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 */
 	public Tab() {
 		super();
+		this.head = new HTMLTag();
 		this.file = new HTMLFile();
 		this.getDocument().addDocumentListener(this);
 		this.lnAssistant = new LineNumberAssistant();
@@ -58,10 +59,6 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.lv = null;
 	}
 	
-	public int getCaretLineNumber() {
-		return this.lnAssistant.convertCharNumToLineNum(this.getCaretPosition());
-	}
-
 	/**
 	 * Constructs a tab with an opened file
 	 * 
@@ -74,6 +71,7 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		super();
 		this.file = file;
 		this.setText(text);
+		this.head = new HTMLTag();
 		
 		// Word wrapping
 		this.setWrapStyleWord(true);
@@ -91,6 +89,10 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.lv = null;
 	}
 	
+	public int getCaretLineNumber() {
+		return this.lnAssistant.convertCharNumToLineNum(this.getCaretPosition());
+	}
+
 	/**
 	 * Update the file when text inserted
 	 */
