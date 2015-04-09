@@ -233,4 +233,9 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	public Parser getParser(){
 		return this.parser;
 	}
+	
+	
+	public void resetText(){
+		this.setText(head.getText(0));
+	}
 }

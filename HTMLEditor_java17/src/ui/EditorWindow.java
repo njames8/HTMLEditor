@@ -469,6 +469,9 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				setAutoIndent(!getAutoIndent());
 				for(int i = 0; i < tabs.size(); i++){
 					tabs.get(i).head.setAutoIndent(getAutoIndent());
+					ParseCMD p = new ParseCMD(tabs.get(i));
+					p.execute();
+					tabs.get(i).resetText();
 				} 
 			}
 		});
