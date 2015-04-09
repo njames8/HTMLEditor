@@ -39,7 +39,14 @@ public class Parser implements ui.Observer {
 	 * @author Adam Walsh
 	 */
 	private ArrayList<SyntaxException> errors;
-	protected ParserState state;
+	/*
+	 * Current character(s) being built up by the state machine (this)
+	 */
+	private String current;
+	/*
+	 * Current state of the parser
+	 */
+	private ParserState state;
 	/*
 	 * Constructor
 	 * 
@@ -122,8 +129,127 @@ public class Parser implements ui.Observer {
 	public void update(Tab t) {
 		Parse(t.getText());
 	}
-	
+
 	private interface ParserState {
 		public void takeInput(char nxt);
+	}
+
+	private class EmptyState implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class OutOfTag implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class TagBuilding implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class TagName implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class AltComment implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class AltCommentClosing implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class ClosingTag implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class ClosingTagName implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class Content implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class AttrBuilding implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class AttrKey implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class AttrValue implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class Doctype implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class CommentStart implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class InComment implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class CommentCloseStart implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	private class CommentReadyToClose implements ParserState {
+		@Override
+		public void takeInput(char nxt) {
+			// TODO Auto-generated method stub
+		}
 	}
 }
