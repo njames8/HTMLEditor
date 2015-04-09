@@ -48,7 +48,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 */
 	private List<Tab> tabs;
 	
-	private boolean linkView = true;
+	private boolean linkView = false;
 	/**
 	 * Constructs the window
 	 */
