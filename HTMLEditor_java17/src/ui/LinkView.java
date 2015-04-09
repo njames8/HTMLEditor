@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
@@ -31,6 +32,7 @@ public class LinkView extends JPanel {
 	private Tab t;
 	private ArrayList<Link> links;
 	private JMenuBar menu;
+	private boolean sorted;
 
 	/**
 	 * 
@@ -114,6 +116,9 @@ public class LinkView extends JPanel {
 			makeView();
 		}
 		this.links = getLinks();
+		if (sorted){
+			sortLinksAZ();
+		}
 		this.setText();
 
 	}
@@ -123,16 +128,14 @@ public class LinkView extends JPanel {
 	 */
 	private void initMenu() {
 		this.menu = new JMenuBar();
-		Dimension d = new Dimension(this.getWidth(), (int) menu
-				.getPreferredSize().getHeight() + 20);
-		this.menu.setPreferredSize(d);
 		this.menu.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		this.menu.setBackground(UIManager.getLookAndFeelDefaults().getColor(
 				"Menu.background"));
 		this.menu.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
-		JMenuItem x = new JMenuItem();
-		x.addActionListener(new ActionListener() {
+		final JMenuItem appear = new JMenuItem();
+		JMenuItem close = new JMenuItem();
+		close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
@@ -140,8 +143,8 @@ public class LinkView extends JPanel {
 			}
 		});
 		Font menuFont = new Font("Monospaced", Font.PLAIN, 11);
-		x.setText("Close");
-		x.setFont(menuFont);
+		close.setText("Close");
+		close.setFont(menuFont);
 
 		JMenuItem refresh = new JMenuItem();
 		refresh.addActionListener(new ActionListener() {
@@ -154,48 +157,46 @@ public class LinkView extends JPanel {
 
 		refresh.setText("Refresh");
 		refresh.setFont(menuFont);
+		
+		final JMenuItem az = new JMenuItem();
+		az.setFont(menuFont);
+		az.setText("Sort A-Z");
+		az.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				sorted = true;
+				updateLinks();
+				az.setEnabled(false);
+				appear.setEnabled(true);
+				
+			}
+			
+		});
+		
+		appear.setFont(menuFont);
+		appear.setText("Sort By Appearance");
+		appear.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				sorted = false;
+				updateLinks();
+				appear.setEnabled(false);
+				az.setEnabled(true);
+			}
+		});
+		this.menu.add(appear);
+		this.menu.add(az);
 		this.menu.add(refresh);
-		this.menu.add(x);
-
+		this.menu.add(close);	
 	}
 	
 	public void sortLinksAZ(){
-		mergeSort(links);
+		//mergeSort(links);
+		Collections.sort(links);
+		sorted = true;
+		
 	}
 	
-	private ArrayList<Link> mergeSort(ArrayList<Link> l){
-		if (l.size() <= 1){
-			return l;
-		}
-		else{
-			ArrayList<Link> left = new ArrayList<Link>();
-			ArrayList<Link> right = new ArrayList<Link>(); 
-			ArrayList<Link> result;
-			int middle = l.size()/2;
-			
-			for (int x=0; x < middle-1; x++){
-				left.add(l.get(x));
-			}
-			for (int x=middle; x < l.size(); x++){
-				right.add(l.get(x));
-			}
-			mergeSort(left);
-			mergeSort(right);
-			int lLast = left.size()-1;
-			if (left.get(lLast).compareTo(right.get(0))<=0){
-				right.add(left.get(lLast));
-				left.remove(lLast);
-				return left;
-			}
-			result = merge(left,right);
-			return result;
-		}
-	}
-	private ArrayList<Link> merge(ArrayList<Link> left, ArrayList<Link> right){
-		ArrayList<Link> list;
-		ArrayList<Link> result = new ArrayList<Link>();
-		return null;
-	}
-	
-
 }
