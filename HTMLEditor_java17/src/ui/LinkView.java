@@ -128,14 +128,12 @@ public class LinkView extends JPanel {
 	 */
 	private void initMenu() {
 		this.menu = new JMenuBar();
-		Dimension d = new Dimension(this.getWidth(), (int) menu
-				.getPreferredSize().getHeight() + 20);
-		this.menu.setPreferredSize(d);
 		this.menu.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		this.menu.setBackground(UIManager.getLookAndFeelDefaults().getColor(
 				"Menu.background"));
 		this.menu.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
+		final JMenuItem appear = new JMenuItem();
 		JMenuItem close = new JMenuItem();
 		close.addActionListener(new ActionListener() {
 			@Override
@@ -160,7 +158,8 @@ public class LinkView extends JPanel {
 		refresh.setText("Refresh");
 		refresh.setFont(menuFont);
 		
-		JMenuItem az = new JMenuItem();
+		final JMenuItem az = new JMenuItem();
+		az.setFont(menuFont);
 		az.setText("Sort A-Z");
 		az.addActionListener(new ActionListener(){
 			@Override
@@ -168,10 +167,26 @@ public class LinkView extends JPanel {
 				// TODO Auto-generated method stub
 				sorted = true;
 				updateLinks();
+				az.setEnabled(false);
+				appear.setEnabled(true);
+				
 			}
 			
 		});
 		
+		appear.setFont(menuFont);
+		appear.setText("Sort By Appearance");
+		appear.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				sorted = false;
+				updateLinks();
+				appear.setEnabled(false);
+				az.setEnabled(true);
+			}
+		});
+		this.menu.add(appear);
 		this.menu.add(az);
 		this.menu.add(refresh);
 		this.menu.add(close);	
