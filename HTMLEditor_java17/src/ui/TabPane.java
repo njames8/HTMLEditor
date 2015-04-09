@@ -44,4 +44,8 @@ public class TabPane extends JPanel{
 	public void hideLinkView(){
 		this.lv.setVisible(false);
 	}
+	
+	public Tab getTab(){
+		return this.t;
+	}
 }
