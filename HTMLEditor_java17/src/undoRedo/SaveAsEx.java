@@ -4,7 +4,7 @@ import cmd.*;
  * @author John Mullen
  */
 public class SaveAsEx extends Executable {
-	private SaveFile cmd;
+	protected SaveFile cmd;
 	
 	public SaveAsEx(SaveFile c){
 		this.cmd = c;

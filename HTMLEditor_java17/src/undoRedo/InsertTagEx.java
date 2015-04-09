@@ -6,7 +6,7 @@ import cmd.*;
  */
 public class InsertTagEx extends Executable{
 	
-	private InsertTag cmd;
+	protected InsertTag cmd;
 	
 	public InsertTagEx(InsertTag c){
 		this.cmd = c;

@@ -7,7 +7,7 @@ import cmd.*;
  */
 public class CutEx extends Executable {
 	
-	private Cut cmd;
+	protected Cut cmd;
 
 	public CutEx(Cut c){
 		this.cmd = c;

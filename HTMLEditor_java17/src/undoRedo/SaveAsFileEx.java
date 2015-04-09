@@ -8,7 +8,7 @@ import cmd.*;
  */
 public class SaveAsFileEx extends Executable{
 	
-	private SaveAsFile cmd;
+	protected SaveAsFile cmd;
 	
 	public SaveAsFileEx(SaveAsFile c){
 		this.cmd = c;

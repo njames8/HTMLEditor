@@ -27,10 +27,17 @@ public class UndoRedo {
 	
 	public void undo(){
 		Executable cmd = recentCommands.pop();
-		cmd.undo();
+		if(cmd.isUndoable()){
+			cmd.undo();
+		}
 	}
 	
-	
+	public void redo(){
+		if (recentUndos.isEmpty() == false){
+			Executable com = recentUndos.pop();
+			com.cmd.execute();
+		}
+	}
 	
 
 }

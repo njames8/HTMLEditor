@@ -7,7 +7,7 @@ import cmd.CloseTab;
  */
 public class CloseTabEx extends Executable  {
 	
-	private CloseTab cmd;
+	protected CloseTab cmd;
 	
 	public CloseTabEx(CloseTab c){
 		this.cmd = c;

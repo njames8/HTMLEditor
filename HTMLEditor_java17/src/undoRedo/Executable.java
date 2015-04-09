@@ -8,7 +8,7 @@ import cmd.Command;
  */
 public abstract class Executable {
 
-	public Command cmd;
+	protected Command cmd;
 	
 	public abstract void undo();
 	

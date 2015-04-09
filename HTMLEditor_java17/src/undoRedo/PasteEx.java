@@ -8,7 +8,7 @@ import cmd.*;
  */
 public class PasteEx extends Executable {
 	
-	private Paste cmd;
+	protected Paste cmd;
 	
 	public PasteEx(Paste c){
 		this.cmd = c;
