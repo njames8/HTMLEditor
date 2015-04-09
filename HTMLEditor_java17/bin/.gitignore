@@ -2,3 +2,5 @@
 /cmd/
 /parsing/
 /ui/
+/settings/
+/undoRedo/
