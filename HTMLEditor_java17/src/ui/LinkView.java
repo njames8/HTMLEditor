@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
@@ -31,6 +32,7 @@ public class LinkView extends JPanel {
 	private Tab t;
 	private ArrayList<Link> links;
 	private JMenuBar menu;
+	private boolean sorted;
 
 	/**
 	 * 
@@ -114,6 +116,9 @@ public class LinkView extends JPanel {
 			makeView();
 		}
 		this.links = getLinks();
+		if (sorted){
+			sortLinksAZ();
+		}
 		this.setText();
 
 	}
@@ -131,8 +136,8 @@ public class LinkView extends JPanel {
 				"Menu.background"));
 		this.menu.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
-		JMenuItem x = new JMenuItem();
-		x.addActionListener(new ActionListener() {
+		JMenuItem close = new JMenuItem();
+		close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
@@ -140,8 +145,8 @@ public class LinkView extends JPanel {
 			}
 		});
 		Font menuFont = new Font("Monospaced", Font.PLAIN, 11);
-		x.setText("Close");
-		x.setFont(menuFont);
+		close.setText("Close");
+		close.setFont(menuFont);
 
 		JMenuItem refresh = new JMenuItem();
 		refresh.addActionListener(new ActionListener() {
@@ -154,13 +159,29 @@ public class LinkView extends JPanel {
 
 		refresh.setText("Refresh");
 		refresh.setFont(menuFont);
+		
+		JMenuItem az = new JMenuItem();
+		az.setText("Sort A-Z");
+		az.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				sorted = true;
+				updateLinks();
+			}
+			
+		});
+		
+		this.menu.add(az);
 		this.menu.add(refresh);
-		this.menu.add(x);
-
+		this.menu.add(close);	
 	}
 	
 	public void sortLinksAZ(){
-		mergeSort(links);
+		//mergeSort(links);
+		Collections.sort(links);
+		sorted = true;
+		
 	}
 	
 	private ArrayList<Link> mergeSort(ArrayList<Link> l){
@@ -192,9 +213,23 @@ public class LinkView extends JPanel {
 		}
 	}
 	private ArrayList<Link> merge(ArrayList<Link> left, ArrayList<Link> right){
-		ArrayList<Link> list;
 		ArrayList<Link> result = new ArrayList<Link>();
-		return null;
+		while (left.size() > 0 && right.size() > 0){
+			if (left.get(0).compareTo(right.get(0)) <= 0){
+				result.add(left.get(0));
+				left.remove(0);
+			}else{
+				result.add(right.get(0));
+				right.remove(0);
+			}	
+		}
+		if (left.size()>0){
+			result.addAll(left);
+		}
+		if (right.size()>0){
+			result.addAll(right);
+		}
+		return result;
 	}
 	
 
