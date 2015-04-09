@@ -47,7 +47,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 * collection of tabs, stored as a linked list
 	 */
 	private List<Tab> tabs;
-
+	
+	private boolean linkView = true;
 	/**
 	 * Constructs the window
 	 */
@@ -120,7 +121,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				NewTab();// Adds new tab to the window
-
 			}
 		});
 
@@ -378,9 +378,17 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		linkToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (linkToggle.isSelected()) {
-					((TabPane)tabbedPane.getSelectedComponent()).showLinkView();
+					setLinkView(true);
+					Component[] c = tabbedPane.getComponents();
+					for(int i = 0; i < c.length; i++){
+						((TabPane)c[i]).showLinkView();
+					}
 				} else {
-					((TabPane)tabbedPane.getSelectedComponent()).hideLinkView();
+					setLinkView(false);
+					Component[] c = tabbedPane.getComponents();
+					for(int i = 0; i < c.length; i++){
+						((TabPane)c[i]).hideLinkView();
+					}
 				}
 				revalidate();
 			}
@@ -548,5 +556,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	
 	public EditorWindow getThis(){
 		return this;
+	}
+	private void setLinkView(boolean b){
+		linkView = b;
 	}
 }
