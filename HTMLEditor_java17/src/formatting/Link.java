@@ -28,7 +28,8 @@ public class Link implements Comparable<Link> {
 	@Override
 	public int compareTo(Link o) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.link.compareTo(o.link);
+		
 	}
 	
 	
