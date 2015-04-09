@@ -22,11 +22,11 @@ public class User {
 			// We don't really care if we can't update the theme
 		}
 		
-		EditorWindow w = EditorWindow.getInstance();
+		EditorWindow w = new EditorWindow();
 		w.setVisible(true);
 		
 		for(String s : args) {
-			new OpenFile(s).execute();
+			new OpenFile(s, w).execute();
 		}
 	}
 }

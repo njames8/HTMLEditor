@@ -10,15 +10,18 @@ import ui.EditorWindow;
  *
  */
 public class Close implements Command {
+	private EditorWindow ew;
 	
-	public Close() { }
+	public Close(EditorWindow e) { 
+		ew = e;
+	}
 	
 	/**
 	* Closes the application
 	*/
 	@Override
 	public void execute() {
-		EditorWindow w = EditorWindow.getInstance();
+		EditorWindow w = ew;
 		
 		if (w.closeAll()) {
 

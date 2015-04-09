@@ -5,6 +5,7 @@ package cmd;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import ui.EditorWindow;
 import ui.RightClickMenu;
 
 /**
@@ -13,12 +14,13 @@ import ui.RightClickMenu;
  * and shows the right click menu
  */
 public class RightClickListener extends MouseAdapter {
-	
+		private EditorWindow ew;
 		/**
 		 * Constructor
 		 */
-		public RightClickListener(){
+		public RightClickListener(EditorWindow e){
 			super();
+			ew = e;
 		}
 		
 		/**
@@ -45,7 +47,7 @@ public class RightClickListener extends MouseAdapter {
 	     * @param e
 	     */
 	    private void rightClick(MouseEvent e){
-	        RightClickMenu menu = new RightClickMenu();
+	        RightClickMenu menu = new RightClickMenu(ew);
 	        menu.show(e.getComponent(), e.getX(), e.getY());
 	    }
 	}

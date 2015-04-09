@@ -18,11 +18,13 @@ import ui.Tab;
 @SuppressWarnings("serial")
 public class Paste extends PasteAction {
 	
+	EditorWindow ew;
 	/**
 	 * Constructor
 	 */
-	public Paste(){
+	public Paste(EditorWindow e){
 		super();
+		ew = e;
 	}
 	
 	/**
@@ -31,8 +33,6 @@ public class Paste extends PasteAction {
 	@Override
 	public void actionPerformed(ActionEvent e){
 		super.actionPerformed(e);
-		Tab t = EditorWindow.getInstance().getCurrentTab();
-		
-		t.getFile().changed();
+		ew.getCurrentTab().getFile().changed();
 	}
 }

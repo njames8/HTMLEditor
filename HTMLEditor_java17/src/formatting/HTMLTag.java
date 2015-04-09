@@ -34,17 +34,14 @@ public class HTMLTag implements Observer{
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		UserSettings u = (UserSettings)arg0;
-		List<Tab> tabs = EditorWindow.getInstance().getTabs();
-		for (int i = 0; i < tabs.size(); i++){
-			HTMLTag h = tabs.get(i).head;
-			if(h != null){
-				for (int j = 0; j < h.tags.size(); j++){
-					BaseTag b = h.tags.get(j);
-					if(b.getAutoIndent() != u.getAutoIndent())
-						b.setAutoIndent(u.getAutoIndent());
-					if(b.getOutLineView() != u.getOutlineView())
-						b.setOutLineView(u.getOutlineView());
-				}
+		HTMLTag h = this;
+		if(h != null){
+			for (int j = 0; j < h.tags.size(); j++){
+				BaseTag b = h.tags.get(j);
+				if(b.getAutoIndent() != u.getAutoIndent())
+					b.setAutoIndent(u.getAutoIndent());
+				if(b.getOutLineView() != u.getOutlineView())
+					b.setOutLineView(u.getOutlineView());
 			}
 		}
 	}

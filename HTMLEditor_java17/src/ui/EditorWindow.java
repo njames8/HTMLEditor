@@ -48,16 +48,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 */
 	private List<Tab> tabs;
 
-	private static EditorWindow singleton = null;
-
-	public static EditorWindow getInstance() {
-		if (singleton == null) {
-			singleton = new EditorWindow();
-		}
-
-		return singleton;
-	}
-
 	/**
 	 * Constructs the window
 	 */
@@ -94,7 +84,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent ev) {
 				// frame.dispose();
-				new Close().execute();
+				new Close(getThis()).execute();
 			}
 		});
 
@@ -156,8 +146,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmCloseTab.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
-				new CloseTab(t, tabbedPane).execute();
+				new CloseTab(getThis()).execute();
 			}
 		});
 
@@ -169,7 +158,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmCloseAll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				new CloseAllTab().execute();
+				new CloseAllTab(getThis()).execute();
 			}
 		});
 
@@ -180,7 +169,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
+				Tab t = getCurrentTab();
 
 				SaveFile f = new SaveFile(t);
 				f.execute();
@@ -198,7 +187,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		mntmSaveAs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
+				Tab t = getCurrentTab();
 
 				new SaveAsFile(t).execute();
 			}
@@ -210,7 +199,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new Close().execute();
+				new Close(getThis()).execute();
 			}
 		});
 
@@ -238,7 +227,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		JMenu mnEdit = new JMenu("Edit");
 
 		// Cut (CTRL + X)
-		JMenuItem cut = new JMenuItem(new Cut());
+		JMenuItem cut = new JMenuItem(new Cut(getThis()));
 		cut.setText("Cut");
 		cut.setAccelerator(KeyStroke.getKeyStroke('X', KeyEvent.CTRL_DOWN_MASK));
 
@@ -249,7 +238,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				.getKeyStroke('C', KeyEvent.CTRL_DOWN_MASK));
 
 		// Paste (CTRL + V)
-		JMenuItem paste = new JMenuItem(new Paste());
+		JMenuItem paste = new JMenuItem(new Paste(getThis()));
 		paste.setText("Paste");
 		paste.setAccelerator(KeyStroke.getKeyStroke('V',
 				KeyEvent.CTRL_DOWN_MASK));
@@ -261,7 +250,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 		selectAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
+				Tab t = getCurrentTab();
 
 				t.selectAll();
 			}
@@ -292,29 +281,29 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 		// <html>
 		JMenuItem html = new JMenuItem("HTML");
-		html.addActionListener(new InsertTag("html"));
+		html.addActionListener(new InsertTag("html", getThis()));
 
 		// <head>
 		JMenuItem head = new JMenuItem("Head");
-		head.addActionListener(new InsertTag("head"));
+		head.addActionListener(new InsertTag("head", getThis()));
 
 		// <body>
 		JMenuItem body = new JMenuItem("Body");
-		body.addActionListener(new InsertTag("body"));
+		body.addActionListener(new InsertTag("body", getThis()));
 
 		// <p>
 		JMenuItem paragraph = new JMenuItem("Paragraph");
-		paragraph.addActionListener(new InsertTag("p"));
+		paragraph.addActionListener(new InsertTag("p", getThis()));
 
 		// <b> (CTRL + B)
 		JMenuItem bold = new JMenuItem("Bold");
-		bold.addActionListener(new InsertTag("b"));
+		bold.addActionListener(new InsertTag("b", getThis()));
 		bold.setAccelerator(KeyStroke
 				.getKeyStroke('B', KeyEvent.CTRL_DOWN_MASK));
 
 		// <i> (CTRL + i)
 		JMenuItem italic = new JMenuItem("Italic");
-		italic.addActionListener(new InsertTag("i"));
+		italic.addActionListener(new InsertTag("i", getThis()));
 		italic.setAccelerator(KeyStroke.getKeyStroke('I',
 				KeyEvent.CTRL_DOWN_MASK));
 
@@ -324,7 +313,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 		// <a>
 		JMenuItem hyperlink = new JMenuItem("HyperLink (a)");
-		hyperlink.addActionListener(new InsertTag("a"));
+		hyperlink.addActionListener(new InsertTag("a", getThis()));
 
 		// //////////////////////////////////////
 		// List sub menu
@@ -332,19 +321,19 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		JMenu mnList = new JMenu("List");
 
 		JMenuItem ordered = new JMenuItem("Ordered");
-		ordered.addActionListener(new InsertTag("ol"));
+		ordered.addActionListener(new InsertTag("ol", getThis()));
 
 		JMenuItem unordered = new JMenuItem("Unordered");
-		unordered.addActionListener(new InsertTag("ul"));
+		unordered.addActionListener(new InsertTag("ul", getThis()));
 
 		JMenuItem listItem = new JMenuItem("List Item");
-		listItem.addActionListener(new InsertTag("li"));
+		listItem.addActionListener(new InsertTag("li", getThis()));
 
 		// //////////////////////////////////////
 		// Table
 		// //////////////////////////////////////
 		JMenuItem table = new JMenuItem("Table");
-		table.addActionListener(new InsertTag("table"));
+		table.addActionListener(new InsertTag("table", getThis()));
 
 		mnInsert.add(mnHtmlTag);
 		mnHtmlTag.add(html);
@@ -392,8 +381,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 					((TabPane)tabbedPane.getSelectedComponent()).showLinkView();
 				} else {
 					((TabPane)tabbedPane.getSelectedComponent()).hideLinkView();
-					}
-				EditorWindow.getInstance().revalidate();
+				}
+				revalidate();
 			}
 		});
 
@@ -445,7 +434,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		wordWrapToggle.setSelected(true);
 		wordWrapToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Tab t = EditorWindow.getInstance().getCurrentTab();
+				Tab t = getCurrentTab();
 				boolean curStat = t.getLineWrap();
 				if (curStat == true) {
 					t.setLineWrap(false);
@@ -491,7 +480,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	 */
 	public void NewTab(HTMLFile file, String text) {
 		Tab t = new Tab(file, text);
-		t.addMouseListener(new RightClickListener());
+		t.addMouseListener(new RightClickListener(getThis()));
 		t.setFont(new Font("Consolas", Font.PLAIN, 11));
 
 		// We are trying to add a new tab when we have the max number open
@@ -508,6 +497,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		tabs.add(t);
 		TabPane p = new TabPane(t);
 		t.attachObserver(this);
+		
 		tabbedPane.addTab(t.getTitle(), null, p, null);
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 		
@@ -554,5 +544,9 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			return true;
 		}
 		return false;
+	}
+	
+	public EditorWindow getThis(){
+		return this;
 	}
 }
