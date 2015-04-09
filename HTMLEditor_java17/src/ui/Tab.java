@@ -222,25 +222,13 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		head.setAutoIndent(!head.getAutoIndent());
 	}
 */
-	/**
-	 * Switches the view for the current tab (Outline View)
-	 */
-/*
-	public void setOutLineView(){
-		head.setOutLineView(!head.getOutLineView());
-	}
-*/
-	
-	/**
-	 * Switches the view for the current tab (Link View)
-	 */
-	public void setLinkView(LinkView l){
-		//TODO
-		
-	}
 	
 	public void setCollapsed(int lineNum){
 		BaseTag b = head.getChild(lineNum);
 		b.ToggleCollapse();
+	}
+	
+	public Parser getParser(){
+		return this.parser;
 	}
 }
