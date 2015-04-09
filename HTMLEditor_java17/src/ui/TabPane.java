@@ -4,14 +4,18 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 /**
  * @author nick
  *
  */
+@SuppressWarnings("serial")
 public class TabPane extends JPanel{
 	private Tab t;
 	private LinkView lv;
@@ -24,6 +28,7 @@ public class TabPane extends JPanel{
 		JScrollPane sp = new JScrollPane(t);
 		this.add(sp, BorderLayout.CENTER);
 		this.add(lv, BorderLayout.SOUTH);
+		
 	}
 	
 	public TabPane(Tab t, LinkView lv){
@@ -48,4 +53,6 @@ public class TabPane extends JPanel{
 	public Tab getTab(){
 		return this.t;
 	}
+	
+	
 }
