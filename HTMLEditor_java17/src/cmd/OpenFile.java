@@ -24,7 +24,7 @@ public class OpenFile implements Command {
 	 * The path to the file
 	 */
 	private String path;
-	
+	private EditorWindow ew;
 	/**
 	 * OpenFile Constructor
 	 * 
@@ -33,8 +33,9 @@ public class OpenFile implements Command {
 	 * @param j
 	 *            - The pane of tabs in the application window
 	 */
-	public OpenFile(String path) {
+	public OpenFile(String path,EditorWindow e) {
 		this.path = path;
+		ew = e;
 	}
 
 	/**
@@ -44,7 +45,7 @@ public class OpenFile implements Command {
 	 */
 	@Override
 	public void execute() {
-		EditorWindow w = EditorWindow.getInstance();
+		EditorWindow w = ew;
 
 		HTMLFile f = new HTMLFile();
 		

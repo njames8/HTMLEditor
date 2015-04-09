@@ -37,10 +37,10 @@ public class RightClickMenu extends JPopupMenu{
 	/**
 	 * Constructor
 	 */
-	public RightClickMenu() {
-		this.cut = new JMenuItem(new Cut());
+	public RightClickMenu(EditorWindow e) {
+		this.cut = new JMenuItem(new Cut(e));
 		this.copy = new JMenuItem(new DefaultEditorKit.CopyAction());
-		this.paste = new JMenuItem(new Paste());
+		this.paste = new JMenuItem(new Paste(e));
 		
 		add(cut);
 		add(copy);

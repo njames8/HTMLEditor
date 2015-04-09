@@ -13,27 +13,14 @@ import ui.Tab;
  */
 @SuppressWarnings("unused")
 public class CloseTab implements Command {
-	/**
-	 * The current Tab
-	 */
-	private Tab tab;
-
-	/**
-	 * The container that contains Tab t
-	 */
-	private JTabbedPane tabbedPane;
+	private EditorWindow ew;
 
 	/**
 	 * CloseTab constructor
 	 * 
-	 * @param t
-	 *            - The Current Tab
-	 * @param j
-	 *            - The container that holds Tab t
 	 */
-	public CloseTab(Tab t, JTabbedPane j) {
-		this.tab = t;
-		this.tabbedPane = j;
+	public CloseTab(EditorWindow e) {
+		ew = e;
 	}
 
 	/**
@@ -41,7 +28,7 @@ public class CloseTab implements Command {
 	 */
 	@Override
 	public void execute() {
-		EditorWindow.getInstance().close();
+		ew.close();
 	}
 
 }

@@ -37,7 +37,7 @@ public class InsertTag implements ActionListener {
 	// tag.
 	// e.g. <img />
 	private boolean selfClosing;
-
+	private EditorWindow ew;
 	/**
 	 * Constructs a TagListener Parses tag into a valid html tag
 	 *
@@ -46,8 +46,9 @@ public class InsertTag implements ActionListener {
 	 * @param t
 	 *            - the current tab
 	 */
-	public InsertTag(String type) {
+	public InsertTag(String type, EditorWindow e) {
 		this.tag = type;
+		ew = e;
 		selfClosing = false;
 	}
 
@@ -116,7 +117,7 @@ public class InsertTag implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		Tab t = EditorWindow.getInstance().getCurrentTab();
+		Tab t = ew.getCurrentTab();
 		// System.out.println(tag);
 		try {
 			if (tag.contains("table")) {

@@ -16,15 +16,17 @@ import ui.Tab;
  */
 @SuppressWarnings("serial")
 public class Cut extends CutAction{
-	public Cut(){
+	EditorWindow ew;
+	public Cut(EditorWindow e){
 		super();
+		ew = e;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e){
 		super.actionPerformed(e);
 		
-		Tab t = EditorWindow.getInstance().getCurrentTab();
+		Tab t = ew.getCurrentTab();
 		t.getFile().changed();
 	}
 }
