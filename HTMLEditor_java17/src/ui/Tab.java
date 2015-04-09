@@ -227,7 +227,8 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	
 	public void setCollapsed(int lineNum){
 		BaseTag b = head.getChild(lineNum);
-		b.ToggleCollapse();
+		if (b != null)
+			b.ToggleCollapse();
 	}
 	
 	public Parser getParser(){

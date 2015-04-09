@@ -180,12 +180,14 @@ public class BaseTag {
 		BaseTag child = null;
 		if(lineNum >= 0 &&  this.children != null){
 			boolean t = this.inThisTag(lineNum);
+			if (!t && this.getLineNumberStart() == lineNum)
+				t = true;
 //System.out.println("InThisTag = " + t);
 			int c = this.inChildTag(lineNum);
 //System.out.println("InChildTag = " + c);
-			if( t && c == -1){
+			if( t && c <= -1){
 				child = this;
-			}else if(c != -1){
+			}else if(c > -1 ){
 				child = this.children.get(c).getChild(lineNum);
 			}
 		}

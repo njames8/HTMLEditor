@@ -373,9 +373,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		outLineToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setOutlineView(!getOutlineView());
-				for(int i = 0; i < tabs.size(); i++){
-					tabs.get(i).head.setOutLineView(getOutlineView());
-				} 
 			}
 		});
 		mnView.add(outLineToggle);
@@ -436,11 +433,11 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 		collapse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JScrollPane temp = (JScrollPane) tabbedPane
+				TabPane temp = (TabPane) tabbedPane
 						.getSelectedComponent();
-				JViewport temp2 = temp.getViewport();
-				Tab t = (Tab) temp2.getView();
+				Tab t = (Tab) temp.getTab();
 				t.setCollapsed(t.getCaretLineNumber());
+				parseAndRefresh(t);
 			}
 		});
 
@@ -467,12 +464,6 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		indentToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setAutoIndent(!getAutoIndent());
-				for(int i = 0; i < tabs.size(); i++){
-					tabs.get(i).head.setAutoIndent(getAutoIndent());
-					ParseCMD p = new ParseCMD(tabs.get(i));
-					p.execute();
-					tabs.get(i).resetText();
-				} 
 			}
 		});
 
@@ -576,6 +567,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	// Outline View
 	private void setOutlineView(boolean val) {
 		outlineView = val;
+		for(int i = 0; i < tabs.size(); i++){
+			tabs.get(i).head.setOutLineView(val);
+			this.parseAndRefresh(tabs.get(i));
+		} 
 	}
 	
 	public boolean getOutlineView() {
@@ -594,6 +589,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	// Auto Indent
 	private void setAutoIndent(boolean val) {
 		autoIndent = val;
+		for(int i = 0; i < tabs.size(); i++){
+			tabs.get(i).head.setAutoIndent(val);
+			this.parseAndRefresh(tabs.get(i));
+		} 
 	}
 	
 	public boolean getAutoIndent() {
@@ -607,5 +606,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	
 	public boolean getWordWrap() {
 		return wordWrap;
+	}
+	private void parseAndRefresh(Tab t){
+		ParseCMD p = new ParseCMD(t);
+		p.execute();
+		t.resetText();
 	}
 }
