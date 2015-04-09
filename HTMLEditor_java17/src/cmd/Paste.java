@@ -16,7 +16,7 @@ import ui.Tab;
  *
  */
 @SuppressWarnings("serial")
-public class Paste extends PasteAction {
+public class Paste extends PasteAction implements Command{
 	
 	EditorWindow ew;
 	/**
@@ -33,6 +33,11 @@ public class Paste extends PasteAction {
 	@Override
 	public void actionPerformed(ActionEvent e){
 		super.actionPerformed(e);
+		execute();
+	}
+	
+	@Override
+	public void execute(){
 		ew.getCurrentTab().getFile().changed();
 	}
 }

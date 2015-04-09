@@ -15,7 +15,7 @@ import ui.Tab;
  *
  */
 @SuppressWarnings("serial")
-public class Cut extends CutAction{
+public class Cut extends CutAction implements Command{
 	EditorWindow ew;
 	public Cut(EditorWindow e){
 		super();
@@ -25,7 +25,11 @@ public class Cut extends CutAction{
 	@Override
 	public void actionPerformed(ActionEvent e){
 		super.actionPerformed(e);
-		
+		execute();
+	}
+	
+	@Override
+	public void execute(){
 		Tab t = ew.getCurrentTab();
 		t.getFile().changed();
 	}
