@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class ImagePreview extends JFrame{
 	
-	JLabel label;
+	private JLabel label;
 	
 	/**
 	 * Constructor
