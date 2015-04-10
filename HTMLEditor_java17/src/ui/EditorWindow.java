@@ -5,7 +5,9 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
+import javax.swing.undo.UndoManager;
 
+import undoRedo.MyUndoableEditListener;
 import cmd.*;
 import files.HTMLFile;
 
@@ -49,6 +51,8 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	private List<Tab> tabs;
 	
 	private boolean outlineView, linkView, autoIndent, wordWrap;
+	
+	private UndoManager manager;
 	/**
 	 * Constructs the window
 	 */
@@ -57,6 +61,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		linkView = false;
 		autoIndent = true;
 		wordWrap = true;
+		manager = new UndoManager();
 		init();
 
 		// Create a blank tab for the user to start with
@@ -200,7 +205,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 			}
 
 		});
-
+		
 		// Exit
 		JMenuItem mntmExit = new JMenuItem("Exit");
 
@@ -262,9 +267,38 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 				t.selectAll();
 			}
 		});
+		
+		JMenuItem undo = new JMenuItem();
+		undo.setText("Undo");
+		undo.setAccelerator(KeyStroke.getKeyStroke('Z', KeyEvent.CTRL_DOWN_MASK));
+		undo.addActionListener(new ActionListener(){
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				manager.undo();
+			}
+			
+		});
+		
+		JMenuItem redo = new JMenuItem();
+		redo.setText("Redo");
+		redo.setAccelerator(KeyStroke.getKeyStroke('Y', KeyEvent.CTRL_DOWN_MASK));
+		redo.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				manager.redo();
+			}
+			
+		});
+		
+		
 		menu.add(mnEdit);
-
+		
+		mnEdit.add(undo);
+		mnEdit.add(redo);
 		mnEdit.add(cut);
 		mnEdit.add(copy);
 		mnEdit.add(paste);
@@ -497,6 +531,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 	public void NewTab(HTMLFile file, String text) {
 		Tab t = new Tab(file, text);
 		t.addMouseListener(new RightClickListener(getThis()));
+		t.getDocument().addUndoableEditListener(new MyUndoableEditListener(manager));
 		t.setFont(new Font("Consolas", Font.PLAIN, 11));
 		t.head.setAutoIndent(this.getAutoIndent());
 		t.head.setOutLineView(this.getOutlineView());

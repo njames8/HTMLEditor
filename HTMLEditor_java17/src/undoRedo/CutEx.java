@@ -1,5 +1,7 @@
 package undoRedo;
 
+import javax.swing.undo.UndoManager;
+
 import cmd.*;
 
 /**
@@ -16,7 +18,6 @@ public class CutEx extends Executable {
 	@Override
 	public void undo() {
 		// REQUIRES MOMENTO
-		
 	}
 
 	@Override

@@ -12,6 +12,9 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.*;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoableEdit;
 
 import ui.*;
 import formatting.*;
@@ -27,11 +30,13 @@ import cmd.ImagePreviewCMD;
  * 
  */
 @SuppressWarnings("unused")
-public class InsertTag implements ActionListener {
+public class InsertTag implements ActionListener, UndoableEdit {
 	/**
 	 * The type of HTML tag (html, bold, body, italic, etc)
 	 */
 	private String tag;
+	
+	private BaseTag thisTag;
 
 	// A self closing tag is an html tag which does not need a separate closing
 	// tag.
@@ -81,9 +86,11 @@ public class InsertTag implements ActionListener {
 	private BaseTag makeNewTag(Tab t, String text, String l, boolean sc) {
 		int pos = t.getCaretLineNumber();
 		if (sc) {
-			return new SelfClosingTag(text, pos, pos, l);
+			this.thisTag =  new SelfClosingTag(text, pos, pos, l);
+			return thisTag;
 		}
-		return new BaseTag(text, pos, pos + 1, false, null, l);
+		this.thisTag =  new BaseTag(text, pos, pos + 1, false, null, l);
+		return thisTag;
 	}
 
 	/**
@@ -262,5 +269,71 @@ public class InsertTag implements ActionListener {
 		}
 		return null;
 
+	}
+
+	@Override
+	public boolean addEdit(UndoableEdit arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canRedo() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean canUndo() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getPresentationName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRedoPresentationName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUndoPresentationName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isSignificant() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void redo() throws CannotRedoException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean replaceEdit(UndoableEdit arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void undo() throws CannotUndoException {
+		// TODO Auto-generated method stub
+		this.thisTag.remove();
 	}
 }

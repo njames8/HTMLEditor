@@ -495,4 +495,8 @@ System.out.println("InChildTag = " + c);
 		text = text + this.getLineNumberEnd() + "    </" + tag + ">\n";
 		return text;
 	}
+	
+	public void remove(){
+		
+	}
 }
