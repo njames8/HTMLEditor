@@ -139,4 +139,20 @@ public class HTMLTag{
 		}
 		return text;
 	}
+	public boolean remove(BaseTag tag){
+		if (this.tags != null){
+			for(int i = 0; i < this.tags.size(); i++){
+				if (tag == this.tags.get(i))
+					return true;
+			}
+			for(int i = 0; i < this.tags.size(); i++){
+				
+				boolean b = this.tags.get(i).remove(tag);
+				if(b)
+					return true;
+				
+			}
+		}
+		return false;
+	}
 }

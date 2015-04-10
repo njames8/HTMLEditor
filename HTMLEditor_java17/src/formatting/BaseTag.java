@@ -496,7 +496,19 @@ System.out.println("InChildTag = " + c);
 		return text;
 	}
 	
-	public void remove(int lineNum){
-		
+	public boolean remove(BaseTag tag){
+		if (this.children != null){
+			for(int i = 0; i < this.children.size(); i++){
+				if (tag == this.children.get(i))
+					return true;
+			}
+			for(int i = 0; i < this.children.size(); i++){
+				boolean b = this.children.get(i).remove(tag);
+				if(b)
+					break;
+				
+			}
+		}
+		return false;
 	}
 }

@@ -37,7 +37,7 @@ public class InsertTag implements ActionListener, UndoableEdit {
 	private String tag;
 	
 	private BaseTag thisTag;
-
+	private Tab tab;
 	// A self closing tag is an html tag which does not need a separate closing
 	// tag.
 	// e.g. <img />
@@ -125,6 +125,7 @@ public class InsertTag implements ActionListener, UndoableEdit {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		Tab t = ew.getCurrentTab();
+		tab = t;
 		// System.out.println(tag);
 		try {
 			if (tag.contains("table")) {
@@ -330,15 +331,9 @@ public class InsertTag implements ActionListener, UndoableEdit {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	public void undo(int lineNum) throws CannotUndoException {
-		// TODO Auto-generated method stub
-		this.thisTag.remove(lineNum);
-	}
-
 	@Override
 	public void undo() throws CannotUndoException {
 		// TODO Auto-generated method stub
-		
+		this.tab.head.remove(this.thisTag);
 	}
 }
