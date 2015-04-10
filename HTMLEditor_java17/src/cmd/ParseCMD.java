@@ -27,7 +27,7 @@ public class ParseCMD implements Command {
 	 */
 	@Override
 	public void execute() {
-/*
+
 		tab.getParser().Parse(tab.getText());
 //*/	System.out.println(tab.head);
 	}
