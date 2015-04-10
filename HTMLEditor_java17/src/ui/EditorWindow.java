@@ -350,7 +350,7 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 
 		// <img>
 		JMenuItem img = new JMenuItem("Image");
-		img.addActionListener(new InsertTag("img", true));
+		img.addActionListener(new InsertTag("img",getThis(), true));
 
 		// <a>
 		JMenuItem hyperlink = new JMenuItem("HyperLink (a)");

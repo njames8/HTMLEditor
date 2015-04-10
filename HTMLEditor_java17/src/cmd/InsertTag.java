@@ -65,8 +65,9 @@ public class InsertTag implements ActionListener, UndoableEdit {
 	 * @param selfClosing
 	 *            - is this tag self closing?
 	 */
-	public InsertTag(String type, boolean selfClosing) {
+	public InsertTag(String type, EditorWindow e, boolean selfClosing) {
 		this.tag = type;
+		ew = e;
 		this.selfClosing = true;
 	}
 
