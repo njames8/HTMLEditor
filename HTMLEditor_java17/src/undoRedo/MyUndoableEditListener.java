@@ -8,15 +8,21 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 
 /**
- * @author nick
- *
+ * @author nick james
+ * Listens for undoable actions that happen in each tab
  */
 public class MyUndoableEditListener implements UndoableEditListener{
+	/**
+	 * Manages undos and redos
+	 */
 	private UndoManager manager;
 	public MyUndoableEditListener(UndoManager m){
 		manager = m;
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void undoableEditHappened(UndoableEditEvent e) {
 		// TODO Auto-generated method stub
