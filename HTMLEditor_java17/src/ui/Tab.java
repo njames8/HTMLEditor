@@ -65,7 +65,6 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.lnAssistant = new LineNumberAssistant();
 		this.attachObserver(lnAssistant);
 		this.parser = new Parser();
-		this.attachObserver(this.parser);
 		this.indenter = new Indenter(this);
 	}
 	
@@ -94,7 +93,6 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.lnAssistant = new LineNumberAssistant();
 		this.attachObserver(lnAssistant);
 		this.parser = new Parser();
-		this.attachObserver(this.parser);
 		this.indenter = new Indenter(this);
 	}
 	

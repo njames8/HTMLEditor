@@ -1,6 +1,5 @@
 package parsing;
 import java.util.*;
-
 import ui.Tab;
 /*
  * Parser
@@ -10,7 +9,7 @@ import ui.Tab;
  * @author Adam Walsh
  * 
  */
-public class Parser implements ui.Observer {
+public class Parser {
     /**
      * The allowed tags to parse
      */
@@ -53,6 +52,7 @@ public class Parser implements ui.Observer {
      * @author Adam Walsh
      */
     public Parser() {
+    	this.current =  "";
         this.state = new EmptyState();
     }
     /*
@@ -78,10 +78,19 @@ public class Parser implements ui.Observer {
     }
     
     /**
+     * 
+     */
+    public void Parse(String html) {
+    	for (char each : html.toCharArray()) {
+    		state.takeInput(each);
+    	}
+    }
+    
+    /**
      * Validates the HTML code
      * @param html - the HTML code
      * @throws SyntaxException
-     */
+     *
     public void Parse(String html) {
         errors = new ArrayList<SyntaxException>();
         Stack<String> tagStack = new Stack<String>();
@@ -123,17 +132,7 @@ public class Parser implements ui.Observer {
         if (!tagStack.empty())
             errors.add(new SyntaxException(1, "Parsing failed. Tag '" + tagStack.pop() + "'" +
         " not closed."));
-    }
-    /*
-     * Update on tab notify event
-     * 
-     * (non-Javadoc)
-     * @see ui.Observer#update(ui.Tab)
-     */
-    @Override
-    public void update(Tab t) {
-        Parse(t.getText());
-    }
+    }*/
     /*
      * Common interface for all parser states
      */
@@ -151,7 +150,10 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '<')
                 state = new TagBuilding();
-            state = new OutOfTag();
+            else {
+            	current += nxt;
+            	state = new OutOfTag();
+            }
         }
     }
 
@@ -163,21 +165,27 @@ public class Parser implements ui.Observer {
         
         @Override
         public void takeInput(char nxt) {
-            if (nxt == '<') {
+            if (nxt == '<')
                 state = new TagBuilding();
-            }
+            else
+            	current += nxt;
         }
     }
 
     private class TagBuilding implements ParserState {
         
         public TagBuilding() {
-            
+            current = "";
         }
         
         @Override
         public void takeInput(char nxt) {
-            state = new TagName();
+        	if (nxt == '/')
+        		state = new ClosingTag();
+        	else {
+        		current += nxt;
+        		state = new TagName();
+        	}
         }
     }
 
@@ -189,11 +197,13 @@ public class Parser implements ui.Observer {
         
         @Override
         public void takeInput(char nxt) {
-            if (nxt == '<')
+            if (nxt == '>')
                 state = new Content();
             else
                 if (nxt == ' ')
                     state = new AttrBuilding();
+                else
+                	current += nxt;
         }
     }
 
@@ -207,6 +217,8 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '?')
                 state = new AltCommentClosing();
+            else
+            	current += nxt;
         }
     }
 
@@ -220,17 +232,20 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '>')
                 state = new OutOfTag();
+            else
+            	current += nxt;
         }
     }
 
     private class ClosingTag implements ParserState {
         
         public ClosingTag() {
-            
+            current = "";
         }
         
         @Override
         public void takeInput(char nxt) {
+        	current += nxt;
             state = new ClosingTagName();
         }
     }
@@ -245,19 +260,23 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '>')
                 state = new OutOfTag();
+            else
+            	current += nxt;
         }
     }
 
     private class Content implements ParserState {
         
         public Content() {
-            
+            current = "";
         }
         
         @Override
         public void takeInput(char nxt) {
             if (nxt == '<')
                 state = new TagBuilding();
+            else
+            	current += nxt;
         }
     }
 
@@ -269,6 +288,7 @@ public class Parser implements ui.Observer {
         
         @Override
         public void takeInput(char nxt) {
+        	current += nxt;
             state = new AttrKey();
         }
     }
@@ -283,6 +303,8 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '=')
                 state = new AttrValue();
+            else
+            	current += nxt;
         }
     }
 
@@ -299,6 +321,8 @@ public class Parser implements ui.Observer {
             else
                 if (nxt == ' ')
                     state = new AttrBuilding();
+                else
+                	current += nxt;
         }
     }
 
@@ -315,6 +339,8 @@ public class Parser implements ui.Observer {
             else
                 if (nxt == '-')
                     state = new CommentStart();
+                else
+                	current += nxt;
         }
     }
 
@@ -328,6 +354,8 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '-')
                 state = new InComment();
+            else
+            	current += nxt;
         }
     }
 
@@ -341,6 +369,8 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '-')
                 state = new CommentCloseStart();
+            else
+            	current += nxt;
         }
     }
 
@@ -354,8 +384,10 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '-')
                 state = new CommentReadyToClose();
-            else
+            else {
+            	current += nxt;
                 state = new InComment();
+            }
         }
     }
 
@@ -369,8 +401,10 @@ public class Parser implements ui.Observer {
         public void takeInput(char nxt) {
             if (nxt == '>')
                 state = new OutOfTag();
-            else
+            else {
+            	current += "--" + nxt;
                 state = new InComment();
+            }
         }
     }
 }
