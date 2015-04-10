@@ -176,15 +176,17 @@ public class BaseTag {
 	
 	public BaseTag getChild(int lineNum){
 		//TODO may need to change depending on how text tags are implemented.
-//System.out.println("GetChild, sent LineNum = " + lineNum);
+System.out.println("GetChild of " + tag + ", sent LineNum = " + lineNum);
 		BaseTag child = null;
 		if(lineNum >= 0 &&  this.children != null){
 			boolean t = this.inThisTag(lineNum);
 			if (!t && this.getLineNumberStart() == lineNum)
 				t = true;
-//System.out.println("InThisTag = " + t);
-			int c = this.inChildTag(lineNum);
-//System.out.println("InChildTag = " + c);
+System.out.println("InThisTag = " + t);
+			int c;
+			c = this.inChildTag(lineNum);
+System.out.println("InChildTag = " + c);
+
 			if( t && c <= -1){
 				child = this;
 			}else if(c > -1 ){
@@ -215,7 +217,7 @@ public class BaseTag {
 	
 	protected boolean inThisTag(int lineNum){
 		boolean b = false;
-		if(this.getLineNumberStart() < lineNum){ 
+		if(this.getLineNumberStart() <= lineNum){ 
 			if(this.getLineNumberEnd() >= lineNum){
 				b = true;
 			}

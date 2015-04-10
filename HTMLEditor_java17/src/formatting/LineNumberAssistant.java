@@ -22,11 +22,11 @@ public class LineNumberAssistant implements ui.Observer {
 			return 0;
 		for (int i = 0; i < lineLengths.size(); i += 1) {
 			if (lineLengths.get(i) >= charNum)
-				return i - 1;
+				return i;
 			if(i == lineLengths.size() - 1)
 				return i + 1;
 		}
-		return -1;//failed
+		return -5;//failed
 	}
 
 	@Override

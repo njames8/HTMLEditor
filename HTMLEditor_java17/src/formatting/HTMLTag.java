@@ -101,8 +101,9 @@ public class HTMLTag{
 	}
 	public boolean addToLineNum(int amount, int lineNum ){
 		boolean added = false;
+		
 		for(int i = 0; i < tags.size(); i++){
-			boolean b = tags.get(i).inThisTag(lineNum);
+			boolean b = tags.get(i).inThisTag(lineNum - 1);
 			if(b)
 				added = tags.get(i).addToLineNum(amount, lineNum);
 			else if(!b && added)
