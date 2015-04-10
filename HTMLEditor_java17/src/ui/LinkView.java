@@ -27,15 +27,35 @@ import formatting.Link;
  */
 @SuppressWarnings("serial")
 public class LinkView extends JPanel {
-
+	
+	/**
+	 * place to put the links
+	 */
 	private JTextArea linkArea;
+	
+	/**
+	 * the tab to get the links
+	 */
 	private Tab t;
+	
+	/**
+	 * the list of links
+	 */
 	private ArrayList<Link> links;
+	
+	/**
+	 * the menu of the link view
+	 */
 	private JMenuBar menu;
+	
+	/**
+	 * is this sorted?
+	 */
 	private boolean sorted;
 
 	/**
-	 * 
+	 * Constructor
+	 * @param - the tab with this view
 	 */
 	public LinkView(Tab t) {
 		this.t = t;
@@ -43,9 +63,9 @@ public class LinkView extends JPanel {
 	}
 	
 	/**
-	 * 
-	 * @param links
-	 * @param t
+	 * Constructor
+	 * @param links - list of links
+	 * @param t - tab with this view
 	 */
 	public LinkView(ArrayList<Link> links, Tab t) {
 		this.links = links;

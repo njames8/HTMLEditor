@@ -32,16 +32,27 @@ public class Tab extends ObservableTab implements DocumentListener  {
 	 */
 	private HTMLFile file;
 	
+	/**
+	 * the head of the HTML tree
+	 */
 	public HTMLTag head;
+	
+	/**
+	 * lineAssistant for this tab
+	 */
+	public LineNumberAssistant lnAssistant;
+	
+	/**
+	 * The parser for this tab
+	 */
+	public Parser parser;
+	
+	
+	public Indenter indenter;
 	/**
 	 * Is this tab the focus of the window?
 	 */
-	public LineNumberAssistant lnAssistant;
-	public Parser parser;
-	public Indenter indenter;
-	
 	private boolean focus;	
-	private LinkView lv;
 
 	/**
 	 * Constructs a tab with a new file
@@ -56,7 +67,6 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.parser = new Parser();
 		this.attachObserver(this.parser);
 		this.indenter = new Indenter(this);
-		this.lv = null;
 	}
 	
 	/**
@@ -86,7 +96,6 @@ public class Tab extends ObservableTab implements DocumentListener  {
 		this.parser = new Parser();
 		this.attachObserver(this.parser);
 		this.indenter = new Indenter(this);
-		this.lv = null;
 	}
 	
 	public int getCaretLineNumber() {

@@ -18,7 +18,11 @@ import ui.Tab;
 @SuppressWarnings("serial")
 public class Paste extends PasteAction implements Command{
 	
-	EditorWindow ew;
+	/**
+	 * The main EditorWindow
+	 */
+	private EditorWindow ew;
+	
 	/**
 	 * Constructor
 	 */
@@ -36,6 +40,9 @@ public class Paste extends PasteAction implements Command{
 		execute();
 	}
 	
+	/**
+	 * pastes text into the tab
+	 */
 	@Override
 	public void execute(){
 		ew.getCurrentTab().getFile().changed();

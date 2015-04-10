@@ -17,6 +17,9 @@ public class SaveFile implements Command {
 	 */
 	private Tab tab;
 	
+	/**
+	 * is the file saved?
+	 */
 	private boolean saved;
 
 	/**

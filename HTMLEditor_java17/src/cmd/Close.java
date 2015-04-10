@@ -10,8 +10,15 @@ import ui.EditorWindow;
  *
  */
 public class Close implements Command {
+	/**
+	 * the editorWindow
+	 */
 	private EditorWindow ew;
 	
+	/**
+	 * constructor
+	 * @param e - the editorWindow
+	 */
 	public Close(EditorWindow e) { 
 		ew = e;
 	}

@@ -14,6 +14,9 @@ import ui.RightClickMenu;
  * and shows the right click menu
  */
 public class RightClickListener extends MouseAdapter {
+		/**
+		 * the main EditorWindow
+		 */
 		private EditorWindow ew;
 		/**
 		 * Constructor

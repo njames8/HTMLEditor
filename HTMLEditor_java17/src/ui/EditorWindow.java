@@ -94,7 +94,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		});
 
 	}
-
+	
+	/**
+	 * Initializes the menu bar
+	 */
 	private void initMenus() {
 		// Create menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -516,15 +519,27 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 		
 	}
-
+	
+	/**
+	 * gets the current tab
+	 * @return - the current tab
+	 */
 	public Tab getCurrentTab() {
 		return tabs.get(tabbedPane.getSelectedIndex());
 	}
 
+	/**
+	 * gets the list of all of the tabs
+	 * @return - the list of tabs
+	 */
 	public List<Tab> getTabs() {
 		return tabs;
 	}
 
+	/**
+	 * Updates the tab title
+	 * @param t - tab to update
+	 */
 	@Override
 	public void update(Tab t) {
 		tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), t.getTitle());
@@ -560,6 +575,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		return false;
 	}
 	
+	/**
+	 * returns this editorwindow
+	 * @return
+	 */
 	public EditorWindow getThis(){
 		return this;
 	}
@@ -573,6 +592,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		} 
 	}
 	
+	/**
+	 * gets whether this window is in outline mode
+	 * @return - true if in outline mode, false otherwise
+	 */
 	public boolean getOutlineView() {
 		return outlineView;
 	}
@@ -582,6 +605,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		linkView = val;
 	}
 	
+	/**
+	 * is this in link view?
+	 * @return - true if in link view, false otherwise
+	 */
 	public boolean getLinkView() {
 		return linkView;
 	}
@@ -595,6 +622,10 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		} 
 	}
 	
+	/**
+	 * is auto indent enabled?
+	 * @return - true if enabled, false otherwise
+	 */
 	public boolean getAutoIndent() {
 		return autoIndent;
 	}
@@ -604,9 +635,18 @@ public class EditorWindow extends javax.swing.JFrame implements Observer {
 		wordWrap = val;
 	}
 	
+	/**
+	 * is this in word wrap mode?
+	 * @return - true if in wordwrap, false otherwise
+	 */
 	public boolean getWordWrap() {
 		return wordWrap;
 	}
+	
+	/**
+	 * parses the text and refreshes the text
+	 * @param t - the current tabs
+	 */
 	private void parseAndRefresh(Tab t){
 		ParseCMD p = new ParseCMD(t);
 		p.execute();

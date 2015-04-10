@@ -8,19 +8,62 @@ import java.util.*;
  * @author adam walsh
  * @author Matthew Gallagher
  * @author John Mullen
+ * 
+ * Represents an HTML tag in the tree
  */
 public class BaseTag {
+	/**
+	 * the tag that this represents
+	 */
 	protected String tag;//tag value e.g. 'p' for a <p> tag
+	
+	/**
+	 * the link if this tag has one,
+	 * can be null
+	 */
 	protected String link;
+	
+	/**
+	 * is auto indent on?
+	 */
 	private boolean autoIndent = true;
+	
+	/**
+	 * is this tag collapsed?
+	 */
 	private boolean collapsed = false;
+	
+	/**
+	 * is this in outline view?
+	 */
 	private boolean outLineView = false;
+	
+	/**
+	 * the children of this tag
+	 */
 	private ArrayList<BaseTag> children;
+	
+	/**
+	 * the starting and ending line numbers of this tag
+	 */
 	protected int lineNumberStart, lineNumberEnd;
 	
+	/**
+	 * constructor
+	 */
 	public BaseTag() {
 		this.children = new ArrayList<BaseTag>();
 	}
+	
+	/**
+	 * constructor
+	 * @param t - the tag text
+	 * @param s - starting line
+	 * @param e - ending line
+	 * @param c - collapsed?
+	 * @param a - children
+	 * @param l - the link if this tag has one, can be null
+	 */
 	public BaseTag(String t, int s, int e, boolean c, ArrayList<BaseTag> a, String l){
 		this.tag = t;
 		this.collapsed = c;
@@ -39,10 +82,17 @@ public class BaseTag {
 			this.children = new ArrayList<BaseTag>();
 		
 	}
+	/**
+	 * toggles the collapse of this tag
+	 */
 	public void ToggleCollapse() {
 		this.collapsed = !this.collapsed;
 	}
 	
+	/**
+	 * gets the content of this tag
+	 * @return
+	 */
 	public String GetContent() {
 		return "";//TODO
 	}
@@ -154,9 +204,11 @@ public class BaseTag {
 		return text;
 	}
 	
-
-	
-	
+	/**
+	 * gets the indentlevel of this line
+	 * @param lineNum - the current line
+	 * @return the indent level
+	 */
 	public int getIndentLevel(int lineNum){
 		int indent = 0;
 		if(autoIndent == false){
@@ -173,7 +225,11 @@ public class BaseTag {
 		return indent;
 	}
 	
-	
+	/**
+	 * gets the children of this tag
+	 * @param lineNum - the current line number
+	 * @return - the children of this tag
+	 */
 	public BaseTag getChild(int lineNum){
 		//TODO may need to change depending on how text tags are implemented.
 System.out.println("GetChild of " + tag + ", sent LineNum = " + lineNum);
@@ -403,24 +459,23 @@ System.out.println("InChildTag = " + c);
 		this.lineNumberEnd = lineNumberEnd;
 	}
 
+	/**
+	 * Constructs a tag from text
+	 * @param text - the text of the tab
+	 * @return a new tag
+	 */
 	public BaseTag tagFromText(String text){
 		BaseTag newTag = new BaseTag();
 		String[] parts = text.split("(?=<)"); //splits current text into sections per tag
 		for (int i = 0; i < parts.length; i++){
 			
 		}
-		
-		
-		
 		return newTag;
 	}
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * this tag to a string
+	 */
 	public String toString(){
 		String text = "";
 		//TODO may need to change depending on how text tags are implemented.

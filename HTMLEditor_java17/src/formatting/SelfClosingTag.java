@@ -6,10 +6,17 @@ package formatting;
 
 /**
  * @author Nick James
- *
+ * represents a selfclosing tag in the tree
  */
 public class SelfClosingTag extends BaseTag{
 	
+	/**
+	 * constructor
+	 * @param t - tag
+	 * @param s - starting line num
+	 * @param e - ending line num
+	 * @param l - link
+	 */
 	public SelfClosingTag(String t, int s, int e,  String l){
 		this.tag = t;
 		this.lineNumberStart = s;
@@ -20,6 +27,10 @@ public class SelfClosingTag extends BaseTag{
 		this.link = l;
 	}
 	
+	/**
+	 * gets the text of the tag
+	 * @return - the text in this tag
+	 */
 	@Override
 	public String getText(int indentLevel){
 		String text = "";
@@ -44,7 +55,8 @@ public class SelfClosingTag extends BaseTag{
 	}
 	
 	/**
-	 * @param counter
+	 * counts the lines
+	 * @param counter - the count of lines
 	 * @return the lineNumber of the next line.
 	 */
 	public int traverseForLineNumbers (int counter){
@@ -72,6 +84,9 @@ public class SelfClosingTag extends BaseTag{
 		return true;
 	}
 	
+	/**
+	 * this tag to a string
+	 */
 	public String toString(){
 		String text = "";
 		text += this.getLineNumberStart() + "    <" + tag;
