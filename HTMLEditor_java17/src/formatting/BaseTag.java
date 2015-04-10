@@ -496,7 +496,7 @@ System.out.println("InChildTag = " + c);
 		return text;
 	}
 	
-	public void remove(){
+	public void remove(int lineNum){
 		
 	}
 }
