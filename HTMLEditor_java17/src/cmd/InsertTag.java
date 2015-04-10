@@ -331,9 +331,14 @@ public class InsertTag implements ActionListener, UndoableEdit {
 		return false;
 	}
 
+	public void undo(int lineNum) throws CannotUndoException {
+		// TODO Auto-generated method stub
+		this.thisTag.remove(lineNum);
+	}
+
 	@Override
 	public void undo() throws CannotUndoException {
 		// TODO Auto-generated method stub
-		this.thisTag.remove();
+		
 	}
 }
