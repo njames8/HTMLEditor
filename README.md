@@ -1,5 +1,5 @@
 # HTMLEditor
-Java based application to edit HTML
+Java based application to edit HTML files.
 Instructions:
 
   Outline View:
